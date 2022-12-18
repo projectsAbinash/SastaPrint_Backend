@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+Route::post('/register', 'ApiAuth@RegisterUser');
+Route::post('/login', 'ApiAuth@LoginUser');
+Route::middleware('auth:sanctum', 'cotp')->group(function () {
+    Route::post('/login/verifyotp', 'ApiAuth@verifyotp')->withoutMiddleware('cotp');
+    Route::post('/test', 'ApiAuth@test');
+});
+
+
+
+
+
+
+//Route::get('/test' , 'ApiAuth@test');
