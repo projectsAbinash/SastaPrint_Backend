@@ -116,6 +116,7 @@ class ApiAuth extends Controller
         return response()->json([
             'status' => 'true',
             'access_token' => $token,
+            'verification' => $newuser->phone_verified_at == null?'false':'true',
             'message' => 'Registration Successfully',
         ]);
     }
@@ -128,6 +129,7 @@ class ApiAuth extends Controller
             return response()->json([
                 'status' => 'true',
                 'access_token' => $token,
+                'verification' => $request->user()->phone_verified_at == null?'false':'true',
                 'message' => 'Logged In Successfully',
             ]);
         } else {
@@ -139,6 +141,14 @@ class ApiAuth extends Controller
     }
     public function test(Request $request)
     {
-       return "ih";
+       return "Hello This is Home";
     }
+
+   #resend otp
+   public function resend(Request $request)
+   {
+    $userid = $request->user()->id;
+    $phone = $request->user()->phone;
+    $this->genarateotp($phone, $userid);
+   }
 }

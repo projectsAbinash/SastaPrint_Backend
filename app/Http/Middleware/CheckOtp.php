@@ -20,6 +20,7 @@ class CheckOtp
            return response()->json([
           'status' => 'false',
           'Message' => 'OTP Not Verfied',
+          'verification'=> 'false',
            ]);
         }
 
