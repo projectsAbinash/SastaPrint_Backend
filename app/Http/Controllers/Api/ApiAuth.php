@@ -149,6 +149,17 @@ class ApiAuth extends Controller
    {
     $userid = $request->user()->id;
     $phone = $request->user()->phone;
-    $this->genarateotp($phone, $userid);
+    
+    if ($this->genarateotp($phone, $userid)) {
+        return response()->json([
+                'status' => 'true',
+                'message' => 'Sms Sent Successfully',
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Sms Could Not Be Sent',
+            ]);
+        }
    }
 }
