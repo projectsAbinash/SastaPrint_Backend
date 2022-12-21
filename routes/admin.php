@@ -27,5 +27,9 @@ Route::middleware('admin.guest')->group(function () {
 //protected Auth Routes
 Route::middleware('admin.auth')->group(function () {
   Route::get('/Dashboard', 'Dashboard@DashboardIndex')->name('DashboardIndex');
+
+  Route::get('/Customers/List', 'CustomersController@GetList')->name('CustomerList');
+
+
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

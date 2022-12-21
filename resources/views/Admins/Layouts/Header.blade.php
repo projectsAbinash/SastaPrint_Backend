@@ -40,7 +40,9 @@
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/libs/apex-charts/apex-charts.css') }}" />
 
     <!-- Page CSS -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Helpers -->
     <script src="{{ url('AdminAssets/Source/assets/vendor/js/helpers.js') }}"></script>
 
@@ -115,13 +117,26 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item active">
+                    <li class="menu-item {{ (request()->is('Admin/Dashboard*')) ? 'active' : '' }}">
                         <a href="{{ route('DashboardIndex') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
 
+
+                    <li class="menu-item {{ (request()->is('Admin/Customers*')) ? 'active' : '' }}">
+                        <a href="{{ route('CustomerList') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <div data-i18n="Analytics">Customers</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-sitemap"></i>
+                            <div data-i18n="Analytics">Orders</div>
+                        </a>
+                    </li>
                     <!-- Layouts -->
                     {{-- <li class="menu-item">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
