@@ -20,8 +20,8 @@ Route::post('/login', 'ApiAuth@LoginUser');
 Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/otp/resend', 'ApiAuth@resend')->withoutMiddleware('cotp');
     Route::post('/login/verifyotp', 'ApiAuth@verifyotp')->withoutMiddleware('cotp');
-    Route::post('/test', 'ApiAuth@test');
     Route::post('/home' , 'ApiAuth@test');
+    Route::post('/profile' , 'ProfileController@getprofile');
 });
 
 
