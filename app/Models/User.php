@@ -55,5 +55,8 @@ class User extends Authenticatable
     {
         $this->attributes['email'] = strtolower($email);
     }
-
+    public function UserExtra()
+    {
+        return $this->hasOne(UsersProfile::class, 'user_id', 'id');
+    }
 }

@@ -11,7 +11,6 @@ use App\Models\VerficationCodes;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
 class ApiAuth extends Controller
 {
 
@@ -101,6 +100,10 @@ class ApiAuth extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => $request->password,
+        ]);
+        $newuser->UserExtra()->create([
+            'user_id' => $newuser->id,
+           
         ]);
         $token = $newuser->createToken('auth_token')->plainTextToken;
         #sending An OTP To Verify User
