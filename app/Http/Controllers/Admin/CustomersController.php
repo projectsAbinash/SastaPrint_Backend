@@ -13,4 +13,11 @@ class CustomersController extends Controller
     $list = User::all();
     return view('Admins.Customers',compact('view','list'));
    }
+   public function Details(Request $request)
+   {
+     $data = User::find($request->id);
+     $view = 'details';
+     return view('Admins.Customers',compact('view','data'));
+   }
+
 }

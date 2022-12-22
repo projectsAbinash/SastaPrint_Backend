@@ -59,4 +59,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UsersProfile::class, 'user_id', 'id');
     }
+    public function UserAddress()
+    {
+        return $this->hasMany(UserAddress::class, 'user_id', 'id');
+    }
 }

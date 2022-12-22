@@ -94,6 +94,6 @@
                     }
                 });
             </script>
-        </div>
+        
     </div>
 @endsection

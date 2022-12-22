@@ -27,6 +27,7 @@ class CheckOtp
         // if (1 == 1) {
         //     return response()->json([
         //    'status' => 'False',
+        //    'blocked' => 'true',
         //    'Message' => 'User Is Blocked by Admin',
         //     ]);
         //  }

@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/home/banners' , 'HomeController@GetBanners');
     Route::post('/profile' , 'ProfileController@getprofile');
     Route::post('/profile/update' , 'ProfileController@UpdateProfile');
+    Route::post('/profile/Address' , 'AddressController@Get');
+    Route::post('/profile/Address/New' , 'AddressController@New');
 });
 
 
