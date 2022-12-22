@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/fonts/boxicons.css') }}" />
 
     <!-- Core CSS -->
+    <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/css/core.css') }}"
         class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/css/theme-default.css') }}"
@@ -137,44 +138,15 @@
                             <div data-i18n="Analytics">Orders</div>
                         </a>
                     </li>
-                    <!-- Layouts -->
-                    {{-- <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div data-i18n="Layouts">Layouts</div>
-                        </a>
-
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="layouts-without-menu.html" class="menu-link">
-                                    <div data-i18n="Without menu">Without menu</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="layouts-without-navbar.html" class="menu-link">
-                                    <div data-i18n="Without navbar">Without navbar</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="layouts-container.html" class="menu-link">
-                                    <div data-i18n="Container">Container</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="layouts-fluid.html" class="menu-link">
-                                    <div data-i18n="Fluid">Fluid</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="layouts-blank.html" class="menu-link">
-                                    <div data-i18n="Blank">Blank</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li> --}}
 
                     <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Pages</span>
+                        <span class="menu-header-text">Settings</span>
+                    </li>
+                    <li class="menu-item {{ (request()->is('Admin/Banners*')) ? 'active' : '' }}">
+                        <a href="{{ route('Bannerslist') }}" class="menu-link">
+                            <i class="menu-icon fa-solid fa-images"></i>
+                            <div data-i18n="Analytics">Banners</div>
+                        </a>
                     </li>
 
                 </ul>

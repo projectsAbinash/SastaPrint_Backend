@@ -16,7 +16,7 @@
                                     <th class="text-center">Name</th>
                                     <th class="text-center">Email</th>
                                     <th class="text-center">Status</th>
-                                    <th colspan="3" class="text-center">Actions</th>
+                                    <th colspan="2" class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -42,10 +42,9 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{-- <i class="bx bx-edit"></i>
-                                        &nbsp;&nbsp; --}}
-                                            <i class="fa-solid fa-trash text-danger"></i>
-                                            &nbsp;&nbsp;
+                                            <i class="fa-solid fa-ban text-danger"></i>
+                                        </td>
+                                        <td class="text-center">
                                             <i class="fa-regular fa-eye text-primary"></i>
                                         </td>
                                     </tr>

@@ -30,6 +30,9 @@ Route::middleware('admin.auth')->group(function () {
 
   Route::get('/Customers/List', 'CustomersController@GetList')->name('CustomerList');
 
+  Route::get('/Banners/List', 'Banners@GetList')->name('Bannerslist');
+  Route::post('/Banners/List', 'Banners@upload')->name('Bannersupload');
+  Route::get('/Banners/Delete/{id}', 'Banners@delete')->name('Bannersdelete');
 
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });
