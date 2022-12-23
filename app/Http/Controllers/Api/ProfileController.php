@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'email' => 'required|email',
             'dob' => 'date_format:d/m/Y',
             'gender' => 'in:Male,Female,Other',
-            'student' => 'in:true,false',
+            'student' => 'in:1,0',
             'Year' => 'digits:1|in:1,2,3,4,5',
             //'' => '',
 
