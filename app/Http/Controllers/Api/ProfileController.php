@@ -24,7 +24,7 @@ class ProfileController extends Controller
             'pic' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'name' => 'required',
             'email' => 'required|email',
-            'dob' => 'date_format:d/m/Y',
+            'dob' => 'date',
             'gender' => 'in:Male,Female,Other',
             'student' => 'in:1,0',
             'Year' => 'digits:1|in:1,2,3,4,5',
