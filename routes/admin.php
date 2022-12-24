@@ -30,6 +30,7 @@ Route::middleware('admin.auth')->group(function () {
 
   Route::get('/Customers/List', 'CustomersController@GetList')->name('CustomerList');
   Route::get('/Customers/Details/{id}', 'CustomersController@Details')->name('CustomeDetails');
+  Route::get('/Customers/Blocked/{Action}/{id}', 'CustomersController@blocked')->name('Customerblocked');
 
 
   Route::get('/Banners/List', 'Banners@GetList')->name('Bannerslist');

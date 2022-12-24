@@ -63,4 +63,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserAddress::class, 'user_id', 'id');
     }
+    public function UserBlocked()
+    {
+        return $this->hasOne(UserBlocked::class, 'user_id', 'id');
+    }
 }

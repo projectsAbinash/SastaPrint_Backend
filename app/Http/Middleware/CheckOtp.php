@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
+use App\Models\User;
 class CheckOtp
 {
     /**
@@ -24,13 +24,15 @@ class CheckOtp
            ]);
         }
 
-        // if (1 == 1) {
-        //     return response()->json([
-        //    'status' => 'False',
-        //    'blocked' => 'true',
-        //    'Message' => 'User Is Blocked by Admin',
-        //     ]);
-        //  }
+        #check if user is blocked
+        $users = User::find($request->user()->id)->UserBlocked();
+        if ($users->exists()) {
+            return response()->json([
+           'status' => 'false',
+           'blocked' => 'true',
+           'Message' => $users->first()->reasons,
+            ]);
+         }
         return $next($request);
     }
 }

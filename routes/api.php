@@ -20,16 +20,14 @@ Route::post('/login', 'ApiAuth@LoginUser');
 Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/otp/resend', 'ApiAuth@resend')->withoutMiddleware('cotp');
     Route::post('/login/verifyotp', 'ApiAuth@verifyotp')->withoutMiddleware('cotp');
-    Route::post('/home/banners' , 'HomeController@GetBanners');
-    Route::post('/profile' , 'ProfileController@getprofile');
-    Route::post('/profile/update' , 'ProfileController@UpdateProfile');
-    Route::post('/profile/Address' , 'AddressController@Get');
-    Route::post('/profile/Address/New' , 'AddressController@New');
+    Route::post('/home/banners', 'HomeController@GetBanners');
+    Route::post('/profile', 'ProfileController@getprofile');
+    Route::post('/profile/update', 'ProfileController@UpdateProfile');
+    Route::post('/profile/Address', 'AddressController@Get');
+    Route::post('/profile/Address/New', 'AddressController@New');
+
+
+    #for orders Route
+    Route::post('/Orders/UploadDoc/', 'OrdersController@UploadDoc');
+    Route::post('/Orders/Place/', 'OrdersController@PlaceOrder');
 });
-
-
-
-
-
-
-
