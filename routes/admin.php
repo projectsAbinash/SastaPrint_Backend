@@ -37,5 +37,10 @@ Route::middleware('admin.auth')->group(function () {
   Route::post('/Banners/List', 'Banners@upload')->name('Bannersupload');
   Route::get('/Banners/Delete/{id}', 'Banners@delete')->name('Bannersdelete');
 
+  #for notification routs
+Route::get('/Notificaions', 'NotifiacationController@new')->name('Admin.notification');
+Route::post('/Notificaions/Send', 'NotifiacationController@send')->name('notification.post');
+
+
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

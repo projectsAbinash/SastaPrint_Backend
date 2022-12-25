@@ -40,10 +40,6 @@ class OrdersController extends Controller
 
     public function PlaceOrder(Request $request)
     {
-        foreach($request->id as $data)
-        {
-            $value[] = $data;
-        }
-        return $value;
-    }
+        
+    } 
 }
