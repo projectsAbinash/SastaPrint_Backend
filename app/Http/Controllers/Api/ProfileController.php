@@ -13,9 +13,11 @@ class ProfileController extends Controller
     public function getprofile(Request $request)
     {
         $profile = User::find($request->user()->id);
+        $extra = $profile->UserExtra()->first();
+        $extra['total_pages'] = '123';
         return response()->json([
             'user_main' => $profile,
-            'user_extra' => $profile->UserExtra()->first(),
+            'user_extra' => $extra,
         ]);
     }
     public function UpdateProfile(Request $request)

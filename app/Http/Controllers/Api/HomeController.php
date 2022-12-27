@@ -14,4 +14,5 @@ class HomeController extends Controller
     'banners' => $banners,
    ]);
    }
+  
 }
