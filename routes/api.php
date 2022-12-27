@@ -18,13 +18,17 @@ Route::post('/register', 'ApiAuth@RegisterUser');
 Route::post('/login', 'ApiAuth@LoginUser');
 
 Route::middleware('auth:sanctum', 'cotp')->group(function () {
+    #for auths
     Route::post('/otp/resend', 'ApiAuth@resend')->withoutMiddleware('cotp');
     Route::post('/login/verifyotp', 'ApiAuth@verifyotp')->withoutMiddleware('cotp');
     Route::post('/home/banners', 'HomeController@GetBanners');
+    #for profile
     Route::post('/profile', 'ProfileController@getprofile');
     Route::post('/profile/update', 'ProfileController@UpdateProfile');
+    #for address
     Route::post('/profile/Address', 'AddressController@Get');
     Route::post('/profile/Address/New', 'AddressController@New');
+    Route::post('/profile/Address/Delete', 'AddressController@Delete');
 
 
     #for orders Route

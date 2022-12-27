@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\UserAddress;
 class AddressController extends Controller
 {
     public function Get(Request $request)
@@ -25,8 +25,8 @@ class AddressController extends Controller
             'City' => 'required',
             'PinCode' => 'required|digits:6',
             'State' => 'required',
-            'Address_Type' => 'required|in:Home,Work',
-            'Alternate_number' => 'number|digits:10',
+            'Address_Type' => 'required|in:Home,Work,Other',
+            'Alternate_number' => 'numeric|digits:10',
 
         ]);
         $new = User::find($request->user()->id);
@@ -38,10 +38,21 @@ class AddressController extends Controller
             'PinCode' => $request->PinCode,
             'State' => $request->State,
             'Address_Type' => $request->Address_Type,
+            'Alternate_number' => $request->Alternate_number,
         ]);
         return response()->json([
             'status' => 'true',
             'message' => 'Address Added SuccssFully',
         ]);
+
     }
+    public function Delete(Request $request)
+        {
+            UserAddress::FindorFail($request->id)->delete();
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Address Deleted SuccessFully',
+            ]);
+
+        }
 }
