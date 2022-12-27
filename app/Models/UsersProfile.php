@@ -14,7 +14,10 @@ class UsersProfile extends Model
     ];
     public function getPicAttribute($value)
     {
+        if($value != null)
         return asset(Storage::url($value));
+        else
+        return asset('AdminAssets/Source/assets/img/user_default.png');
 
     }
 }

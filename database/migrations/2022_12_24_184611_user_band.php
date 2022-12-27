@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_blocked', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id')->unique();
+            $table->foreignId('user_id')->constrained();
             $table->string('reasons');
             $table->timestamps();
         });

@@ -38,9 +38,12 @@ Route::middleware('admin.auth')->group(function () {
   Route::get('/Banners/Delete/{id}', 'Banners@delete')->name('Bannersdelete');
 
   #for notification routs
-Route::get('/Notificaions', 'NotifiacationController@new')->name('Admin.notification');
-Route::post('/Notificaions/Send', 'NotifiacationController@send')->name('notification.post');
+  Route::get('/Notificaions', 'NotifiacationController@new')->name('Admin.notification');
+  Route::post('/Notificaions/Send', 'NotifiacationController@send')->name('notification.post');
 
+  //orderpanel
+  Route::get('/Orders', 'OrdersController@get')->name('Admin.orders');
+  Route::get('/Orders/details/{id}', 'OrdersController@details')->name('orders.details');
 
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

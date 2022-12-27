@@ -58,7 +58,7 @@
             </div>
             <div class="card">
                 <h5 class="card-header">Last Notifications Lists</h5>
-                <div class="table-responsive text-nowrap">
+                <div class="table table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -74,8 +74,8 @@
                                 <tr>
                                     <td class="text-center">{{ $data->id }}</td>
                                     <td class="text-center fw-bold">{{ $data->title }}</td>
-                                    <td class="text-center">
-                                        {{ $data->message }}
+                                    <td class="text-center" style="max-width: 13rem;">
+                                       {{ $data->message }}
 
                                     </td>
                                     <td class="text-center">

@@ -132,8 +132,8 @@
                             <div data-i18n="Analytics">Customers</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="#" class="menu-link">
+                    <li class="menu-item {{ (request()->is('Admin/Orders*')) ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-sitemap"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>

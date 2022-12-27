@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('users_address', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('Address');
+            $table->foreignId('user_id')->constrained();
+            $table->string('Address_1');
+            $table->string('Address_2');
             $table->string('Landmark')->nullable();
             $table->string('City');
             $table->string('PinCode');
