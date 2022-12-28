@@ -32,7 +32,7 @@
                                         alt="Avatar" />
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('CustomeDetails', ['id' => '1']) }}">Sudipto Bain</a>
+                                    <a href="{{ route('CustomeDetails', ['id' => '2']) }}">Sudipto Bain</a>
                                 </td>
                                 <td class="text-center fw-bold">
                                     #SSTPRNT0912555

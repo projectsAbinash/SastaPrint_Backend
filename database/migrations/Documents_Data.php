@@ -26,6 +26,11 @@ return new class extends Migration
             $table->string('print_config')->nullable();
             $table->string('page_config')->nullable();
             $table->string('binding_config')->nullable();
+
+            $table->string('print_charges')->nullable();
+            $table->string('total_copies_charge')->nullable();
+            $table->string('binding_charge')->nullable();
+            
             $table->string('path');
             $table->timestamps();
         });

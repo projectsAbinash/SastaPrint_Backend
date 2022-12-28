@@ -17,8 +17,8 @@ return new class extends Migration
             
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('order_id');
-
+            $table->string('order_id')->unique();
+           
             $table->string('assigned_store')->nullable();
             $table->string('traking_link')->nullable();
             $table->string('delivery_charge');

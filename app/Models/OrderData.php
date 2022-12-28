@@ -9,5 +9,9 @@ class OrderData extends Model
 {
     use HasFactory;
     protected $table = 'order_data';
-    protected $guarded = ['id'];   
+    protected $guarded = ['id'];  
+    public function Userdocs()
+    {
+        return $this->hasMany(DocumentsData::class, 'order_id', 'order_id');
+    } 
 }

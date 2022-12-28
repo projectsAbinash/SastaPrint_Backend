@@ -67,4 +67,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserBlocked::class, 'user_id', 'id');
     }
+    public function Getorders()
+    {
+        return $this->hasMany(OrderData::class, 'user_id', 'id');
+    }
 }
