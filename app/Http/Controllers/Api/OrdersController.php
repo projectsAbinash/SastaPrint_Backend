@@ -17,6 +17,7 @@ class OrdersController extends Controller
         $num = preg_match_all("/\/Page\W/", $pdftext, $dummy);
         return $num;
     }
+    #uploda docs files
     public function UploadDoc(Request $request)
     {
         $request->validate([
@@ -61,7 +62,7 @@ class OrdersController extends Controller
             $print_charges = $main->total_pages * 0.70;
 
         $copies_charge = $print_charges * $request->copies_count;
-        $bindidg_charge = ((floor($main->total_pages / 100)+ ($main->total_pages % 100  ? 1 : 0)) * 9)*$request->copies_count;
+        $bindidg_charge = ((floor($main->total_pages / 100) + ($main->total_pages % 100 ? 1 : 0)) * 9) * $request->copies_count;
 
 
         $main->update([
@@ -81,7 +82,24 @@ class OrdersController extends Controller
             'message' => 'doc updated successFully',
         ]);
     }
+    #for delete
 
+    public function DocRemoved(Request $request)
+    {
+        $request->validate([
+        'doc_id' => 'required|exists:documents_data,id'
+        ]);
+       $data = DocumentsData::find($request->doc_id);
+       Storage::delete($data->path);
+        $data->delete();
+        return response()->json([
+        'status' => 'true',
+        'message' => 'doc removed successfully'
+        ]);
+    }
+
+
+    #for plcae order
     public function PlaceOrder(Request $request)
     {
         $request->validate([
@@ -97,7 +115,7 @@ class OrdersController extends Controller
             'address_id' => $request->address_id,
             'delivery_charge' => $delivery_charge,
             'status' => 'Unpaid',
-            'amount' => $total->sum('total_copies_charge')+$total->sum('binding_charge')+$delivery_charge,
+            'amount' => $total->sum('total_copies_charge') + $total->sum('binding_charge') + $delivery_charge,
         ]);
         return response()->json([
             'status' => 'true',
@@ -111,15 +129,16 @@ class OrdersController extends Controller
     public function GetOrder(Request $request)
     {
         $request->validate([
-         'order_id' => 'required|exists:order_data,order_id'
+            'order_id' => 'required|exists:order_data,order_id'
         ]);
         $get = OrderData::where('order_id', $request->order_id)->first();
         $get->Userdocs;
+
         return response()->json([
-         'status' => 'true',
-         'order_data' => $get,
-        
-       
+            'status' => 'true',
+            'order_data' => $get,
+
+
         ]);
     }
 

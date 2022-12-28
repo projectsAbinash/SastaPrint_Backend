@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     #for orders Route
     Route::post('/Orders/UploadDoc/', 'OrdersController@UploadDoc');
     Route::post('/Orders/UploadDoc/Update', 'OrdersController@AddNewdoc');
+    Route::post('/Orders/UploadDoc/Removed', 'OrdersController@DocRemoved');
     Route::post('/Orders/Place/', 'OrdersController@PlaceOrder');
     Route::post('/Orders/GetbyId/', 'OrdersController@GetOrder');
     Route::post('/Orders/list/', 'OrdersController@orderlist');
