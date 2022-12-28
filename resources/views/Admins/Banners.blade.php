@@ -9,22 +9,22 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="row new-card">
                 @foreach ($getall as $item)
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body myCard">
-                            <a href="{{ route('Bannersdelete',(['id' => $item->id])) }}" onclick="return confirm('Are you sure?')"><img
-                                    src="{{ url('AdminAssets/Source/assets/img/trash-solid.svg') }}" class="icon"></a>
-                            <img src="{{ $item->src }}"
-                                class="mainImage" alt="{{ $item->name }}">
+                    <div class="col-md-4 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body myCard">
+                                <a href="{{ route('Bannersdelete', ['id' => $item->id]) }}"
+                                    onclick="return confirm('Are you sure?')"><img
+                                        src="{{ url('AdminAssets/Source/assets/img/trash-solid.svg') }}" class="icon"></a>
+                                <img src="{{ $item->src }}" class="mainImage" alt="{{ $item->name }}">
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
                 <div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
@@ -61,17 +61,17 @@
                                 <div class="col mb-0">
                                     <label for="emailBackdrop" class="form-label">Name</label>
                                     <input type="text" name="name" id="emailBackdrop" class="form-control"
-                                        placeholder="Xyz Banner" required/>
+                                        placeholder="Xyz Banner" required />
                                 </div>
                                 <div class="col mb-0">
                                     <label for="dobBackdrop" class="form-label">Action</label>
                                     <input type="text" name="action" id="dobBackdrop" value="#"
-                                        class="form-control" placeholder="https://sastaprint.com" required/>
+                                        class="form-control" placeholder="https://sastaprint.com" required />
                                 </div>
                             </div>
                             <div class="card mt-2">
 
-                                <input type="file" name="banner" class="dropify form-control" required/>
+                                <input type="file" name="banner" class="dropify form-control" required />
 
                             </div>
                         </div>
@@ -94,6 +94,6 @@
                     }
                 });
             </script>
-        
-    </div>
-@endsection
+
+        </div>
+    @endsection

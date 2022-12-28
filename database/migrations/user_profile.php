@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('pic')->nullable();
             $table->string('gender')->nullable();  
             $table->string('dob')->nullable(); 
-            $table->string('student')->nullable(); 
+            $table->integer('student')->nullable(); 
             $table->string('occupation')->nullable(); 
             $table->string('Collage_Name')->nullable(); 
             $table->string('Course')->nullable(); 

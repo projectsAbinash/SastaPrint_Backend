@@ -11,6 +11,7 @@ use App\Models\VerficationCodes;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+
 class ApiAuth extends Controller
 {
 
@@ -70,10 +71,10 @@ class ApiAuth extends Controller
                 'cache-control' => 'no-cache',
                 'content-type' => 'application/json'
             ])->post('https://www.fast2sms.com/dev/bulkV2', [
-                "variables_values" => $otp,
-                "route" => "otp",
-                "numbers" => $number,
-            ]);
+                    "variables_values" => $otp,
+                    "route" => "otp",
+                    "numbers" => $number,
+                ]);
             $decode = json_decode($response);
             return response()->json($decode->return);
         } catch (\Exception $e) {
@@ -103,7 +104,7 @@ class ApiAuth extends Controller
         ]);
         $newuser->UserExtra()->create([
             'user_id' => $newuser->id,
-           
+
         ]);
         $token = $newuser->createToken('auth_token')->plainTextToken;
         #sending An OTP To Verify User
@@ -119,7 +120,7 @@ class ApiAuth extends Controller
         return response()->json([
             'status' => 'true',
             'access_token' => $token,
-            'verification' => $newuser->phone_verified_at == null?'false':'true',
+            'verification' => $newuser->phone_verified_at == null ? 'false' : 'true',
             'message' => 'Registration Successfully',
         ]);
     }
@@ -132,7 +133,7 @@ class ApiAuth extends Controller
             return response()->json([
                 'status' => 'true',
                 'access_token' => $token,
-                'verification' => $request->user()->phone_verified_at == null?'false':'true',
+                'verification' => $request->user()->phone_verified_at == null ? 'false' : 'true',
                 'message' => 'Logged In Successfully',
             ]);
         } else {
@@ -144,17 +145,17 @@ class ApiAuth extends Controller
     }
     public function test(Request $request)
     {
-       return "Hello This is Home";
+        return "Hello This is Home";
     }
 
-   #resend otp
-   public function resend(Request $request)
-   {
-    $userid = $request->user()->id;
-    $phone = $request->user()->phone;
-    
-    if ($this->genarateotp($phone, $userid)) {
-        return response()->json([
+    #resend otp
+    public function resend(Request $request)
+    {
+        $userid = $request->user()->id;
+        $phone = $request->user()->phone;
+
+        if ($this->genarateotp($phone, $userid)) {
+            return response()->json([
                 'status' => 'true',
                 'message' => 'Sms Sent Successfully',
             ]);
@@ -164,5 +165,5 @@ class ApiAuth extends Controller
                 'message' => 'Sms Could Not Be Sent',
             ]);
         }
-   }
+    }
 }

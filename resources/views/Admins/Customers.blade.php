@@ -81,15 +81,15 @@
                                             <input type="file" id="upload" class="account-file-input" hidden
                                                 accept="image/png, image/jpeg" disabled />
                                         </label>
-                                        <button type="button" class="btn btn-outline-secondary btn-info mb-4" data-bs-toggle="modal"
-                                        data-bs-target="#backDropModal">
+                                        <button type="button" class="btn btn-outline-secondary btn-info mb-4"
+                                            data-bs-toggle="modal" data-bs-target="#backDropModal">
                                             <i class="bx bx-reset d-block d-sm-none"></i>
                                             <span class="d-none d-sm-block">View Address</span>
                                         </button>
 
 
 
-                                     
+
 
 
 
@@ -238,43 +238,46 @@
                                         <button type="submit" class="btn btn-danger deactivate-account">Deactivate
                                             Account</button></a>
                                 @endif
-                                 {{-- start modal --}}
+                                {{-- start modal --}}
                                 <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-            
+
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="backDropModalTitle">User Address</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                    
+
                                                 <div class="row row-cols-2">
-                                                    @foreach($data->UserAddress as $list)
-                                                    <div class="col">
-                                                        <div class="card shadow-none bg-transparent border border-primary mb-3">
-                                                            <div class="card-body">
-                                                              <h5 class="card-title mb-0">{{ $data->name }}</h5>
-                                                              <p class="card-text">
-                                                                <br>
-                                                                {{ $list->Landmark }},<br>
-                                                                {{ $list->Address_1 }},<br>
-                                                                {{ $list->Address_2 }},<br>
-                                                                {{ $list->City }},<br>
-                                                                {{ $list->State }},{{ $list->PinCode }},
-                                                                <hr></hr>
-                                                                <label for="">Phone Number</label>
-                                                                {{ $data->phone }}
-                                                            </p>
+                                                    @foreach ($data->UserAddress as $list)
+                                                        <div class="col">
+                                                            <div
+                                                                class="card shadow-none bg-transparent border border-primary mb-3">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title mb-0">{{ $data->name }}</h5>
+                                                                    <p class="card-text">
+                                                                        <br>
+                                                                        {{ $list->Landmark }},<br>
+                                                                        {{ $list->Address_1 }},<br>
+                                                                        {{ $list->Address_2 }},<br>
+                                                                        {{ $list->City }},<br>
+                                                                        {{ $list->State }},{{ $list->PinCode }},
+                                                                        <hr>
+                                                                        </hr>
+                                                                        <label for="">Phone Number</label>
+                                                                        {{ $data->phone }}
+                                                                    </p>
+                                                                </div>
                                                             </div>
-                                                          </div>
-                                                    </div>
+                                                        </div>
                                                     @endforeach
                                                 </div>
-                                               
+
                                             </div>
                                             <div class="modal-footer">
-                                             
+
                                             </div>
                                         </div>
                                     </div>

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAddress;
+use Illuminate\Http\Request;
+
 class AddressController extends Controller
 {
     public function Get(Request $request)
     {
+
+       
         $get = User::find($request->user()->id);
 
         return response()->json([
@@ -17,6 +20,7 @@ class AddressController extends Controller
             'data' => $get->UserAddress,
         ]);
     }
+
     public function New(Request $request)
     {
         $request->validate([
@@ -47,12 +51,12 @@ class AddressController extends Controller
 
     }
     public function Delete(Request $request)
-        {
-            UserAddress::FindorFail($request->id)->delete();
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Address Deleted SuccessFully',
-            ]);
+    {
+        UserAddress::find($request->id)->delete();
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Address Deleted SuccessFully',
+        ]);
 
-        }
+    }
 }
