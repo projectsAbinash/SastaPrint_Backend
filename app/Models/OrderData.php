@@ -14,4 +14,12 @@ class OrderData extends Model
     {
         return $this->hasMany(DocumentsData::class, 'order_id', 'order_id');
     } 
+    public function Getuser()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+    public function GetAddress()
+    {
+        return $this->hasOne(UserAddress::class, 'id', 'address_id');
+    }
 }

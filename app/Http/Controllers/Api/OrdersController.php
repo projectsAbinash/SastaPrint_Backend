@@ -133,7 +133,7 @@ class OrdersController extends Controller
         ]);
         $get = OrderData::where('order_id', $request->order_id)->first();
         $get->Userdocs;
-
+        $get->GetAddress;
         return response()->json([
             'status' => 'true',
             'order_data' => $get,

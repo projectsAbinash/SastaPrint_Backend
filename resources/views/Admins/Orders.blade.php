@@ -32,18 +32,27 @@
                                                 src="{{ url('AdminAssets/Source/assets/img/pdf.jpg') }}" alt="Avatar" />
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('CustomeDetails', ['id' => '2']) }}">Sudipto Bain</a>
+                                            <a href="{{ route('CustomeDetails', ['id' => $item->Getuser->id]) }}">{{ $item->Getuser->name }}</a>
                                         </td>
                                         <td class="text-center fw-bold">
-                                            #SSTPRNT0912555
+                                            #{{ $item->order_id }}
                                         </td>
                                         <td class="text-center fw-bold">
-                                            ₹1500
+                                            ₹{{ $item->amount }}
 
                                         </td>
+                                       
                                         <td class="text-center">
-                                            <span class="badge bg-label-warning me-1">Pending</span>
+                                            @if($item->status == 'placed')
+                                            <span class="badge bg-label-info me-1">Placed</span>
+                                            @elseif($item->status == 'shipped')
+                                            <span class="badge bg-label-warning me-1">Shippted</span>
+                                            @elseif($item->status == 'deliverd')
+                                            <span class="badge bg-label-success me-1">Delivred</span>
 
+                                            @else
+                                            <span class="badge bg-label-danger me-1">{{ $item->status }}</span>
+                                            @endif
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('orders.details', ['id' => 1]) }}"> <i
