@@ -111,9 +111,29 @@ class OrdersController extends Controller
             'order_id' => 'required|exists:documents_data,order_id|unique:order_data,order_id',
             'address_id' => 'required|numeric|exists:users_address,id'
         ]);
-
+        //calculate delivery charges
         $total = DocumentsData::where('order_id', $request->order_id)->get();
-        $delivery_charge = '30';
+        $tp = '0';
+        foreach($total as $dlcharge)
+        {
+            $tp += ($dlcharge->total_pages * $dlcharge->copies_count);
+        }
+        if ($tp <= '500') {
+            $delivery_charge = '29';
+        }
+        elseif($tp <= '1000')
+        {
+            $delivery_charge = '49';
+        }elseif($tp <= '1500')
+        {
+            $delivery_charge = '69';
+        }
+        else
+        {
+            $delivery_charge = '69';
+        }
+        //end of calculate delivery charges
+       // return $delivery_charge;
         OrderData::create([
             'user_id' => $request->user()->id,
             'order_id' => $request->order_id,
@@ -142,8 +162,6 @@ class OrdersController extends Controller
         return response()->json([
             'status' => 'true',
             'order_data' => $get,
-
-
         ]);
     }
 
