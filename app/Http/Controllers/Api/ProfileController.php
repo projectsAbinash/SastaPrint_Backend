@@ -16,16 +16,21 @@ class ProfileController extends Controller
         $profile = User::find($request->user()->id);
         $extra = $profile->UserExtra()->first();
         //get total pages
-        $page_count = OrderData::where('user_id',$profile->id)->where('status','delivered')->first();
-        if($page_count != null)
-        {
-            $page_count = $page_count->Userdocs->sum('total_pages');
-        }else{
+        $page_count = OrderData::where('user_id', $profile->id)->where('status', 'delivered')->get();
+        if ($page_count != null) {
+            $tp = '0';
+            foreach ($page_count as $item) {
+                foreach ($item->Userdocs as $dlcharge) {
+                    $tp += ($dlcharge->total_pages * $dlcharge->copies_count);
+                }
+            }
+            $page_count = $tp;
+        } else {
             $page_count = 0;
         }
-         
-        
-        $extra['total_pages'] =  $page_count;
+
+
+        $extra['total_pages'] = $page_count;
         return response()->json([
             'user_main' => $profile,
             'user_extra' => $extra,
@@ -51,15 +56,14 @@ class ProfileController extends Controller
             'name' => $request->name,
         ]);
 
-      
-        if($request->hasFile('pic'))
-        {
-              $image_path = Storage::put('public/Users/Profiles', $request->file('pic'));
-              $main->UserExtra()->update([
+
+        if ($request->hasFile('pic')) {
+            $image_path = Storage::put('public/Users/Profiles', $request->file('pic'));
+            $main->UserExtra()->update([
                 'pic' => $image_path,
-              ]);
+            ]);
         }
-      
+
 
         $main->UserExtra()->update([
             'gender' => $request->gender,

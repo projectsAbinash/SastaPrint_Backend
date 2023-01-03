@@ -55,9 +55,22 @@ class RazorPayController extends Controller
         ]);
     }
 
-    public function OrderStatus(Request $request)
+// public function Callback(Request $request)
+// {
+//         return $request->all();
+// }
+
+
+
+
+    public function Callback(Request $request)
     {
-        $getitem = OrderData::where('order_id',$request['order_id'])->get();
+
+        $request->validate([
+          'rzp_signature' => 'required',
+          'rzp_paymentid' => 'required',
+          'rzp_orderid' => 'required',
+        ]);
         $paymentstauts = $request->all();
         //check if payment
         $signatureStatus = $this->SignatureVerify(
@@ -67,43 +80,17 @@ class RazorPayController extends Controller
         );
 
         if ($signatureStatus == true) {
-
-
-
-            if (!MyOrders::where('Order_Id', $request->rzp_paymentid)->exists()) {
-                $addorder = new MyOrders;
-                $addorder->User_Id = $request->auth_id;
-                $addorder->Item_Id = $request->item_id;
-                $addorder->Order_Id = $request->rzp_paymentid;
-                $addorder->Status = 'Success';
-                $addorder->Save();
-
-                $email = auth()->user()->email;
-                $body = [
-                    'name' => ucwords(strtolower(auth()->user()->name)),
-                    'item_name' => $getitem->Item_Name,
-                    'url_a' => route('LoginIndex')
-                ];
-
-
-            }
-
-
-            $odstatus = 'Active';
-            return view('User.OrderStatus', compact('getitem', 'paymentstauts', 'odstatus'));
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Payment SuccessFully',
+            ]);
+            
         } else {
-
-            if (!MyOrders::where('Order_Id', $request->rzp_paymentid)->exists()) {
-                $addorder = new MyOrders;
-                $addorder->User_Id = $request->auth_id;
-                $addorder->Item_Id = $request->item_id;
-                $addorder->Order_Id = $request->rzp_paymentid;
-                $addorder->Status = 'Failed';
-                $addorder->Save();
-            }
-
-            $odstatus = 'Failed';
-            return view('User.OrderStatus', compact('getitem', 'paymentstauts', 'odstatus'));
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Payment Failed',
+            ]);
+           
 
         }
     }
