@@ -9,4 +9,8 @@ class DocumentsData extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];   
+    public function Getorder()
+    {
+        return $this->hasOne(OrderData::class, 'order_id', 'order_id');
+    }
 }

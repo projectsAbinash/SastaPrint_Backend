@@ -44,6 +44,7 @@ Route::middleware('admin.auth')->group(function () {
   //orderpanel
   Route::get('/Orders', 'OrdersController@get')->name('Admin.orders');
   Route::get('/Orders/details/{id}', 'OrdersController@details')->name('orders.details');
+  Route::get('/Orders/Documents/Download/{id}', 'OrdersController@download')->name('orders.doc.download');
 
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

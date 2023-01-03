@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\OrderData;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -14,7 +15,17 @@ class ProfileController extends Controller
     {
         $profile = User::find($request->user()->id);
         $extra = $profile->UserExtra()->first();
-        $extra['total_pages'] = '123';
+        //get total pages
+        $page_count = OrderData::where('user_id',$profile->id)->where('status','delivered')->first();
+        if($page_count != null)
+        {
+            $page_count = $page_count->Userdocs->sum('total_pages');
+        }else{
+            $page_count = 0;
+        }
+         
+        
+        $extra['total_pages'] =  $page_count;
         return response()->json([
             'user_main' => $profile,
             'user_extra' => $extra,
@@ -26,7 +37,7 @@ class ProfileController extends Controller
             'pic' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'name' => 'required',
             'email' => 'required|email',
-            'dob' => 'date',
+            'dob' => 'date_format:d/m/Y',
             'gender' => 'in:Male,Female,Other',
             'student' => 'in:1,0',
             'Year' => 'digits:1|in:1,2,3,4,5',

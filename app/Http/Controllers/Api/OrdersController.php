@@ -60,10 +60,14 @@ class OrdersController extends Controller
             $print_charges = $main->total_pages * 0.50;
         else if ($request->page_config == 'one_side')
             $print_charges = $main->total_pages * 0.70;
-
+        //checking binding charges
         $copies_charge = $print_charges * $request->copies_count;
-        $bindidg_charge = ((floor($main->total_pages / 100) + ($main->total_pages % 100 ? 1 : 0)) * 9) * $request->copies_count;
-
+        if ($request->binding_config == 'spiral_binding')
+            $bindidg_charge = ((floor($main->total_pages / 100) + ($main->total_pages % 100 ? 1 : 0)) * 9) * $request->copies_count;
+        elseif ($request->binding_config == 'stapled')
+            $bindidg_charge = '0';
+        elseif ($request->binding_config == 'loose_paper')
+            $bindidg_charge = '0';
 
         $main->update([
             'title' => $request->title,
@@ -87,14 +91,15 @@ class OrdersController extends Controller
     public function DocRemoved(Request $request)
     {
         $request->validate([
-        'doc_id' => 'required|exists:documents_data,id'
+            'doc_id' => 'required|exists:documents_data,id'
         ]);
-       $data = DocumentsData::find($request->doc_id);
-       Storage::delete($data->path);
+        $data = DocumentsData::find($request->doc_id);
+        Storage::delete($data->path);
+        $data->Getorder()->decrement('amount', $data->total_copies_charge + $data->binding_charge);
         $data->delete();
         return response()->json([
-        'status' => 'true',
-        'message' => 'doc removed successfully'
+            'status' => 'true',
+            'message' => 'doc removed successfully'
         ]);
     }
 
@@ -145,7 +150,7 @@ class OrdersController extends Controller
     #get list orders
     public function orderlist(Request $request)
     {
-        $data = User::find($request->user()->id)->Getorders;
+        $data = User::find($request->user()->id)->Getorders()->orderBy('created_at', 'desc')->get();
         return response()->json([
             'status' => 'true',
             'data' => $data,
