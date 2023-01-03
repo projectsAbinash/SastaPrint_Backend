@@ -139,7 +139,7 @@ class OrdersController extends Controller
             'order_id' => $request->order_id,
             'address_id' => $request->address_id,
             'delivery_charge' => $delivery_charge,
-            'status' => 'Unpaid',
+            'status' => 'unpaid',
             'amount' => $total->sum('total_copies_charge') + $total->sum('binding_charge') + $delivery_charge,
         ]);
         return response()->json([

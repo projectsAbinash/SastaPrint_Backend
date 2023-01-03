@@ -45,7 +45,7 @@ class RazorPayController extends Controller
             'name' => $request->user()->name,
             'mobile_number' => auth()->user()->phone,
             'email' => $request->user()->email,
-            'Adress' => null,
+            'Address' => null,
         ];
 
         // Let's checkout payment page is it working
@@ -70,6 +70,7 @@ class RazorPayController extends Controller
           'rzp_signature' => 'required',
           'rzp_paymentid' => 'required',
           'rzp_orderid' => 'required',
+          'product_order_id' => 'required|exists:order_data,order_id',
         ]);
         $paymentstauts = $request->all();
         //check if payment
@@ -80,6 +81,9 @@ class RazorPayController extends Controller
         );
 
         if ($signatureStatus == true) {
+            OrderData::where('order_id', $request->product_order_id)->update([
+             'status' => 'placed',
+            ]);
             return response()->json([
                 'status' => 'true',
                 'message' => 'Payment SuccessFully',
