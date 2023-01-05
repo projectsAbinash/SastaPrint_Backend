@@ -91,7 +91,7 @@ class ApiAuth extends Controller
             'email' => 'max:100|email|unique:users,email',
             'phone' => 'required|digits:10|unique:users,phone',
             'password' => 'required|confirmed|min:6',
-            'password_confirmation' => 'required',
+           
         ]);
 
 
