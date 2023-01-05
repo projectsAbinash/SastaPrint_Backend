@@ -56,12 +56,20 @@ class OrdersController extends Controller
         $main = DocumentsData::find($request->doc_id);
 
 
-        if ($request->page_config == 'two_side')
+        if ($request->page_config == 'two_side') {
+
             $print_charges = $main->total_pages * 0.50;
-        else if ($request->page_config == 'one_side')
+
+        } elseif ($request->page_config == 'one_side')
             $print_charges = $main->total_pages * 0.70;
         //checking binding charges
         $copies_charge = $print_charges * $request->copies_count;
+
+        if ($request->page_config == 'two_side') {
+            if (is_float($copies_charge)) {
+                $copies_charge += 0.50;
+            }
+        }
         if ($request->binding_config == 'spiral_binding')
             $bindidg_charge = ((floor($main->total_pages / 100) + ($main->total_pages % 100 ? 1 : 0)) * 9) * $request->copies_count;
         elseif ($request->binding_config == 'stapled')
@@ -94,9 +102,15 @@ class OrdersController extends Controller
             'doc_id' => 'required|exists:documents_data,id'
         ]);
         $data = DocumentsData::find($request->doc_id);
+        $order_id = $data->order_id;
         Storage::delete($data->path);
         $data->Getorder()->decrement('amount', $data->total_copies_charge + $data->binding_charge);
         $data->delete();
+        $data = DocumentsData::where('order_id',$order_id)->count();
+        if($data == '0')
+        {
+            OrderData::where('order_id',$order_id)->delete();
+        }
         return response()->json([
             'status' => 'true',
             'message' => 'doc removed successfully'
@@ -114,26 +128,21 @@ class OrdersController extends Controller
         //calculate delivery charges
         $total = DocumentsData::where('order_id', $request->order_id)->get();
         $tp = '0';
-        foreach($total as $dlcharge)
-        {
+        foreach ($total as $dlcharge) {
             $tp += ($dlcharge->total_pages * $dlcharge->copies_count);
         }
         if ($tp <= '500') {
             $delivery_charge = '29';
-        }
-        elseif($tp <= '1000')
-        {
+        } elseif ($tp <= '1000') {
             $delivery_charge = '49';
-        }elseif($tp <= '1500')
-        {
+        } elseif ($tp <= '1500') {
             $delivery_charge = '69';
-        }
-        else
-        {
+        } else {
             $delivery_charge = '69';
         }
         //end of calculate delivery charges
-       // return $delivery_charge;
+        // return $delivery_charge;
+
         OrderData::create([
             'user_id' => $request->user()->id,
             'order_id' => $request->order_id,

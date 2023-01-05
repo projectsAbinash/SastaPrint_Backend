@@ -15,6 +15,6 @@ class DocumentsData extends Model
     }
     public function getDocNameAttribute($value)
     {
-        return substr($value, -13);
+        return substr($value,0,30).'.pdf';
     }
 }
