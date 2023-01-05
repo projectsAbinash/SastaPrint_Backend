@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('App_Banners', function (Blueprint $table) {
+        Schema::create('app_banners', function (Blueprint $table) {
             $table->id();
             $table->string('src')->nullable();
             $table->string('Name')->nullable();

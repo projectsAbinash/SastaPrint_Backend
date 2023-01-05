@@ -41,7 +41,7 @@ class ProfileController extends Controller
         $request->validate([
             'pic' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'email',
             'dob' => 'date_format:d/m/Y',
             'gender' => 'in:Male,Female,Other',
             'student' => 'in:1,0',

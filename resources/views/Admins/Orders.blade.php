@@ -7,7 +7,45 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             @if ($view == 'list')
                 <div class="card">
-                    <h5 class="card-header">Orders List</h5>
+                    <div class="row m-3">
+                        <div class="col">
+                            <h5 class="card-header">Orders List</h5>
+                        </div>
+                        <div class="col mt-1">
+                            <form action="{{ route('Admin.orders', ['status' => 'search']) }}">
+
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text" id="basic-addon-search31"><i
+                                            class="bx bx-search"></i></span>
+                                    <input class="form-control @error('search') is-invalid @enderror" type="text"
+                                        value="{{ request()->input('search') }}" id="search" name="search"
+                                        placeholder="#SSTPRNT03927467" autofocus />
+                                </div>
+
+
+                            </form>
+                        </div>
+                        <div class="col">
+                            <div class="me-3 d-flex justify-content-end">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="{{ route('Admin.orders', ['status' => 'All']) }}"><button type="button"
+                                            class="btn btn-success m-1">All</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'placed']) }}"><button type="button"
+                                            class="btn btn-info m-1">Placed</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'shipped']) }}"><button type="button"
+                                            class="btn btn-warning m-1">Shipped</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'delivered']) }}"><button type="button"
+                                            class="btn btn-success m-1">Delivred</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'cancelled']) }}"><button type="button"
+                                            class="btn btn-secondary m-1">Cancelled</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'Unpaid']) }}"><button type="button"
+                                            class="btn btn-danger m-1">Unpaid</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="table-responsive text-nowrap">
                         <table class="table table-striped">
                             <thead>
@@ -22,10 +60,16 @@
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
+                                @php
+                                    $i = 0;
+                                @endphp
                                 @foreach ($data as $item)
+                                    @php
+                                        $i++;
+                                    @endphp
                                     <tr>
                                         <td class="text-center">
-                                            1
+                                            {{ $i }}
                                         </td>
                                         <td class="text-center">
                                             <img style="max-height: 45px;"
@@ -47,7 +91,7 @@
                                             @if ($item->status == 'placed')
                                                 <span class="badge bg-label-info me-1">Placed</span>
                                             @elseif($item->status == 'shipped')
-                                                <span class="badge bg-label-warning me-1">Shippted</span>
+                                                <span class="badge bg-label-warning me-1">Shipped</span>
                                             @elseif($item->status == 'deliverd')
                                                 <span class="badge bg-label-success me-1">Delivred</span>
                                             @else
@@ -64,6 +108,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center m-4">
+                            {!! $data->links() !!}
+                        </div>
                     </div>
                 </div>
             @elseif($view == 'details')
@@ -145,7 +192,9 @@
                                                             <td>
                                                                 Status
                                                             </td>
-                                                            <td> <span class="badge bg-label-info me-1">{{ $data->status }}</span></td>
+                                                            <td> <span
+                                                                    class="badge bg-label-info me-1">{{ $data->status }}</span>
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
@@ -177,7 +226,7 @@
                                                             </td>
                                                             <td>
                                                                 @if ($data->traking_link == null)
-                                                                    <strong>Not Shippted Yet</strong>
+                                                                    <strong>Not Shipped Yet</strong>
                                                                 @else
                                                                     <a href="{{ $data->traking_link }}"><button
                                                                             type="button" class="btn btn-success"><i
@@ -220,14 +269,19 @@
 
                                                             <td><strong>{{ $items->instructions }}</strong></td>
                                                             <td><strong>{{ $items->total_pages }}</strong></td>
-                                                            <td><strong>{{ ucwords(str_replace("_", " ", $items->print_config)) }}</strong></td>
-                                                            <td><strong>{{ ucwords(str_replace("_", " ", $items->page_config)) }}</strong></td>
-                                                            <td><strong>{{ ucwords(str_replace("_", " ", $items->binding_config)) }}</strong></td>
+                                                            <td><strong>{{ ucwords(str_replace('_', ' ', $items->print_config)) }}</strong>
+                                                            </td>
+                                                            <td><strong>{{ ucwords(str_replace('_', ' ', $items->page_config)) }}</strong>
+                                                            </td>
+                                                            <td><strong>{{ ucwords(str_replace('_', ' ', $items->binding_config)) }}</strong>
+                                                            </td>
                                                             <td><strong>{{ $items->copies_count }}</strong></td>
-                                                            <td class="text-center"> <a href="{{ route('orders.doc.download',(['id'=>$items->id])) }}"><button type="button" id="addmore"
-                                                                    class="btn btn-icon btn-success">
-                                                                    <i class="fa-solid fa-download"></i>
-                                                                </button></a></td>
+                                                            <td class="text-center"> <a
+                                                                    href="{{ route('orders.doc.download', ['id' => $items->id]) }}"><button
+                                                                        type="button" id="addmore"
+                                                                        class="btn btn-icon btn-success">
+                                                                        <i class="fa-solid fa-download"></i>
+                                                                    </button></a></td>
 
                                                         </tr>
                                                     @endforeach

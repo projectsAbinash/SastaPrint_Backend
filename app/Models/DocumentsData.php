@@ -13,4 +13,8 @@ class DocumentsData extends Model
     {
         return $this->hasOne(OrderData::class, 'order_id', 'order_id');
     }
+    public function getDocNameAttribute($value)
+    {
+        return substr($value, -13);
+    }
 }

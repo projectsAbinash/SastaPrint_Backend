@@ -44,3 +44,4 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');
     
 });
+//Route::get('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');

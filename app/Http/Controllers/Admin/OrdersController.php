@@ -11,9 +11,29 @@ use Storage;
 
 class OrdersController extends Controller
 {
-    public function get()
+    public function get(Request $request)
     {
-        $data = OrderData::all();
+        if ($request->status == "All") {
+            $data = OrderData::orderBy('created_at', 'desc')->paginate(10);
+        }elseif($request->status == "Unpaid"){
+            $data = OrderData::where('status','unpaid')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        elseif($request->status == "placed"){
+            $data = OrderData::where('status','placed')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        elseif($request->status == "shipped"){
+            $data = OrderData::where('status','shipped')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        elseif($request->status == "cancelled"){
+            $data = OrderData::where('status','cancelled')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        elseif($request->status == "delivered"){
+            $data = OrderData::where('status','delivered')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        elseif($request->status == "search"){
+            $data = OrderData::where('order_id',$request->search)->orderBy('created_at', 'desc')->paginate(10); 
+        }
+       
         $view = 'list';
         return view('Admins.Orders', compact('view', 'data'));
     }

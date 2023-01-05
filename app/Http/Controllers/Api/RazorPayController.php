@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Psy\Util\Json;
 use Razorpay\Api\Api;
 use App\Models\OrderData;
 
@@ -55,7 +56,7 @@ class RazorPayController extends Controller
         ]);
     }
 
-// public function Callback(Request $request)
+    // public function Callback(Request $request)
 // {
 //         return $request->all();
 // }
@@ -65,12 +66,12 @@ class RazorPayController extends Controller
 
     public function Callback(Request $request)
     {
-
+        $api = new Api($this->razorpayId, $this->razorpayKey);
         $request->validate([
-          'rzp_signature' => 'required',
-          'rzp_paymentid' => 'required',
-          'rzp_orderid' => 'required',
-          'product_order_id' => 'required|exists:order_data,order_id',
+            'rzp_signature' => 'required',
+            'rzp_paymentid' => 'required',
+            'rzp_orderid' => 'required',
+            'product_order_id' => 'required|exists:order_data,order_id',
         ]);
         $paymentstauts = $request->all();
         //check if payment
@@ -79,22 +80,26 @@ class RazorPayController extends Controller
             $request->all()['rzp_paymentid'],
             $request->all()['rzp_orderid']
         );
-
+       
         if ($signatureStatus == true) {
-            OrderData::where('order_id', $request->product_order_id)->update([
-             'status' => 'placed',
-            ]);
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Payment SuccessFully',
-            ]);
+           // $data = $api->order->fetch($request->rzp_orderid);
+           
+                OrderData::where('order_id', $request->product_order_id)->update([
+                    'status' => 'placed',
+                    'payment_id' => $request->rzp_paymentid,
+                    
+                ]);
+                return response()->json([
+                    'status' => 'true',
+                    'message' => 'Payment SuccessFully',
+                ]);
             
         } else {
             return response()->json([
                 'status' => 'false',
                 'message' => 'Payment Failed',
             ]);
-           
+
 
         }
     }

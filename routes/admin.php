@@ -42,7 +42,7 @@ Route::middleware('admin.auth')->group(function () {
   Route::post('/Notificaions/Send', 'NotifiacationController@send')->name('notification.post');
 
   //orderpanel
-  Route::get('/Orders', 'OrdersController@get')->name('Admin.orders');
+  Route::get('/Orders/Action/{status}', 'OrdersController@get')->name('Admin.orders');
   Route::get('/Orders/details/{id}', 'OrdersController@details')->name('orders.details');
   Route::get('/Orders/Documents/Download/{id}', 'OrdersController@download')->name('orders.doc.download');
 

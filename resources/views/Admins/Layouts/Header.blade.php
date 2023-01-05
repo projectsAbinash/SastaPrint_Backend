@@ -133,7 +133,7 @@
                         </a>
                     </li>
                     <li class="menu-item {{ (request()->is('Admin/Orders*')) ? 'active' : '' }}">
-                        <a href="{{ route('Admin.orders') }}" class="menu-link">
+                        <a href="{{ route('Admin.orders',(['status' => 'All'])) }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-sitemap"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>

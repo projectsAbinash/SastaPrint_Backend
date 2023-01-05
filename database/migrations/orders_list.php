@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('traking_link')->nullable();
             $table->string('delivery_charge');
             $table->string('amount');
+            $table->string('payment_id')->nullable();
             $table->string('address_id')->nullable();
             $table->string('status');
             $table->timestamps();
