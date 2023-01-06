@@ -176,6 +176,10 @@ class ApiAuth extends Controller
         ]);
         $user = User::where('phone', $request->phone)->first();
         $this->genarateotp($user->phone, $user->id);
+        return response()->json([
+          'status' => 'true',
+          'message' => 'OTP Has Been Sent SuccessFully'
+        ]); 
     }
     #check otp for reset password
     public function resetpass(Request $request)
