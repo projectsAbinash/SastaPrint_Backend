@@ -16,11 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', 'ApiAuth@RegisterUser');
 Route::post('/login', 'ApiAuth@LoginUser');
+Route::post('/login/forget/', 'ApiAuth@forgetpass');
+Route::post('/login/forget/reset', 'ApiAuth@resetpass');
 
 Route::middleware('auth:sanctum', 'cotp')->group(function () {
     #for auths
     Route::post('/otp/resend', 'ApiAuth@resend')->withoutMiddleware('cotp');
     Route::post('/login/verifyotp', 'ApiAuth@verifyotp')->withoutMiddleware('cotp');
+
     Route::post('/home/banners', 'HomeController@GetBanners');
     #for profile
     Route::post('/profile', 'ProfileController@getprofile');
@@ -44,4 +47,3 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');
     
 });
-//Route::get('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');

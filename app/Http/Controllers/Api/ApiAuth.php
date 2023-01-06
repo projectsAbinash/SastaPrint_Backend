@@ -91,7 +91,7 @@ class ApiAuth extends Controller
             'email' => 'max:100|email|unique:users,email',
             'phone' => 'required|digits:10|unique:users,phone',
             'password' => 'required|min:6',
-           
+
         ]);
 
 
@@ -165,5 +165,50 @@ class ApiAuth extends Controller
                 'message' => 'Sms Could Not Be Sent',
             ]);
         }
+
+
     }
+    #auth reset password
+    public function forgetpass(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|numeric|digits:10|exists:users,phone',
+        ]);
+        $user = User::where('phone', $request->phone)->first();
+        $this->genarateotp($user->phone, $user->id);
+    }
+    #check otp for reset password
+    public function resetpass(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|numeric|digits:6|exists:verfication_codes,otp',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        $getid = VerficationCodes::where('otp', $request->otp)->latest()->first();
+        $userid = $getid->user_id;
+        $checkotp = VerficationCodes::where('user_id', $userid)
+            ->where('otp', $request->otp)->latest()->first();
+        $now = Carbon::now();
+        if (!$checkotp) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Your OTP Is Invalid'
+            ]);
+        } elseif ($checkotp && $now->isAfter($checkotp->expire_at)) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Your OTP Has Expired'
+            ]);
+        } else {
+            User::find($userid)->update(['password' => $request->password]);
+            VerficationCodes::where('user_id', $userid)->delete();
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Password Has Been Changed SuccessFully'
+            ]);
+        }
+    }
+
 }
