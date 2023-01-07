@@ -46,5 +46,10 @@ Route::middleware('admin.auth')->group(function () {
   Route::get('/Orders/details/{id}', 'OrdersController@details')->name('orders.details');
   Route::get('/Orders/Documents/Download/{id}', 'OrdersController@download')->name('orders.doc.download');
 
+//route for employees
+Route::get('/Employee/New', 'EmployeeController@create')->name('Admin.employee.create');
+Route::post('/Employee/New', 'EmployeeController@register')->name('Admin.employee.register');
+
+
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

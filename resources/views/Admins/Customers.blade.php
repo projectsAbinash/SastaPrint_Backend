@@ -86,14 +86,6 @@
                                             <i class="bx bx-reset d-block d-sm-none"></i>
                                             <span class="d-none d-sm-block">View Address</span>
                                         </button>
-
-
-
-
-
-
-
-
                                         <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                                     </div>
                                 </div>

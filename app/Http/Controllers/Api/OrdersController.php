@@ -58,18 +58,17 @@ class OrdersController extends Controller
 
         if ($request->page_config == 'two_side') {
 
-            $print_charges = $main->total_pages * 0.50;
+            $print_charges = ceil($main->total_pages * 0.50);
 
         } elseif ($request->page_config == 'one_side')
             $print_charges = $main->total_pages * 0.70;
         //checking binding charges
         $copies_charge = $print_charges * $request->copies_count;
 
-        if ($request->page_config == 'two_side') {
-            if (is_float($copies_charge)) {
-                $copies_charge += 0.50;
-            }
-        }
+        // if ($request->page_config == 'two_side') {
+        //     $copies_charge = ceil($copies_charge);
+        // }
+
         if ($request->binding_config == 'spiral_binding')
             $bindidg_charge = ((floor($main->total_pages / 100) + ($main->total_pages % 100 ? 1 : 0)) * 9) * $request->copies_count;
         elseif ($request->binding_config == 'stapled')

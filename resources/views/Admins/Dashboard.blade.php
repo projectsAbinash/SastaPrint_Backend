@@ -119,6 +119,25 @@
                     </div>
                 </div>
 
+                <div class="col-sm">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+
+                                <div class="avatar card d-flex aligns-items-center justify-content-center p-2"
+                                    style="background-color:#FF211433;">
+                                    <img src="{{ url('AdminAssets/Source/assets/img/icons/unicons/desktop.svg') }}"
+                                        alt="chart success" class="rounded" />
+                                </div>
+
+                            </div>
+                            <span>Employees</span>
+                            <h3 class="card-title text-nowrap mb-1">{{ $data['employee'] }}</h3>
+                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 

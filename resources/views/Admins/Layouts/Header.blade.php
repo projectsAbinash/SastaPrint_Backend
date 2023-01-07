@@ -138,6 +138,16 @@
                             <div data-i18n="Analytics">Orders</div>
                         </a>
                     </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Employee Corner</span>
+                    </li>
+ 
+                    <li class="menu-item {{ (request()->is('Admin/Employee/New')) ? 'active' : '' }}">
+                        <a href="{{ route('Admin.employee.create') }}" class="menu-link">
+                            <i class="menu-icon fas fa-users"></i>
+                            <div data-i18n="Analytics">Add Employee</div>
+                        </a>
+                    </li>
 
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Settings</span>
