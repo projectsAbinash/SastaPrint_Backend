@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     #for address
     Route::post('/profile/Address', 'AddressController@Get');
     Route::post('/profile/Address/New', 'AddressController@New');
+    Route::post('/profile/Address/Fetch', 'AddressController@getpin');
     Route::post('/profile/Address/Delete', 'AddressController@Delete');
 
 

@@ -1,17 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Models\EmpVerficationCodes;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 class EmployeeController extends Controller
 {
     public function create()
     {
-        $view = 'list';
-        return view('Admins.Newemployee',compact('view'));
+       
+        return view('Admins.emp.Newemployee');
+    }
+    public function verify(Request $request)
+    {
+       $data = Employee::findOrFail($request->id);
+        return view('Admins.emp.verifyemployee',compact('data'));
     }
     public function register(Request $request)
     {
@@ -41,6 +48,74 @@ class EmployeeController extends Controller
         'adhaar_frontside' => $faadhar,
         'adhaar_backside' => $baadhar,
         ]);
-        return back()->with(['success' => 'Employee Registraion SuccessFully']);
+     
+        $this->genarateotp($request->phone, $Employee->id);
+        return redirect(route('emp.admin.verify',(['id' => $Employee->id])));
     }
+
+     #genarate new otp function
+     private function genarateotp($number, $id)
+     {
+ 
+         $checkotp = EmpVerficationCodes::where('user_id', $id)->latest()->first();
+         $now = Carbon::now();
+         if ($checkotp && $now->isBefore($checkotp->expire_at)) {
+             $otp = $checkotp->otp;
+         } else {
+             $otp = rand('100000', '999999');
+             EmpVerficationCodes::create([
+                 'user_id' => $id,
+                 'otp' => $otp,
+                 'expire_at' => Carbon::now()->addMinute(10)
+             ]);
+         }
+ 
+ 
+ 
+         try {
+             $response = Http::withHeaders([
+                 'authorization' => 'xOTpQMDHq4yr7f0LUKRoW5m6Aaj2GBhE9eIFiS3VsnNbvcCJldXbHwxyhuzWYlgjKNsCfe38nMEVFrOI',
+                 'accept' => '*/*',
+                 'cache-control' => 'no-cache',
+                 'content-type' => 'application/json'
+             ])->post('https://www.fast2sms.com/dev/bulkV2', [
+                     "variables_values" => $otp,
+                     "route" => "otp",
+                     "numbers" => $number,
+                 ]);
+             $decode = json_decode($response);
+             return response()->json($decode->return);
+         } catch (\Exception $e) {
+             return $e->getMessage();
+         }
+     }
+     public function verifyotp(Request $request)
+     {
+
+         $userid = $request->user_id;
+        
+         $otp = $request->otp;
+         $checkotp = EmpVerficationCodes::where('user_id', $userid)
+             ->where('otp', $otp)->latest()->first();
+         $now = Carbon::now();
+         if (!$checkotp) {
+            
+                return back()->withErrors(['success' => 'Invalid OTP']);
+            
+         } elseif ($checkotp && $now->isAfter($checkotp->expire_at)) {
+            return back()->withErrors(['success' => 'OTP Has Expired']);
+         } else {
+            Employee::where('id',$userid)->update(['phone_verified_at' => $now]);
+             EmpVerficationCodes::where('user_id', $userid)->delete();
+             return redirect(route('Admin.employee.create'))->with(['success' => 'Employee created successfully']);
+         }
+     }
+     public function resendotp(Request $request)
+     {
+        $data = Employee::findOrFail($request->id);
+        if ($this->genarateotp($data->phone, $data->id)) {
+            return back()->with(['success' => 'OTP Resend SuccessFully']);
+        }
+     }
+ 
 }

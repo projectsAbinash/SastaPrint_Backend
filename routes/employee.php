@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+  return redirect(route('emp.login.page'));
+});
 Route::middleware('emp.guest')->group(function () {
     Route::get('/login', 'Authpage@LoginPage')->name('emp.login.page');
     Route::post('/login/submit', 'Authpage@LoginSubmit')->name('emp.login.submit');

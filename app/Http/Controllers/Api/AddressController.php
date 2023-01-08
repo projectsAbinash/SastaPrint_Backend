@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class AddressController extends Controller
     public function Get(Request $request)
     {
 
-       
+
         $get = User::find($request->user()->id);
 
         return response()->json([
@@ -48,7 +49,6 @@ class AddressController extends Controller
             'status' => 'true',
             'message' => 'Address Added SuccssFully',
         ]);
-
     }
     public function Delete(Request $request)
     {
@@ -57,6 +57,38 @@ class AddressController extends Controller
             'status' => 'true',
             'message' => 'Address Deleted SuccessFully',
         ]);
-
+    }
+    public function getpin(Request $request)
+    {
+        // if(true)
+        // {
+        //     return response()->json([
+        //         'status' => 'false',
+        //         'message' => 'This Pin Code Is Not Serviceable',
+        //         ]
+        //     );
+        // }
+        $request->validate([
+            'pincode' => 'required|numeric|digits:6'
+        ]);
+        try {
+            $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
+            $decode = json_decode($response);
+            if (isset($decode[0]->PostOffice[0])) {
+                return response()->json([
+                    'data' => $decode[0],
+                    'state' => $decode[0]->PostOffice[0]->State,
+                    'status' => 'true',
+                ]);
+            }else{
+                return response()->json([
+                            'status' => 'false',
+                            'message' => 'This Pin Code Is Invalid',
+                            ]
+                        );
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
