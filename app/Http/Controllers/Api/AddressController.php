@@ -60,7 +60,13 @@ class AddressController extends Controller
     }
     public function getpin(Request $request)
     {
-        // if(true)
+       
+        $request->validate([
+            'pincode' => 'required|numeric|digits:6'
+        ]);
+
+        
+         // if(true)
         // {
         //     return response()->json([
         //         'status' => 'false',
@@ -68,15 +74,20 @@ class AddressController extends Controller
         //         ]
         //     );
         // }
-        $request->validate([
-            'pincode' => 'required|numeric|digits:6'
-        ]);
+
+
+        //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
+                foreach($decode[0]->PostOffice as $item)
+                {
+                    $city[] = $item->Name;
+                }
                 return response()->json([
-                    'data' => $decode[0],
+                    'city' => $city,
+                    //'data' => $decode[0],
                     'state' => $decode[0]->PostOffice[0]->State,
                     'status' => 'true',
                 ]);
@@ -86,7 +97,7 @@ class AddressController extends Controller
                             'message' => 'This Pin Code Is Invalid',
                             ]
                         );
-            }
+                    }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
