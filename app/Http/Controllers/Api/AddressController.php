@@ -28,7 +28,7 @@ class AddressController extends Controller
             'Address_1' => 'required',
             'Address_2' => 'required',
             'City' => 'required',
-            'PinCode' => 'required|digits:6',
+            'PinCode' => 'required|numeric|digits:6',
             'State' => 'required',
             'Address_Type' => 'required|in:Home,Work,Other',
             'Alternate_number' => 'numeric|digits:10',

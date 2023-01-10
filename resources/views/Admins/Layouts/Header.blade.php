@@ -141,7 +141,12 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Employee Corner</span>
                     </li>
- 
+                    <li class="menu-item {{ (request()->is('Admin/Employee/list*')) ? 'active' : '' }}">
+                        <a href="{{ route('admin.emp.list') }}" class="menu-link">
+                            <i class="menu-icon fa-solid fa-list"></i>
+                            <div data-i18n="Analytics">Employee list</div>
+                        </a>
+                    </li>
                     <li class="menu-item {{ (request()->is('Admin/Employee/New')) ? 'active' : '' }}">
                         <a href="{{ route('Admin.employee.create') }}" class="menu-link">
                             <i class="menu-icon fas fa-users"></i>

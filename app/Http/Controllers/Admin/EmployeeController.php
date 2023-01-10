@@ -118,4 +118,19 @@ class EmployeeController extends Controller
         }
      }
  
+     #get list of employees
+     public function emplist()
+     {
+        $view = 'list';
+       $emp = Employee::orderBy('id','desc')->get();
+        return view('Admins.emp.employeeview',compact('emp','view'));
+     }
+
+     #get emplayee data 
+     public function empget(Request $request)
+     {
+        $view = 'details';
+        $emp = Employee::find($request->id);
+         return view('Admins.emp.employeeview',compact('emp','view'));
+     }
 }

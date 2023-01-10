@@ -48,6 +48,8 @@ Route::middleware('admin.auth')->group(function () {
 
 //route for employees
 Route::get('/Employee/New', 'EmployeeController@create')->name('Admin.employee.create');
+Route::get('/Employee/list', 'EmployeeController@emplist')->name('admin.emp.list');
+Route::get('/Employee/list/view/{id}', 'EmployeeController@empget')->name('admin.emp.get');
 Route::post('/Employee/New', 'EmployeeController@register')->name('Admin.employee.register');
 Route::get('/Employee/verify/{id}', 'EmployeeController@verify')->name('emp.admin.verify');
 Route::get('/Employee/New/reotp/{id}', 'EmployeeController@resendotp')->name('emp.resend.otp');
