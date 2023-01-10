@@ -157,6 +157,14 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Settings</span>
                     </li>
+                    
+                    <li class="menu-item {{ request()->is('Admin/Setting/Area*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.setaddress') }}" class="menu-link">
+                            <i class="menu-icon fa-solid fa-location-pin-lock"></i>
+                            <div data-i18n="Analytics">Set Area</div>
+                        </a>
+                    </li>
+
                     <li class="menu-item {{ (request()->is('Admin/Banners*')) ? 'active' : '' }}">
                         <a href="{{ route('Bannerslist') }}" class="menu-link">
                             <i class="menu-icon fa-solid fa-images"></i>

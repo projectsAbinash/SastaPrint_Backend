@@ -55,5 +55,8 @@ Route::get('/Employee/verify/{id}', 'EmployeeController@verify')->name('emp.admi
 Route::get('/Employee/New/reotp/{id}', 'EmployeeController@resendotp')->name('emp.resend.otp');
 Route::post('/Employee/verify', 'EmployeeController@verifyotp')->name('emp.admin.otpverify');
 
+//route for setting
+Route::get('/Setting/Area', 'SettingController@setareaindex')->name('admin.setaddress');
+Route::post('/Setting/Area', 'SettingController@setarea')->name('admin.setaddress.post');
   Route::get('/logout', 'AuthController@logout')->name('Admin.logout');
 });

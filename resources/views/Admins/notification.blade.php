@@ -75,7 +75,7 @@
                                     <td class="text-center">{{ $data->id }}</td>
                                     <td class="text-center fw-bold">{{ $data->title }}</td>
                                     <td class="text-center" style="max-width: 13rem;">
-                                       {{ $data->message }}
+                                        {{ $data->message }}
 
                                     </td>
                                     <td class="text-center">
@@ -100,8 +100,8 @@
                 <div class="p-3">
                     {{ $getlist->links('pagination::bootstrap-5') }}
                 </div>
-
             </div>
-
         </div>
-    @endsection
+
+    </div>
+@endsection
