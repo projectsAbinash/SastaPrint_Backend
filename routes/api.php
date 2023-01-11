@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     #for address
     Route::post('/profile/Address', 'AddressController@Get');
     Route::post('/profile/Address/New', 'AddressController@New');
-    Route::post('/profile/Address/Fetch', 'AddressController@getpin')->withoutMiddleware(['cotp','auth:sanctum']);
+    Route::post('/profile/Address/Fetch', 'AddressController@getpin');
     Route::post('/profile/Address/Delete', 'AddressController@Delete');
 
 
@@ -48,3 +48,4 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');
     
 });
+Route::post('/profile/Address/getpin', 'AddressController@fetchpin');

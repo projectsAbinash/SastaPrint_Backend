@@ -70,22 +70,21 @@
                                         <th>State</th>
                                     </tr>
                                 </thead>
+                                     @php
+                                     $added = $addedlist->where('status','added');
+                                      $i = 0;  
+                                    @endphp
                                 <tbody class="table-border-bottom-0">
+                                    @foreach($added as $datas)
+                                    @php
+                                      $i++  
+                                    @endphp
                                     <tr>
-                                        <td>1</td>
-                                        <td>732138</td>
-                                        <td>West Bengal</td>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $datas->pincode }}</td>
+                                        <td>{{ $datas->state }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>732138</td>
-                                        <td>West Bengal</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>732138</td>
-                                        <td>West Bengal</td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
 
                             </table>
@@ -106,13 +105,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
+                                    @php
+                                 $item = $requestlist->where('status','request')->get();
+                                 $i = 0;  
+                                    @endphp
+                                @foreach($item as $data)
+                                @php
+                                  $i++  
+                                @endphp
                                     <tr>
-                                        <td class="text-center">1</td>
-                                        <td class="text-center">732138</td>
-                                        <td class="text-center">Bihar</td>
-                                        <td class="fw-bold text-center">56</td>
+                                        <td class="text-center">{{ $i }}</td>
+                                        <td class="text-center">{{ $data->pincode }}</td>
+                                        <td class="text-center">{{ $data->state }}</td>
+                                        <td class="fw-bold text-center">{{ $data->count }}</td>
                                     </tr>
-
+                             @endforeach
                                 </tbody>
 
                             </table>
@@ -128,7 +135,7 @@
                     $('#pin').on('keyup', function() {
                         if ($(this).val().length == 6) {
                            
-                            $.post("http://127.0.0.1:8000/api/profile/Address/Fetch", {
+                            $.post("http://{{  request()->getHttpHost() }}/api/profile/Address/getpin", {
                                     pincode: $("#pin").val(),
                                 },
                                 function(data, status) {

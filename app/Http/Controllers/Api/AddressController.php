@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
+use App\Models\Setarea;
 
 class AddressController extends Controller
 {
@@ -60,20 +61,16 @@ class AddressController extends Controller
     }
     public function getpin(Request $request)
     {
-       
+
         $request->validate([
             'pincode' => 'required|numeric|digits:6'
         ]);
 
-        
-         // if(true)
-        // {
-        //     return response()->json([
-        //         'status' => 'false',
-        //         'message' => 'This Pin Code Is Not Serviceable',
-        //         ]
-        //     );
-        // }
+        $find = Setarea::where([
+            'pincode' => $request->pincode,
+            'status' => 'added',
+        ]);
+
 
 
         //fetch pin code
@@ -81,23 +78,81 @@ class AddressController extends Controller
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
-                foreach($decode[0]->PostOffice as $item)
-                {
+                foreach ($decode[0]->PostOffice as $item) {
                     $city[] = $item->Name;
                 }
+                $state = $decode[0]->PostOffice[0]->State;
+                if (!$find->exists()) {
+                    $Setarea = Setarea::where([
+                        'pincode' => $request->pincode,
+                        'status' => 'request',
+                    ]);
+                    if ($Setarea->exists()) {
+                        $Setarea->increment('count');
+                    } else {
+                        Setarea::create([
+                            'pincode' => $request->pincode,
+                            'status' => 'request',
+                            'state' => $state,
+                            'count' => '1',
+                        ]);
+                    }
+                    return response()->json(
+                        [
+                            'status' => 'false',
+                            'message' => 'This Pin Code Is Not Serviceable',
+                        ]
+                    );
+                } else {
+                    return response()->json([
+                        'city' => $city,
+                        //'data' => $decode[0],
+                        'state' => $state,
+                        'status' => 'true',
+                    ]);
+                }
+            } else {
+                return response()->json(
+                    [
+                        'status' => 'false',
+                        'message' => 'This Pin Code Is Invalid',
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+    public function fetchpin(Request $request)
+    {
+        $request->validate([
+            'pincode' => 'required|numeric|digits:6'
+        ]);
+
+
+        //fetch pin code
+        try {
+            $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
+            $decode = json_decode($response);
+            if (isset($decode[0]->PostOffice[0])) {
+                foreach ($decode[0]->PostOffice as $item) {
+                    $city[] = $item->Name;
+                }
+                $state = $decode[0]->PostOffice[0]->State;
                 return response()->json([
                     'city' => $city,
                     //'data' => $decode[0],
-                    'state' => $decode[0]->PostOffice[0]->State,
+                    'state' => $state,
                     'status' => 'true',
                 ]);
-            }else{
-                return response()->json([
-                            'status' => 'false',
-                            'message' => 'This Pin Code Is Invalid',
-                            ]
-                        );
-                    }
+            } else {
+                return response()->json(
+                    [
+                        'status' => 'false',
+                        'message' => 'This Pin Code Is Invalid',
+                    ]
+                );
+            }
         } catch (\Exception $e) {
             return $e->getMessage();
         }
