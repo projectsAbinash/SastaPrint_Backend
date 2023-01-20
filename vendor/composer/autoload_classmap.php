@@ -25,6 +25,7 @@ return array(
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\Employee\\Authpage' => $baseDir . '/app/Http/Controllers/Employee/Authpage.php',
     'App\\Http\\Controllers\\Employee\\Dashboard' => $baseDir . '/app/Http/Controllers/Employee/Dashboard.php',
+    'App\\Http\\Controllers\\Employee\\ManagePapers' => $baseDir . '/app/Http/Controllers/Employee/ManagePapers.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\AdminAuthenticate' => $baseDir . '/app/Http/Middleware/AdminAuthenticate.php',
     'App\\Http\\Middleware\\AdminRedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/AdminRedirectIfAuthenticated.php',

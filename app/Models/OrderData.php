@@ -18,8 +18,5 @@ class OrderData extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-    public function GetAddress()
-    {
-        return $this->hasOne(UserAddress::class, 'id', 'address_id');
-    }
+   
 }

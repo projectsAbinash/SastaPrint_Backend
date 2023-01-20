@@ -23,4 +23,9 @@ class Employee extends Authenticatable
     {
         return $this->hasOne(EmployeeProfile::class, 'user_id', 'id');
     }
+    public function PaperRequ()
+    {
+        return $this->hasMany(EmpPapersRequest::class, 'user_id', 'id')->orderBy('id', 'desc')
+        ;
+    }
 }

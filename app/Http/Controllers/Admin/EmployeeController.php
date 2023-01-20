@@ -24,7 +24,7 @@ class EmployeeController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'phone' => 'required|numeric|digits:10',
+            'phone' => 'required|numeric|digits:10|unique:employees,phone',
             'aadhar' => 'required|numeric|digits:12',
             'profile' => 'image|mimes:jpg,png,jpeg,gif,svg|max:800',
             'password' => 'required|min:6',
@@ -34,6 +34,7 @@ class EmployeeController extends Controller
         $Employee = Employee::create([
          'name' => $request->name,
          'phone' => $request->phone,
+         'available_papers' => '0',
          'password' => $request->password,
         ]);
 

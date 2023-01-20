@@ -22,6 +22,12 @@ Route::middleware('emp.guest')->group(function () {
 
 Route::middleware('emp.auth')->group(function () {
   Route::get('/Dashboard', 'Dashboard@DashboardIndex')->name('EmpDashboard');
+
+  //for papers management
+  Route::get('/Manage/Paper/', 'ManagePapers@index')->name('mngpaper');
+  Route::post('/Manage/Paper/Request', 'ManagePapers@request')->name('mngpaper.request');
+
+
   Route::get('/logout', 'Authpage@logout')->name('emp.logout');
 });
 

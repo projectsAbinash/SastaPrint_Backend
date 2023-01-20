@@ -22,7 +22,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
-
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/fonts/boxicons.css') }}" />
 
@@ -57,6 +57,10 @@
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
+
+  @php
+       $profile = \App\Models\Employee::find(Auth::guard('employee')->user()->id);
+  @endphp  
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
@@ -118,15 +122,53 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item {{ (request()->is('Employee/Dashboard*')) ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('Employee/Dashboard*') ? 'active' : '' }}">
                         <a href="{{ route('EmpDashboard') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Orders Section</span>
+                    </li>
 
+                    <li class="menu-item">
+                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                           
+                            <i class="menu-icon uil uil-backward"></i>
+                            <div data-i18n="Analytics">Pending Orders</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                            <i class="menu-icon uil uil-archive"></i>
+                            <div data-i18n="Analytics">Available Orders </div>
+                        </a>
+                    </li>
 
+                    <li class="menu-item">
+                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                            <i class="menu-icon uil uil-check-circle"></i>
+                            <div data-i18n="Analytics">Completed Orders</div>
+                        </a>
+                    </li>
 
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Paper Section</span>
+                    </li>
+
+                    <li class="menu-item {{ (request()->is('Employee/Manage/Paper*')) ? 'active' : '' }}">
+                        <a href="{{ route('mngpaper') }}" class="menu-link">
+                            <i class="menu-icon uil uil-copy"></i>
+                            <div data-i18n="Analytics">Manage Papers</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                            <i class="menu-icon uil uil-history"></i>
+                            <div data-i18n="Analytics">History</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -173,8 +215,8 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ $profile->Eprofile->profile_pic }}"
-                                                            alt class="w-px-40 h-auto rounded-circle" />
+                                                        <img src="{{ $profile->Eprofile->profile_pic }}" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">

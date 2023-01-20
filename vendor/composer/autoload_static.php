@@ -550,6 +550,7 @@ class ComposerStaticInitfc9419176a49e6d8fb0ce83a746aaea1
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Employee\\Authpage' => __DIR__ . '/../..' . '/app/Http/Controllers/Employee/Authpage.php',
         'App\\Http\\Controllers\\Employee\\Dashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/Employee/Dashboard.php',
+        'App\\Http\\Controllers\\Employee\\ManagePapers' => __DIR__ . '/../..' . '/app/Http/Controllers/Employee/ManagePapers.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminAuthenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminAuthenticate.php',
         'App\\Http\\Middleware\\AdminRedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminRedirectIfAuthenticated.php',

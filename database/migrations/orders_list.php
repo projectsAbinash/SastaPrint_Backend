@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('delivery_charge');
             $table->string('amount');
             $table->string('payment_id')->nullable();
-            $table->string('address_id')->nullable();
+            $table->json('full_address')->nullable();
             $table->string('status');
             $table->timestamps();
             

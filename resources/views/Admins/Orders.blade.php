@@ -167,12 +167,16 @@
                                                             <td>
                                                                 Address
                                                             </td>
-                                                            <td> <strong> {{ $data->GetAddress->Landmark }},<br>
-                                                                    {{ $data->GetAddress->Address_1 }},<br>
-                                                                    {{ $data->GetAddress->Address_2 }},<br>
-                                                                    {{ $data->GetAddress->City }},<br>
-                                                                    {{ $data->GetAddress->State }},{{ $data->GetAddress->PinCode }},<br>
-                                                                    {{ $data->GetAddress->Alternate_number }}</strong></td>
+                                                            @php
+                                                            $string_aaddress = json_decode($data->full_address, true);
+                                                            @endphp
+                                                           
+                                                            <td> <strong> {{ $string_aaddress['landmark'] }},<br>
+                                                                    {{ $string_aaddress['address_2'] }},<br>
+                                                                    {{ $string_aaddress['address_2'] }},<br>
+                                                                    {{ $string_aaddress['city'] }},<br>
+                                                                    {{ $string_aaddress['state'] }},{{ $string_aaddress['pincode'] }},<br>
+                                                                    {{ $string_aaddress['alternate_number'] }}</strong></td>
                                                         </tr>
 
                                                     </tbody>

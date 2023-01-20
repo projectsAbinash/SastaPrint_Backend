@@ -8,7 +8,8 @@ use App\Models\OrderData;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\UserAddress;
+use Psy\Util\Json;
 class OrdersController extends Controller
 {
     private function countPages($path)
@@ -142,10 +143,25 @@ class OrdersController extends Controller
         //end of calculate delivery charges
         // return $delivery_charge;
 
+
+         //create address 
+        $Rawaddress = UserAddress::find($request->address_id);
+        $address = json_encode([
+         'address_1' => $Rawaddress->Address_1,
+         'address_2' => $Rawaddress->Address_2,
+         'landmark' => $Rawaddress->Landmark,
+         'city' => $Rawaddress->City,
+         'pincode' => $Rawaddress->PinCode,
+         'state' => $Rawaddress->State,
+         'address_type' => $Rawaddress->Address_Type,
+         'alternate_number' => $Rawaddress->Alternate_number,
+        ]);
+        
+        
         OrderData::create([
             'user_id' => $request->user()->id,
             'order_id' => $request->order_id,
-            'address_id' => $request->address_id,
+            'full_address' => $address,
             'delivery_charge' => $delivery_charge,
             'status' => 'unpaid',
             'amount' => $total->sum('total_copies_charge') + $total->sum('binding_charge') + $delivery_charge,
@@ -166,7 +182,7 @@ class OrdersController extends Controller
         ]);
         $get = OrderData::where('order_id', $request->order_id)->first();
         $get->Userdocs;
-        $get->GetAddress;
+        
         return response()->json([
             'status' => 'true',
             'order_data' => $get,

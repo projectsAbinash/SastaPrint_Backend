@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->unique();  
-            $table->string('password'); 
+            $table->string('name')->default('Sastaprint Admin');
+            $table->string('username')->unique()->default('sastaprint');  
+            $table->string('password')->default('12345654'); 
             $table->string('remember_token')->nullable(); 
             $table->timestamps();
         });
