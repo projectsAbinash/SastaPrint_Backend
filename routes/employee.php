@@ -16,9 +16,9 @@ Route::get('/', function () {
   return redirect(route('emp.login.page'));
 });
 Route::middleware('emp.guest')->group(function () {
-    Route::get('/login', 'Authpage@LoginPage')->name('emp.login.page');
-    Route::post('/login/submit', 'Authpage@LoginSubmit')->name('emp.login.submit');
-  });
+  Route::get('/login', 'Authpage@LoginPage')->name('emp.login.page');
+  Route::post('/login/submit', 'Authpage@LoginSubmit')->name('emp.login.submit');
+});
 
 Route::middleware('emp.auth')->group(function () {
   Route::get('/Dashboard', 'Dashboard@DashboardIndex')->name('EmpDashboard');
@@ -27,9 +27,12 @@ Route::middleware('emp.auth')->group(function () {
   Route::get('/Manage/Paper/', 'ManagePapers@index')->name('mngpaper');
   Route::post('/Manage/Paper/Request', 'ManagePapers@request')->name('mngpaper.request');
 
+  //for orders managements
+  Route::get('/Orders/Processing', 'OrderManage@pendinglist')->name('emp.order.processing');
+  Route::get('/Orders/Available', 'OrderManage@availablelist')->name('emp.order.available');
+  Route::get('/Orders/Completed', 'OrderManage@completedlist')->name('emp.order.completed');
+  Route::get('/Orders/View', 'OrderManage@viewmanage')->name('emp.order.manage');
+  Route::get('/Orders/Download/{id}', 'OrderManage@download')->name('emp.order.download');
 
   Route::get('/logout', 'Authpage@logout')->name('emp.logout');
 });
-
-
- 

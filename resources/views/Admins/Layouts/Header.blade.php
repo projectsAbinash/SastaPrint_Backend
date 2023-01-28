@@ -5,6 +5,8 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
@@ -33,8 +35,11 @@
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/css/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/css/demo.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Vendors CSS -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet"
         href="{{ url('AdminAssets/Source/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
@@ -143,16 +148,26 @@
                     </li>
                     <li class="menu-item {{ (request()->is('Admin/Employee/list*')) ? 'active' : '' }}">
                         <a href="{{ route('admin.emp.list') }}" class="menu-link">
-                            <i class="menu-icon fa-solid fa-list"></i>
+                            <i class="menu-icon uil uil-clipboard-notes"></i>
                             <div data-i18n="Analytics">Employee list</div>
                         </a>
                     </li>
                     <li class="menu-item {{ (request()->is('Admin/Employee/New')) ? 'active' : '' }}">
                         <a href="{{ route('Admin.employee.create') }}" class="menu-link">
-                            <i class="menu-icon fas fa-users"></i>
+                            <i class="menu-icon uil uil-desktop"></i>
                             <div data-i18n="Analytics">Add Employee</div>
                         </a>
                     </li>
+@php
+   $data['paper_requests'] = App\Models\EmpPapersRequest::where('status', 'pending')->count(); 
+@endphp
+                    <li class="menu-item {{ (request()->is('Admin/Employee/Papersreq')) ? 'active' : '' }}">
+                        <a href="{{ route('Admin.employee.paperreq') }}" class="menu-link">
+                            <i class="menu-icon uil uil-notebooks"></i>
+                            <div data-i18n="Analytics">Papers Requests @if($data['paper_requests'] != '0')<span class="badge bg-warning">{{ $data['paper_requests'] }} </span>@endif </div>
+                        </a>
+                    </li>
+
 
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Settings</span>
@@ -167,13 +182,13 @@
 
                     <li class="menu-item {{ (request()->is('Admin/Banners*')) ? 'active' : '' }}">
                         <a href="{{ route('Bannerslist') }}" class="menu-link">
-                            <i class="menu-icon fa-solid fa-images"></i>
+                            <i class="menu-icon uil uil-scenery"></i>
                             <div data-i18n="Analytics">Banners</div>
                         </a>
                     </li>
                     <li class="menu-item {{ (request()->is('Admin/Notificaions*')) ? 'active' : '' }}">
                         <a href="{{ route('Admin.notification') }}" class="menu-link">
-                            <i class="menu-icon fa-solid fa-bell"></i>
+                            <i class="menu-icon uil uil-bell"></i>
                             <div data-i18n="Analytics">Notificaions</div>
                         </a>
                     </li>

@@ -48,4 +48,4 @@ Route::middleware('auth:sanctum', 'cotp')->group(function () {
     Route::post('/Orders/PaymentStart/Callback', 'RazorPayController@Callback');
     
 });
-Route::post('/profile/Address/getpin', 'AddressController@fetchpin');
+Route::post('/profile/Address/getpin', 'AddressController@fetchpin')->name('api.fetchpin');

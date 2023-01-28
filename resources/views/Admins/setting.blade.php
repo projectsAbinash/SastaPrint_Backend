@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+         
 
             <script>
                 $(document).ready(function() {
@@ -135,7 +135,7 @@
                     $('#pin').on('keyup', function() {
                         if ($(this).val().length == 6) {
                            
-                            $.post("http://{{  request()->getHttpHost() }}/api/profile/Address/getpin", {
+                            $.post("{{ route('api.fetchpin') }}", {
                                     pincode: $("#pin").val(),
                                 },
                                 function(data, status) {

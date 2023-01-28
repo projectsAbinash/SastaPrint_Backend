@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('employees');
             $table->string('order_id');
+            $table->string('mpin');
             $table->string('quantity');
             $table->string('status');
             $table->timestamps();

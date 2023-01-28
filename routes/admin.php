@@ -55,6 +55,10 @@ Route::get('/Employee/verify/{id}', 'EmployeeController@verify')->name('emp.admi
 Route::get('/Employee/New/reotp/{id}', 'EmployeeController@resendotp')->name('emp.resend.otp');
 Route::post('/Employee/verify', 'EmployeeController@verifyotp')->name('emp.admin.otpverify');
 
+//route for employee papers
+Route::get('/Employee/Papersreq', 'EmployeeController@checkpaperreq')->name('Admin.employee.paperreq');
+Route::post('/Employee/Papersapprove', 'EmployeeController@Papersapprove')->name('Admin.employee.Papersapprove');
+Route::get('/Employee/Paperreject/{id}', 'EmployeeController@rejectpaper')->name('Admin.employee.rejectpaper');
 //route for setting
 Route::get('/Setting/Area', 'SettingController@setareaindex')->name('admin.setaddress');
 Route::post('/Setting/Area', 'SettingController@setarea')->name('admin.setaddress.post');

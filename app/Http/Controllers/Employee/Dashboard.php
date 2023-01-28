@@ -10,7 +10,8 @@ class Dashboard extends Controller
 {
     public function DashboardIndex()
     {
-       
-        return view('Empdash.dashboard');
+        $main = Employee::find(Auth::guard('employee')->user()->id);
+        $dash['available_papers'] = $main->available_papers;
+        return view('Empdash.dashboard',compact('dash'));
     }
 }

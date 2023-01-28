@@ -22,6 +22,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/fonts/boxicons.css') }}" />
@@ -132,27 +135,28 @@
                         <span class="menu-header-text">Orders Section</span>
                     </li>
 
-                    <li class="menu-item">
-                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('Employee/Orders/Processing*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.processing') }}" class="menu-link">
                            
                             <i class="menu-icon uil uil-backward"></i>
-                            <div data-i18n="Analytics">Pending Orders</div>
+                            <div data-i18n="Analytics">Processing Orders</div>
                         </a>
                     </li>
-                    <li class="menu-item">
-                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('Employee/Orders/Available*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.available') }}" class="menu-link">
                             <i class="menu-icon uil uil-archive"></i>
                             <div data-i18n="Analytics">Available Orders </div>
                         </a>
                     </li>
 
-                    <li class="menu-item">
-                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('Employee/Orders/Completed*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.completed') }}" class="menu-link">
                             <i class="menu-icon uil uil-check-circle"></i>
                             <div data-i18n="Analytics">Completed Orders</div>
                         </a>
                     </li>
 
+                    
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Paper Section</span>
                     </li>
@@ -163,10 +167,20 @@
                             <div data-i18n="Analytics">Manage Papers</div>
                         </a>
                     </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Setting Area</span>
+                    </li>
                     <li class="menu-item">
-                        <a href="{{ route('EmpDashboard') }}" class="menu-link">
+                        <a href="#" class="menu-link">
                             <i class="menu-icon uil uil-history"></i>
-                            <div data-i18n="Analytics">History</div>
+                            <div data-i18n="Analytics">Activity</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#" class="menu-link">
+                            <i class="menu-icon uil uil-lock"></i>
+                           
+                            <div data-i18n="Analytics">Change Password</div>
                         </a>
                     </li>
                 </ul>

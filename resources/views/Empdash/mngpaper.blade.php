@@ -6,12 +6,24 @@
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
 
-
+            @if ($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}<br />
+                    @endforeach
+                </div>
+            @endif
             @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
+
+
+
+            <div class="alert alert-info">
+                Share The Mpin With Admin To Proceed Your Request.
+            </div>
             <div class="card" style="background-color: #696cff33;">
 
                 <div class="card-body">
@@ -44,6 +56,7 @@
                                 <tr>
                                     <th>id</th>
                                     <th>Order ID</th>
+                                    <th>MPin</th>
                                     <th>Paper Quantity</th>
                                     <th>Date</th>
                                     <th>Status</th>
@@ -65,6 +78,9 @@
                                         <td>
                                             {{ $item->order_id }}
                                         </td>
+                                        <td>
+                                            {{ $item->mpin }}
+                                        </td>
                                         <td class="fw-bold">
                                             {{ $item->quantity }}
                                         </td>
@@ -78,6 +94,8 @@
                                                 <span class="badge bg-label-success me-1">Approved</span>
                                             @elseif($item->status == 'rejected')
                                                 <span class="badge bg-label-danger me-1">Rejected</span>
+                                            @else
+                                                <span class="badge bg-label-danger me-1">{{ $item->status }}</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -106,10 +124,28 @@
                                 <div class="col mb-3">
                                     <form action="{{ route('mngpaper.request') }}" method="post">
                                         @csrf
-                                        <label for="nameBasic" class="form-label">Quantity</label>
 
-                                        <h5 class="card-header">Basic Radio</h5>
-                                        
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="quantity" id="inlineRadio1"
+                                                value="500">
+                                            <label class="form-check-label" for="inlineRadio1">500 Pages</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="quantity" id="inlineRadio2"
+                                                value="1000">
+                                            <label class="form-check-label" for="inlineRadio2">1000 Pages</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="quantity" id="inlineRadio3"
+                                                value="1500">
+                                            <label class="form-check-label" for="inlineRadio3">1500 Pages</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="quantity" id="inlineRadio4"
+                                                value="2000">
+                                            <label class="form-check-label" for="inlineRadio4">2000 Pages</label>
+                                        </div>
+
                                 </div>
                             </div>
 

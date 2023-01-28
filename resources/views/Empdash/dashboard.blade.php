@@ -58,8 +58,8 @@
                                 </div>
 
                             </div>
-                            <span>Balance Paper</span>
-                            <h3 class="card-title text-nowrap mb-1">0</h3>
+                            <span>Available Papers</span>
+                            <h3 class="card-title text-nowrap mb-1">{{ $dash['available_papers'] }}</h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
                         </div>
                     </div>
@@ -84,24 +84,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title d-flex align-items-start justify-content-between">
-
-                                <div class="avatar card d-flex aligns-items-center justify-content-center p-2"
-                                    style="background-color:#9BB93C33;">
-                                    <img src="{{ url('AdminAssets/Source/assets/img/icons/unicons/trash-alt.svg') }}"
-                                        alt="chart success" class="rounded" />
-                                </div>
-
-                            </div>
-                            <span>Used Paper</span>
-                            <h3 class="card-title text-nowrap mb-1">0</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
-                        </div>
-                    </div>
-                </div>
+                
 
 
             </div>

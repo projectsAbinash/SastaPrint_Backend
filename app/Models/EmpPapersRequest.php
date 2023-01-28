@@ -10,4 +10,8 @@ class EmpPapersRequest extends Model
     protected $guarded = ['id'];
     protected $table = 'emp_papers_request';
     use HasFactory;
+    public function Getemp()
+    {
+        return $this->hasOne(Employee::class, 'id', 'user_id');
+    }
 }

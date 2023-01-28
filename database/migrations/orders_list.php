@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('order_id')->unique();
            
             $table->string('assigned_store')->nullable();
+            $table->string('assigned_emp')->nullable();
             $table->string('traking_link')->nullable();
             $table->string('delivery_charge');
             $table->string('amount');
