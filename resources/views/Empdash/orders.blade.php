@@ -254,12 +254,22 @@
                                 </form>
                                 <div class="d-flex justify-content-end gap-2">
 
-                                    <a href="{{ url()->previous() }}"> <button type="button"
+                                    <a href="{{ route('EmpDashboard') }}"> <button type="button"
                                             class="btn btn-secondary">Back</button></a>
 
                                     @if ($data->status == 'placed')
-                                        <button type="button" class="btn btn-success" id="accept" onclick="accept()">Accept</button>
-                                    @elseif($data->status == 'placed')
+                                        <button type="button" class="btn btn-success" id="accept"
+                                            onclick="accept($(this).attr('orderid'))"
+                                            orderid={{ $data->order_id }}>Accept</button>
+                                    @elseif($data->status == 'processing')
+                                        <button type="button" class="btn btn-success"
+                                            onclick="shipped($(this).attr('orderid'))" id="shipped"
+                                            orderid={{ $data->order_id }}>Click To Update
+                                            Shipping Status</button>
+                                    @elseif($data->status == 'shipped')
+                                    <button type="button" class="btn btn-success"
+                                    onclick="deliverd($(this).attr('orderid'))" id="delivered"
+                                    orderid={{ $data->order_id }}>Click To Update Staus To Delivered</button>
                                     @endif
                                 </div>
                             </div>
@@ -271,9 +281,9 @@
                 </div>
             @endif
 
-
+            {{-- //for accept orders --}}
             <script>
-                function accept() {
+                function accept(orderid) {
                     swal({
                             title: "Are you sure?",
                             text: "You Want To Accept This Order!",
@@ -282,14 +292,82 @@
                             dangerMode: true,
                         })
                         .then((willDelete) => {
+
                             if (willDelete) {
-                                // swal("Poof! Your imaginary file has been deleted!", {
-                                //     icon: "success",
-                                // });
-                            } 
+                                $.post("{{ route('emp.order.accept') }}", {
+                                        order_id: orderid,
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    function(data, status) {
+                                        if (data.status == 'true') {
+                                            swal("Good job!", data.message, "success").then((value) => {
+                                                location.reload();
+                                            });
+
+                                        } else
+                                            swal("Invalid", data.message, "error");
+                                    },
+                                    "json")
+                            }
+
                         });
                 }
-                
+
+
+                function shipped(orderid) {
+                    swal("Kindly Provide Traking Link To Us", {
+                            content: "input",
+                        })
+                        .then((value) => {
+                            $.post("{{ route('emp.order.shipped') }}", {
+                                    order_id: orderid,
+                                    link: value,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                function(data, status) {
+                                    if (data.status == 'true') {
+                                        swal("Good job!", data.message, "success").then((value) => {
+                                            location.reload();
+                                        });
+
+                                    } else
+                                        swal("Invalid", data.message, "error");
+                                },
+                                "json")
+                        });
+                }
+
+
+
+                function deliverd(orderid) {
+                    swal({
+                            title: "Are you sure?",
+                            text: "You Want To Set Deliverd Status For This Order!",
+                            icon: "info",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+
+                            if (willDelete) {
+                                $.post("{{ route('emp.order.deliverd') }}", {
+                                        order_id: orderid,
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    function(data, status) {
+                                        if (data.status == 'true') {
+                                            swal("Good job!", data.message, "success").then((value) => {
+                                                location.reload();
+                                            });
+
+                                        } else
+                                            swal("Invalid", data.message, "error");
+                                    },
+                                    "json")
+                            }
+
+                        });
+                }
             </script>
         </div>
     </div>

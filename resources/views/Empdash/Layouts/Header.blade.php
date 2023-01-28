@@ -4,6 +4,7 @@
     data-assets-path="{{ url('AdminAssets/Source/assets/') }}" data-template="vertical-menu-template-free">
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="utf-8" />
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
@@ -22,10 +23,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ url('AdminAssets/Source/assets/vendor/fonts/boxicons.css') }}" />
 
@@ -61,9 +62,9 @@
         <div class="layout-container">
             <!-- Menu -->
 
-  @php
-       $profile = \App\Models\Employee::find(Auth::guard('employee')->user()->id);
-  @endphp  
+            @php
+                $profile = \App\Models\Employee::find(Auth::guard('employee')->user()->id);
+            @endphp
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
@@ -137,15 +138,18 @@
 
                     <li class="menu-item {{ request()->is('Employee/Orders/Processing*') ? 'active' : '' }}">
                         <a href="{{ route('emp.order.processing') }}" class="menu-link">
-                           
+
                             <i class="menu-icon uil uil-backward"></i>
                             <div data-i18n="Analytics">Processing Orders</div>
                         </a>
                     </li>
+                    @php
+                        $data['paper_requests'] = App\Models\OrderData::where('status', 'placed')->count();
+                    @endphp
                     <li class="menu-item {{ request()->is('Employee/Orders/Available*') ? 'active' : '' }}">
                         <a href="{{ route('emp.order.available') }}" class="menu-link">
                             <i class="menu-icon uil uil-archive"></i>
-                            <div data-i18n="Analytics">Available Orders </div>
+                            <div data-i18n="Analytics">Available Orders  @if($data['paper_requests'] != '0') <span class="badge bg-warning">{{ $data['paper_requests'] }} </span>@endif</div>
                         </a>
                     </li>
 
@@ -156,12 +160,12 @@
                         </a>
                     </li>
 
-                    
+
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Paper Section</span>
                     </li>
 
-                    <li class="menu-item {{ (request()->is('Employee/Manage/Paper*')) ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('Employee/Manage/Paper*') ? 'active' : '' }}">
                         <a href="{{ route('mngpaper') }}" class="menu-link">
                             <i class="menu-icon uil uil-copy"></i>
                             <div data-i18n="Analytics">Manage Papers</div>
@@ -179,7 +183,7 @@
                     <li class="menu-item">
                         <a href="#" class="menu-link">
                             <i class="menu-icon uil uil-lock"></i>
-                           
+
                             <div data-i18n="Analytics">Change Password</div>
                         </a>
                     </li>
