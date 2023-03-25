@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\OrderData;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,19 +26,25 @@ class EmployeeController extends Controller
     }
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'phone' => 'required|numeric|digits:10|unique:employees,phone',
-            'aadhar' => 'required|numeric|digits:12',
-            'profile' => 'image|mimes:jpg,png,jpeg,gif,svg',
-            'password' => 'required|min:6',
-            'faadhar' => 'image|mimes:jpg,png,jpeg,gif,svg',
-            'baadhar' => 'image|mimes:jpg,png,jpeg,gif,svg',
-        ]);
+        $request->validate(
+            [
+                'name' => 'required|max:255',
+                'phone' => 'required|numeric|digits:10|unique:employees,phone',
+                'aadhar' => 'required|numeric|digits:12',
+                'profile' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+                'password' => 'required|min:6',
+                'faadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+                'baadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+            ],
+            ([
+                'profile.required' => 'Profile Picture Required',
+            ])
+        );
         $Employee = Employee::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'available_papers' => '0',
+            'used_papers' => '0',
             'password' => $request->password,
         ]);
 
@@ -134,15 +141,32 @@ class EmployeeController extends Controller
     public function empget(Request $request)
     {
         $view = 'details';
-        $emp = Employee::find($request->id);
-        return view('Admins.emp.employeeview', compact('emp', 'view'));
+       
+        $emp_id = $request->id;
+        $main = Employee::find($emp_id);
+        // $orders_data = OrderData::where('assigned_emp', $emp_id);
+
+        $dash['available_papers'] = $main->available_papers;
+        $dash['used_papers'] = $main->used_papers;
+        $dash['total_orders'] = OrderData::where('assigned_emp', $emp_id)->count();
+        $dash['total_amount'] = OrderData::where([
+            'assigned_emp' => $emp_id,
+            'status' => 'delivered'
+        ])->sum('amount');
+        $dash['ongoing_orders_data'] = OrderData::where(['status' => 'processing', 'assigned_emp' => $emp_id])->count();
+        $dash['new_orders_data'] = OrderData::where(['status' => 'placed'])->count();
+        $dash['delivered_orders_data'] = OrderData::where(['status' => 'delivered', 'assigned_emp' => $emp_id])->count();
+        $dash['shipped_orders_data'] = OrderData::where(['status' => 'shipped', 'assigned_emp' => $emp_id])->count();
+        $dash['printed'] = OrderData::where(['status' => 'printed', 'assigned_emp' => $emp_id])->count();
+        $dash['waste_paper'] = OrderData::where(['assigned_emp' => $emp_id])->sum('waste_paper');
+        return view('Admins.emp.employeeview', compact('view','dash'));
     }
 
 
     //check papers req
     public function checkpaperreq()
     {
-        $getrow = EmpPapersRequest::orderBy('created_at', 'desc')->where('status','pending')->get();
+        $getrow = EmpPapersRequest::orderBy('created_at', 'desc')->where('status', 'pending')->get();
         return view('Admins.papers', compact('getrow'));
     }
     //approve papers
@@ -152,21 +176,19 @@ class EmployeeController extends Controller
             'order_id' => 'required',
             'mpin' => 'required'
         ]);
-        $check =  EmpPapersRequest::where(['order_id' => $request->order_id, 'mpin' => $request->mpin]);
-       
+        $check = EmpPapersRequest::where(['order_id' => $request->order_id, 'mpin' => $request->mpin]);
+
         if ($check->exists()) {
             $check->update(['status' => 'approved']);
             $emp = $check->first();
             Employee::find($emp->user_id)->increment(
-               'available_papers' , $emp->quantity,
+                'available_papers', $emp->quantity,
             );
             return response()->json([
                 'status' => 'true',
                 'message' => 'Order Approved SuccessFully',
             ]);
-        }
-        else
-        {
+        } else {
             return response()->json([
                 'status' => 'false',
                 'message' => 'Invalid MPIN Entered',
@@ -176,8 +198,8 @@ class EmployeeController extends Controller
     public function rejectpaper(Request $request)
     {
         EmpPapersRequest::find($request->id)->update([
-           'status' => 'rejected'
+            'status' => 'rejected'
         ]);
-        return back()->with(['success'=>'Requst Rejected SuccessFully']);
+        return back()->with(['success' => 'Requst Rejected SuccessFully']);
     }
 }

@@ -14,7 +14,8 @@ class Employee extends Authenticatable
         'name',
         'phone',
         'password',
-        'available_papers'
+        'available_papers',
+        'used_papers'
     ];
     public function setPasswordAttribute($password)
     {
@@ -29,4 +30,5 @@ class Employee extends Authenticatable
         return $this->hasMany(EmpPapersRequest::class, 'user_id', 'id')->orderBy('id', 'desc')
         ;
     }
+    
 }

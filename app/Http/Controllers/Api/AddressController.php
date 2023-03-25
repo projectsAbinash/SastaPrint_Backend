@@ -66,37 +66,27 @@ class AddressController extends Controller
             'pincode' => 'required|numeric|digits:6'
         ]);
 
-        $find = Setarea::where([
-            'pincode' => $request->pincode,
-            'status' => 'added',
-        ]);
-
 
 
         //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
+            $shiprocket = Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjM0MDIwMjMsImlzcyI6Imh0dHBzOi8vYXBpdjIuc2hpcHJvY2tldC5pbi92MS9leHRlcm5hbC9hdXRoL2xvZ2luIiwiaWF0IjoxNjc5MzgwOTMxLCJleHAiOjE2ODAyNDQ5MzEsIm5iZiI6MTY3OTM4MDkzMSwianRpIjoiMDF0b0JocHZKckJWd1FZMiJ9.QfWcCMPN05cwDSTqxaQKtfXFCYEUPeNaqqB3mJfVYHA'
+            ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode='.$request->pincode.'&cod=0&weight=2');
+            $shiprocket = json_decode($shiprocket);
+        
+          
+          
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
                 foreach ($decode[0]->PostOffice as $item) {
                     $city[] = $item->Name;
                 }
                 $state = $decode[0]->PostOffice[0]->State;
-                if (!$find->exists()) {
-                    $Setarea = Setarea::where([
-                        'pincode' => $request->pincode,
-                        'status' => 'request',
-                    ]);
-                    if ($Setarea->exists()) {
-                        $Setarea->increment('count');
-                    } else {
-                        Setarea::create([
-                            'pincode' => $request->pincode,
-                            'status' => 'request',
-                            'state' => $state,
-                            'count' => '1',
-                        ]);
-                    }
+                if (!isset($shiprocket->status) && $shiprocket->status == 200) {
+                   
                     return response()->json(
                         [
                             'status' => 'false',
@@ -133,18 +123,26 @@ class AddressController extends Controller
         //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
+           
+          
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
                 foreach ($decode[0]->PostOffice as $item) {
                     $city[] = $item->Name;
                 }
                 $state = $decode[0]->PostOffice[0]->State;
+               
+               
+               
                 return response()->json([
                     'city' => $city,
                     //'data' => $decode[0],
                     'state' => $state,
                     'status' => 'true',
                 ]);
+
+
+
             } else {
                 return response()->json(
                     [

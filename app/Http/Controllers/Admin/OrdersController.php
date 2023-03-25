@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderData;
 use App\Models\DocumentsData;
+use App\Models\OrderActivity;
 use Storage;
 
 
@@ -41,6 +42,7 @@ class OrdersController extends Controller
     {
         $view = 'details';
         $data = OrderData::find($request->id);
+        $data['activity'] = OrderActivity::where('order_id',$data->order_id)->get();
         return view('Admins.Orders', compact('view', 'data'));
     }
 

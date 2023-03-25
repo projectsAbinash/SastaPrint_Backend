@@ -21,7 +21,7 @@ return new class extends Migration
            
             $table->string('assigned_store')->nullable();
             $table->string('assigned_emp')->nullable();
-            $table->string('traking_link')->nullable();
+            $table->string('tracking_link')->nullable();
             $table->string('delivery_charge');
             $table->string('amount');
             $table->string('payment_id')->nullable();

@@ -18,5 +18,8 @@ class OrderData extends Model
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
-   
+    public function Getemp()
+    {
+        return $this->hasOne(Employee::class, 'id', 'assigned_emp');
+    }
 }

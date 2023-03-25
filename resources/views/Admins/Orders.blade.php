@@ -220,7 +220,9 @@
                                                             <td>
                                                                 <select class="form-select" id="exampleFormControlSelect1"
                                                                     aria-label="Default select example">
-                                                                    <option>{{ $data->assigned_store }}</option>
+                                                                    <option>>@if($data->assigned_emp != null)
+                                                                    {{ $data->Getemp->name }}
+                                                                    @endif</option>
                                                                 </select>
                                                             </td>
                                                         </tr>
@@ -229,10 +231,10 @@
                                                                 Tracking Link
                                                             </td>
                                                             <td>
-                                                                @if ($data->traking_link == null)
+                                                                @if ($data->tracking_link == null)
                                                                     <strong>Not Shipped Yet</strong>
                                                                 @else
-                                                                    <a href="{{ $data->traking_link }}"><button
+                                                                    <a href="{{ $data->tracking_link }}"><button
                                                                             type="button" class="btn btn-success"><i
                                                                                 class="fas fa-shipping-fast"></i>&nbsp;Track</button></a>
                                                                 @endif
@@ -295,6 +297,36 @@
 
                                         </div>
                                     </div>
+                                    {{-- Order Activity Section --}}
+                                    <div class="conatiner">
+                                        <h6 class="">Order Activities</h6>
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table table-bordered text-center">
+                                              <thead>
+                                                <tr>
+                                                  <th>ID</th>
+                                                  <th>Log</th>
+                                                  <th>Time</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                @php
+                                               $i = 1;
+                                                @endphp
+                                                @foreach($data['activity'] as $item)
+                                                <tr>
+                                                  <td><strong>{{ $i++ }}</strong></td>
+                                                  <td>{{ $item->log_message }}</td>
+                                                  
+                                                  <td><span class="badge bg-label-primary me-1">{{ $item->created_at->format('d-M-Y, h:i:s A') }}</span></td>
+                                                 
+                                                </tr>
+                                                @endforeach
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                    </div>
+
                                 </form>
                             </div>
                             <!-- /Account -->

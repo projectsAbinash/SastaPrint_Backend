@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone')->unique();
             $table->integer('available_papers');
+            $table->integer('used_papers')->nullable();
             $table->timestamp('phone_verified_at')->nullable();    
             $table->string('password');
             $table->rememberToken();       

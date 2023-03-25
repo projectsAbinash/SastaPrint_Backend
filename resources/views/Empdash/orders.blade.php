@@ -186,10 +186,10 @@
                                                                 Tracking Link
                                                             </td>
                                                             <td>
-                                                                @if ($data->traking_link == null)
+                                                                @if ($data->tracking_link == null)
                                                                     <strong>Not Shipped Yet</strong>
                                                                 @else
-                                                                    <a href="{{ $data->traking_link }}"><button
+                                                                    <a href="{{ $data->tracking_link }}"><button
                                                                             type="button" class="btn btn-success"><i
                                                                                 class="fas fa-shipping-fast"></i>&nbsp;Track</button></a>
                                                                 @endif
@@ -261,11 +261,20 @@
                                         <button type="button" class="btn btn-success" id="accept"
                                             onclick="accept($(this).attr('orderid'))"
                                             orderid={{ $data->order_id }}>Accept</button>
+
+
                                     @elseif($data->status == 'processing')
                                         <button type="button" class="btn btn-success"
-                                            onclick="shipped($(this).attr('orderid'))" id="shipped"
+                                            onclick="printed($(this).attr('orderid'))" id="printed"
                                             orderid={{ $data->order_id }}>Click To Update
-                                            Shipping Status</button>
+                                            Printed Status</button>
+
+                                    @elseif($data->status == 'printed')
+                                    <button type="button" class="btn btn-success"
+                                    onclick="shipped($(this).attr('orderid'))" id="shipped"
+                                    orderid={{ $data->order_id }}>Click To Update
+                                    Shipping Status</button>
+
                                     @elseif($data->status == 'shipped')
                                     <button type="button" class="btn btn-success"
                                     onclick="deliverd($(this).attr('orderid'))" id="delivered"
@@ -368,6 +377,29 @@
 
                         });
                 }
+                function printed(orderid) {
+                    swal("Kindly Provide The Number Of Waste Papers", {
+                            content: "input",
+                        })
+                        .then((value) => {
+                            $.post("{{ route('emp.order.printed') }}", {
+                                    order_id: orderid,
+                                    waste_paper: value,
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                function(data, status) {
+                                    if (data.status == 'true') {
+                                        swal("Good job!", data.message, "success").then((value) => {
+                                            location.reload();
+                                        });
+
+                                    } else
+                                        swal("Invalid", data.message, "error");
+                                },
+                                "json")
+                        });
+                }
+
             </script>
         </div>
     </div>

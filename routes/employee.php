@@ -31,10 +31,15 @@ Route::middleware('emp.auth')->group(function () {
   Route::get('/Orders/Processing', 'OrderManage@pendinglist')->name('emp.order.processing');
   Route::get('/Orders/Available', 'OrderManage@availablelist')->name('emp.order.available');
   Route::get('/Orders/Completed', 'OrderManage@completedlist')->name('emp.order.completed');
+
+  Route::get('/Orders/Shipped', 'OrderManage@shippedlist')->name('emp.order.shipped');
+  Route::get('/Orders/Printed', 'OrderManage@printedlist')->name('emp.order.printed');
+
   Route::get('/Orders/View', 'OrderManage@viewmanage')->name('emp.order.manage');
 //order staus
   Route::post('/Orders/Accept', 'OrderManage@orderaccept')->name('emp.order.accept');
   Route::post('/Orders/Shipped', 'OrderManage@ordershipped')->name('emp.order.shipped');
+  Route::post('/Orders/Printed', 'OrderManage@orderprinted')->name('emp.order.printed');
   Route::post('/Orders/Deliverd', 'OrderManage@orderdeliverd')->name('emp.order.deliverd');
 
   Route::get('/Orders/Download/{id}', 'OrderManage@download')->name('emp.order.download');
