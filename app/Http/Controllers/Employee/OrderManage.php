@@ -104,7 +104,7 @@ class OrderManage extends Controller
                 OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $orders->first()->order_id,
-                'log_message' => 'Order Accepted By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone
+                'log_message' => 'Order Accepted By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
                 ]);
                 $emp_data->decrement('available_papers', $tp);
                 $emp_data->increment('used_papers', $tp);
@@ -139,6 +139,7 @@ class OrderManage extends Controller
             'order_id' => 'required|exists:order_data,order_id',
         ]);
         $emp_id = Auth::guard('employee')->user()->id;
+        $emp_data = Employee::find($emp_id);
         OrderData::where([
             'order_id' => $request->order_id,
             'status' => 'printed',
@@ -150,7 +151,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Shipped By :- '.Auth::guard('employee')->user()->name.' , Phone Number :- '.Auth::guard('employee')->user()->phone
+                'log_message' => 'Order Shipped By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
                 ]);
         return response()->json([
             'status' => 'true',
@@ -165,6 +166,7 @@ class OrderManage extends Controller
             'order_id' => 'required|exists:order_data,order_id',
         ]);
         $emp_id = Auth::guard('employee')->user()->id;
+        $emp_data = Employee::find($emp_id);
         $orders = OrderData::where([
             'order_id' => $request->order_id,
             'assigned_emp' => $emp_id,
@@ -174,7 +176,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Delivered By :- '.Auth::guard('employee')->user()->name.' , Phone Number :- '.Auth::guard('employee')->user()->phone
+                'log_message' => 'Order Delivered By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
                 ]);
         return response()->json([
             'status' => 'true',
@@ -189,7 +191,7 @@ class OrderManage extends Controller
             'waste_paper' => 'required|numeric|gt:0'
         ]);
         $emp_id = Auth::guard('employee')->user()->id;
-
+        $emp_data = Employee::find($emp_id);
         $orders = OrderData::where([
             'order_id' => $request->order_id,
             'assigned_emp' => $emp_id,
@@ -200,7 +202,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Printed By :- '.Auth::guard('employee')->user()->name.' , Phone Number :- '.Auth::guard('employee')->user()->phone
+                'log_message' => 'Order Printed By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
                 ]);
         return response()->json([
             'status' => 'true',

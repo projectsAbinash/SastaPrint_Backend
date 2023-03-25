@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('order_id')->unique();
            
-            $table->string('assigned_store')->nullable();
+            $table->boolean('is_assigned_admin')->unsigned()->default(0);
+
             $table->string('assigned_emp')->nullable();
             $table->string('tracking_link')->nullable();
             $table->string('delivery_charge');

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('order_activities', function (Blueprint $table) {
             $table->id();
-            $table->string('emp_id');
+            $table->string('emp_id')->nullable();
             $table->string('order_id');
             $table->string('log_message');
             $table->timestamps();

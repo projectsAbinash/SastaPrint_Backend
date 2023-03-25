@@ -62,7 +62,7 @@
                                             @elseif($item->status == 'shipped')
                                                 <span class="badge bg-label-warning me-1">Shipped</span>
                                             @elseif($item->status == 'deliverd')
-                                                <span class="badge bg-label-success me-1">Delivred</span>
+                                                <span class="badge bg-label-success me-1">Delivered</span>
                                             @else
                                                 <span class="badge bg-label-danger me-1">{{ $item->status }}</span>
                                             @endif

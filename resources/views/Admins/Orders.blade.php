@@ -31,11 +31,13 @@
                                     <a href="{{ route('Admin.orders', ['status' => 'All']) }}"><button type="button"
                                             class="btn btn-success m-1">All</button></a>
                                     <a href="{{ route('Admin.orders', ['status' => 'placed']) }}"><button type="button"
-                                            class="btn btn-info m-1">Placed</button></a>
+                                            class="btn m-1 text-white" style="background-color: coral">Placed</button></a>
+                                            <a href="{{ route('Admin.orders', ['status' => 'printed']) }}"><button type="button"
+                                                class="btn btn-info m-1">Printed</button></a>
                                     <a href="{{ route('Admin.orders', ['status' => 'shipped']) }}"><button type="button"
                                             class="btn btn-warning m-1">Shipped</button></a>
-                                    <a href="{{ route('Admin.orders', ['status' => 'delivered']) }}"><button type="button"
-                                            class="btn btn-success m-1">Delivred</button></a>
+                                    <a href="{{ route('Admin.orders', ['status' => 'Delivered']) }}"><button type="button"
+                                            class="btn btn-success m-1">Delivered</button></a>
                                     <a href="{{ route('Admin.orders', ['status' => 'cancelled']) }}"><button type="button"
                                             class="btn btn-secondary m-1">Cancelled</button></a>
                                     <a href="{{ route('Admin.orders', ['status' => 'Unpaid']) }}"><button type="button"
@@ -93,7 +95,7 @@
                                             @elseif($item->status == 'shipped')
                                                 <span class="badge bg-label-warning me-1">Shipped</span>
                                             @elseif($item->status == 'deliverd')
-                                                <span class="badge bg-label-success me-1">Delivred</span>
+                                                <span class="badge bg-label-success me-1">Delivered</span>
                                             @else
                                                 <span class="badge bg-label-danger me-1">{{ $item->status }}</span>
                                             @endif
@@ -168,15 +170,16 @@
                                                                 Address
                                                             </td>
                                                             @php
-                                                            $string_aaddress = json_decode($data->full_address, true);
+                                                                $string_aaddress = json_decode($data->full_address, true);
                                                             @endphp
-                                                           
+
                                                             <td> <strong> {{ $string_aaddress['landmark'] }},<br>
                                                                     {{ $string_aaddress['address_2'] }},<br>
                                                                     {{ $string_aaddress['address_2'] }},<br>
                                                                     {{ $string_aaddress['city'] }},<br>
                                                                     {{ $string_aaddress['state'] }},{{ $string_aaddress['pincode'] }},<br>
-                                                                    {{ $string_aaddress['alternate_number'] }}</strong></td>
+                                                                    {{ $string_aaddress['alternate_number'] }}</strong>
+                                                            </td>
                                                         </tr>
 
                                                     </tbody>
@@ -220,9 +223,11 @@
                                                             <td>
                                                                 <select class="form-select" id="exampleFormControlSelect1"
                                                                     aria-label="Default select example">
-                                                                    <option>>@if($data->assigned_emp != null)
-                                                                    {{ $data->Getemp->name }}
-                                                                    @endif</option>
+                                                                    <option>>
+                                                                        @if ($data->assigned_emp != null)
+                                                                            {{ $data->Getemp->name }}
+                                                                        @endif
+                                                                    </option>
                                                                 </select>
                                                             </td>
                                                         </tr>
@@ -293,47 +298,186 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
-
-
                                         </div>
                                     </div>
+                                </form>
+                                <div class="d-flex justify-content-end gap-2">
+
+                                    <a href="{{ route('DashboardIndex') }}"> <button type="button"
+                                            class="btn btn-secondary">Back</button></a>
+
+                                    @if ($data->status == 'placed')
+                                        <button type="button" class="btn btn-success" id="accept"
+                                            onclick="accept($(this).attr('orderid'))"
+                                            orderid={{ $data->order_id }}>Accept</button>
+
+
+                                    @elseif($data->status == 'processing')
+                                        <button type="button" class="btn btn-success"
+                                            onclick="printed($(this).attr('orderid'))" id="printed"
+                                            orderid={{ $data->order_id }}>Click To Update
+                                            Printed Status</button>
+
+                                    @elseif($data->status == 'printed')
+                                    <button type="button" class="btn btn-success"
+                                    onclick="shipped($(this).attr('orderid'))" id="shipped"
+                                    orderid={{ $data->order_id }}>Click To Update
+                                    Shipping Status</button>
+
+                                    @elseif($data->status == 'shipped')
+                                    <button type="button" class="btn btn-success"
+                                    onclick="deliverd($(this).attr('orderid'))" id="delivered"
+                                    orderid={{ $data->order_id }}>Click To Update Staus To Delivered</button>
+                                    @endif
+                                </div>
+
                                     {{-- Order Activity Section --}}
                                     <div class="conatiner">
                                         <h6 class="">Order Activities</h6>
                                         <div class="table-responsive text-nowrap">
                                             <table class="table table-bordered text-center">
-                                              <thead>
-                                                <tr>
-                                                  <th>ID</th>
-                                                  <th>Log</th>
-                                                  <th>Time</th>
-                                                </tr>
-                                              </thead>
-                                              <tbody>
-                                                @php
-                                               $i = 1;
-                                                @endphp
-                                                @foreach($data['activity'] as $item)
-                                                <tr>
-                                                  <td><strong>{{ $i++ }}</strong></td>
-                                                  <td>{{ $item->log_message }}</td>
-                                                  
-                                                  <td><span class="badge bg-label-primary me-1">{{ $item->created_at->format('d-M-Y, h:i:s A') }}</span></td>
-                                                 
-                                                </tr>
-                                                @endforeach
-                                              </tbody>
-                                            </table>
-                                          </div>
-                                    </div>
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Log</th>
+                                                        <th>Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @php
+                                                        $i = 1;
+                                                    @endphp
+                                                    @foreach ($data['activity'] as $item)
+                                                        <tr>
+                                                            <td><strong>{{ $i++ }}</strong></td>
+                                                            <td>{{ $item->log_message }}</td>
 
-                                </form>
+                                                            <td><span
+                                                                    class="badge bg-label-primary me-1">{{ $item->created_at->format('d-M-Y, h:i:s A') }}</span>
+                                                            </td>
+
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                             </div>
                             <!-- /Account -->
                         </div>
 
                     </div>
                 </div>
+                <script>
+                    function accept(orderid) {
+                        swal({
+                                title: "Are you sure?",
+                                text: "You Want To Accept This Order!",
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+    
+                                if (willDelete) {
+                                    $.post("{{ route('admin.order.accept') }}", {
+                                            order_id: orderid,
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        function(data, status) {
+                                            if (data.status == 'true') {
+                                                swal("Good job!", data.message, "success").then((value) => {
+                                                    location.reload();
+                                                });
+    
+                                            } else
+                                                swal("Invalid", data.message, "error");
+                                        },
+                                        "json")
+                                }
+    
+                            });
+                    }
+    
+    
+                    function shipped(orderid) {
+                        swal("Kindly Provide Traking Link To Us", {
+                                content: "input",
+                            })
+                            .then((value) => {
+                                $.post("{{ route('admin.order.shipped') }}", {
+                                        order_id: orderid,
+                                        link: value,
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    function(data, status) {
+                                        if (data.status == 'true') {
+                                            swal("Good job!", data.message, "success").then((value) => {
+                                                location.reload();
+                                            });
+    
+                                        } else
+                                            swal("Invalid", data.message, "error");
+                                    },
+                                    "json")
+                            });
+                    }
+    
+    
+    
+                    function deliverd(orderid) {
+                        swal({
+                                title: "Are you sure?",
+                                text: "You Want To Set Deliverd Status For This Order!",
+                                icon: "info",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                            .then((willDelete) => {
+    
+                                if (willDelete) {
+                                    $.post("{{ route('admin.order.deliverd') }}", {
+                                            order_id: orderid,
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        function(data, status) {
+                                            if (data.status == 'true') {
+                                                swal("Good job!", data.message, "success").then((value) => {
+                                                    location.reload();
+                                                });
+    
+                                            } else
+                                                swal("Invalid", data.message, "error");
+                                        },
+                                        "json")
+                                }
+    
+                            });
+                    }
+                    function printed(orderid) {
+                        swal("Kindly Provide The Number Of Waste Papers", {
+                                content: "input",
+                            })
+                            .then((value) => {
+                                $.post("{{ route('admin.order.printed') }}", {
+                                        order_id: orderid,
+                                        waste_paper: value,
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    function(data, status) {
+                                        if (data.status == 'true') {
+                                            swal("Good job!", data.message, "success").then((value) => {
+                                                location.reload();
+                                            });
+    
+                                        } else
+                                            swal("Invalid", data.message, "error");
+                                    },
+                                    "json")
+                            });
+                    }
+    
+                </script>
             @endif
         </div>
     </div>

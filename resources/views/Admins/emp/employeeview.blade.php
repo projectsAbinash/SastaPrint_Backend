@@ -14,6 +14,7 @@
                             <tr>
                                 <th class="text-center">Pictuer</th>
                                 <th class="text-center">Name</th>
+                                <th class="text-center">Branch</th>
                                 <th class="text-center">Phone</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Actions</th>
@@ -26,6 +27,7 @@
                                             class="rounded-circle" />
                                     </td>
                                     <td class="text-center fw-bold">{{ $data->name }}</td>
+                                    <td class="text-center fw-bold">{{ ucfirst($data->branch) }} Branch</td>
                                     <td class="text-center">
                                         {{ $data->phone }}
                                     </td>

@@ -46,6 +46,18 @@ Route::middleware('admin.auth')->group(function () {
   Route::get('/Orders/details/{id}', 'OrdersController@details')->name('orders.details');
   Route::get('/Orders/Documents/Download/{id}', 'OrdersController@download')->name('orders.doc.download');
 
+//order manage
+Route::controller(OrdersController::class)->prefix('Orders')->group(
+  function () {
+    Route::post('Accept', 'orderaccept')->name('admin.order.accept');
+    Route::post('Shipped', 'ordershipped')->name('admin.order.shipped');
+    Route::post('Printed', 'orderprinted')->name('admin.order.printed');
+    Route::post('Deliverd', 'orderdeliverd')->name('admin.order.deliverd');
+  }
+);
+//end order manage
+
+
 //route for employees
 Route::get('/Employee/New', 'EmployeeController@create')->name('Admin.employee.create');
 Route::get('/Employee/list', 'EmployeeController@emplist')->name('admin.emp.list');

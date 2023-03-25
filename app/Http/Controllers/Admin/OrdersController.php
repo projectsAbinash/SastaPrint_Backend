@@ -22,6 +22,9 @@ class OrdersController extends Controller
         elseif($request->status == "placed"){
             $data = OrderData::where('status','placed')->orderBy('created_at', 'desc')->paginate(10);
         }
+        elseif($request->status == "printed"){
+            $data = OrderData::where('status','printed')->orderBy('created_at', 'desc')->paginate(10);
+        }
         elseif($request->status == "shipped"){
             $data = OrderData::where('status','shipped')->orderBy('created_at', 'desc')->paginate(10);
         }
@@ -52,4 +55,114 @@ class OrdersController extends Controller
         return Storage::download($data->path);
     }
     
+
+
+
+    //order manage
+    public function orderaccept(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:order_data,order_id',
+        ]);
+      
+        $orders = OrderData::where('order_id', $request->order_id);
+       
+            if ($orders->first()->status == 'placed') {
+                OrderActivity::create([
+                'emp_id' => null,
+                'order_id' => $orders->first()->order_id,
+                'log_message' => 'Order Accepted By :- Admin',
+                ]);
+              
+                $orders->update([
+                    'status' => 'processing',
+                    'is_assigned_admin' => 1,
+                ]);
+
+                return response()->json([
+                    'status' => 'true',
+                    'message' => 'Order Accepted SuccessFully',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'false',
+                    'message' => 'Order Accepted By Someone',
+                ]);
+            }
+    }
+
+    public function orderprinted(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:order_data,order_id',
+            'waste_paper' => 'required|numeric|gt:0'
+        ]);
+        
+        $orders = OrderData::where([
+            'order_id' => $request->order_id,
+           
+        ])->update([
+                'status' => 'printed',
+                'waste_paper' => $request->waste_paper,
+            ]);
+            OrderActivity::create([
+                'emp_id' => null,
+                'order_id' => $request->order_id,
+                'log_message' => 'Order Printed By :- Admin'
+                ]);
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Order Status Changed To Printed'
+        ]);
+    }
+
+    public function ordershipped(Request $request)
+    {
+        $request->validate([
+            'link' => 'required',
+            'order_id' => 'required|exists:order_data,order_id',
+        ]);
+      
+        OrderData::where([
+            'order_id' => $request->order_id,
+            'status' => 'printed',
+           
+        ])->update([
+                'status' => 'shipped',
+                'tracking_link' => $request->link,
+            ]);
+            OrderActivity::create([
+                'emp_id' => null,
+                'order_id' => $request->order_id,
+                'log_message' => 'Order Shipped By :- Admin'
+                ]);
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Order Status Update Successfully'
+        ]);
+    }
+    public function orderdeliverd(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|exists:order_data,order_id',
+        ]);
+        
+        $orders = OrderData::where([
+            'order_id' => $request->order_id,
+           
+            
+        ])->update([
+                'status' => 'delivered',
+        ]);
+            OrderActivity::create([
+                'emp_id' => null,
+                'order_id' => $request->order_id,
+                'log_message' => 'Order Delivered By :- Admin'
+                ]);
+        return response()->json([
+            'status' => 'true',
+            'message' => 'Order Updated To Deliverd'
+        ]);
+    }
+
 }

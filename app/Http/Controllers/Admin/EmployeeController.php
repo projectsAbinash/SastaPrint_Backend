@@ -35,6 +35,7 @@ class EmployeeController extends Controller
                 'password' => 'required|min:6',
                 'faadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
                 'baadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
+                'brach' => 'required|in:nasik,dhule,mumbai'
             ],
             ([
                 'profile.required' => 'Profile Picture Required',

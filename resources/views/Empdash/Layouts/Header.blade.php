@@ -227,9 +227,9 @@
                         <!-- Search -->
                         <div class="navbar-nav align-items-center">
                             <div class="nav-item d-flex align-items-center">
-                                <i class="bx bx-search fs-4 lh-0"></i>
+                                {{-- <i class="bx bx-search fs-4 lh-0"></i>
                                 <input type="text" class="form-control border-0 shadow-none"
-                                    placeholder="Search..." aria-label="Search..." />
+                                    placeholder="Search..." aria-label="Search..." /> --}}
                             </div>
                         </div>
                         <!-- /Search -->
@@ -260,8 +260,10 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block">{{ Auth::guard('employee')->user()->name }}</span>
-                                                    <small class="text-muted">Employee</small>
+                                                    <small class="text-muted">Employee : {{ Auth::guard('employee')->user()->branch }}</small>
+                                                   
                                                 </div>
+                                                
                                             </div>
                                         </a>
                                     </li>
