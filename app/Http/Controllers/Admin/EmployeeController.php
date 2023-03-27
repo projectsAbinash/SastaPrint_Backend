@@ -35,7 +35,7 @@ class EmployeeController extends Controller
                 'password' => 'required|min:6',
                 'faadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
                 'baadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-                'brach' => 'required|in:nasik,dhule,mumbai'
+                'branch' => 'required|in:nasik,dhule,mumbai'
             ],
             ([
                 'profile.required' => 'Profile Picture Required',
@@ -47,6 +47,7 @@ class EmployeeController extends Controller
             'available_papers' => '0',
             'used_papers' => '0',
             'password' => $request->password,
+            'branch' => $request->branch
         ]);
 
         $profile = Storage::put('public/Employee/Profiles/pic', $request->file('profile'));

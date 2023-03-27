@@ -83,7 +83,7 @@
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="exampleFormControlSelect1" class="form-label">Select Branch</label>
-                                <select class="form-select" name="brach" id="exampleFormControlSelect1"
+                                <select class="form-select" name="branch" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
                                     <option selected>Choose Branch</option>
                                     <option value="nasik">Nasik Branch</option>
