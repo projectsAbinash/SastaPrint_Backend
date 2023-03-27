@@ -15,7 +15,8 @@ class Employee extends Authenticatable
         'phone',
         'password',
         'available_papers',
-        'used_papers'
+        'used_papers',
+        'branch'
     ];
     public function setPasswordAttribute($password)
     {
