@@ -31,7 +31,7 @@ class OrdersController extends Controller
         elseif($request->status == "cancelled"){
             $data = OrderData::where('status','cancelled')->orderBy('created_at', 'desc')->paginate(10);
         }
-        elseif($request->status == "delivered"){
+        elseif($request->status == "Delivered"){
             $data = OrderData::where('status','delivered')->orderBy('created_at', 'desc')->paginate(10);
         }
         elseif($request->status == "search"){
