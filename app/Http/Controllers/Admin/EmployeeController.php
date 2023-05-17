@@ -158,7 +158,7 @@ class EmployeeController extends Controller
         $dash['ongoing_orders_data'] = OrderData::where(['status' => 'processing', 'assigned_emp' => $emp_id])->count();
         $dash['new_orders_data'] = OrderData::where(['status' => 'placed'])->count();
         $dash['delivered_orders_data'] = OrderData::where(['status' => 'delivered', 'assigned_emp' => $emp_id])->count();
-        $dash['shipped_orders_data'] = OrderData::where(['status' => 'shipped', 'assigned_emp' => $emp_id])->count();
+        $dash['shipped_orders_data'] = OrderData::where(['status' => 'dispatched', 'assigned_emp' => $emp_id])->count();
         $dash['printed'] = OrderData::where(['status' => 'printed', 'assigned_emp' => $emp_id])->count();
         $dash['waste_paper'] = OrderData::where(['assigned_emp' => $emp_id])->sum('waste_paper');
         return view('Admins.emp.employeeview', compact('view','dash'));

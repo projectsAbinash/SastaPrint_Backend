@@ -93,7 +93,7 @@
                                 </div>
 
                             </div>
-                            <span>Shipped</span>
+                            <span>Dispatched</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $data['order']->where('status','shipped')->count() }}</h3>
                             <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
                         </div>

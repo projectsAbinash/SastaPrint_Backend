@@ -21,7 +21,7 @@
                             </div>
                             <span>Total Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['total_orders'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                             </div>
                             <span>Total Revenue</span>
                             <h3 class="card-title text-nowrap mb-1">₹{{ $dash['total_amount'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                             </div>
                             <span>Available Papers</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['available_papers'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             </div>
                             <span>Used Paper</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['used_papers'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
                             </div>
                             <span>Waste Paper</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['waste_paper'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                             </div>
                             <span>Available Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['new_orders_data'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                             </div>
                             <span>Processing Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['ongoing_orders_data'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                             </div>
                             <span>Printed Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['printed'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -179,9 +179,9 @@
                                 </div>
 
                             </div>
-                            <span>Shipped Orders</span>
+                            <span>Dispatched Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['shipped_orders_data'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>
@@ -200,7 +200,7 @@
                             </div>
                             <span>Delivered Orders</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $dash['delivered_orders_data'] }}</h3>
-                            <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +100.00%</small>
+                            <small class="text-success fw-semibold"> </small>
                         </div>
                     </div>
                 </div>

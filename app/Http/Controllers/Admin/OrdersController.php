@@ -19,14 +19,17 @@ class OrdersController extends Controller
         }elseif($request->status == "Unpaid"){
             $data = OrderData::where('status','unpaid')->orderBy('created_at', 'desc')->paginate(10);
         }
+        elseif($request->status == "Processing"){
+            $data = OrderData::where('status','processing')->orderBy('created_at', 'desc')->paginate(10);
+        }
         elseif($request->status == "placed"){
             $data = OrderData::where('status','placed')->orderBy('created_at', 'desc')->paginate(10);
         }
         elseif($request->status == "printed"){
             $data = OrderData::where('status','printed')->orderBy('created_at', 'desc')->paginate(10);
         }
-        elseif($request->status == "shipped"){
-            $data = OrderData::where('status','shipped')->orderBy('created_at', 'desc')->paginate(10);
+        elseif($request->status == "Dispatched"){
+            $data = OrderData::where('status','dispatched')->orderBy('created_at', 'desc')->paginate(10);
         }
         elseif($request->status == "cancelled"){
             $data = OrderData::where('status','cancelled')->orderBy('created_at', 'desc')->paginate(10);
@@ -128,13 +131,13 @@ class OrdersController extends Controller
             'status' => 'printed',
            
         ])->update([
-                'status' => 'shipped',
+                'status' => 'dispatched',
                 'tracking_link' => $request->link,
             ]);
             OrderActivity::create([
                 'emp_id' => null,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Shipped By :- Admin'
+                'log_message' => 'Order dispatched By :- Admin'
                 ]);
         return response()->json([
             'status' => 'true',

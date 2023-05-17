@@ -137,12 +137,62 @@
                             <div data-i18n="Analytics">Customers</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ (request()->is('Admin/Orders*')) ? 'active' : '' }}">
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Order Manage</span>
+                    </li>
+                    <li class="menu-item {{ (request()->is('Admin/Orders/Action/All')) ? 'active' : '' }}">
                         <a href="{{ route('Admin.orders',(['status' => 'All'])) }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-sitemap"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>
                     </li>
+                    @php
+                    $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
+                    
+                @endphp
+                <li class="menu-item {{ request()->is('Admin/Orders/Action/placed*') ? 'active' : '' }}">
+                    <a href="{{ route('Admin.orders',(['status' => 'placed'])) }}" class="menu-link">
+                        <i class="menu-icon uil uil-archive"></i>
+                        <div data-i18n="Analytics">Available Orders @if ($data['available_orders'] != '0')
+                                <span class="badge bg-warning">{{ $data['available_orders'] }} </span>
+                            @endif
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu-item {{ request()->is('Admin/Orders/Action/Processing*') ? 'active' : '' }}">
+                    <a href="{{ route('Admin.orders',(['status' => 'Processing'])) }}" class="menu-link">
+
+                        <i class="menu-icon uil uil-backward"></i>
+                        <div data-i18n="Analytics">Processing Orders</div>
+                    </a>
+                </li>
+
+
+                <li class="menu-item {{ request()->is('Admin/Orders/Action/printed*') ? 'active' : '' }}">
+                    <a href="{{ route('Admin.orders',(['status' => 'printed'])) }}" class="menu-link">
+
+                        <i class="menu-icon uil uil-print"></i>
+                        <div data-i18n="Analytics">Printed Orders</div>
+                    </a>
+                </li>
+
+
+                <li class="menu-item {{ request()->is('Admin/Orders/Action/Dispatched*') ? 'active' : '' }}">
+                    <a href="{{ route('Admin.orders',(['status' => 'Dispatched'])) }}" class="menu-link">
+
+                        <i class="menu-icon uil uil-truck"></i>
+                        <div data-i18n="Analytics">Dispatched Orders</div>
+                    </a>
+                </li>
+
+
+                <li class="menu-item {{ request()->is('Admin/Orders/Action/Delivered*') ? 'active' : '' }}">
+                    <a href="{{ route('Admin.orders',(['status' => 'Delivered'])) }}" class="menu-link">
+                        <i class="menu-icon uil uil-check-circle"></i>
+                        <div data-i18n="Analytics">Delivered Orders</div>
+                    </a>
+                </li>
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Employee Corner</span>
                     </li>

@@ -59,8 +59,8 @@
                                         <td class="text-center">
                                             @if ($item->status == 'placed')
                                                 <span class="badge bg-label-info me-1">Placed</span>
-                                            @elseif($item->status == 'shipped')
-                                                <span class="badge bg-label-warning me-1">Shipped</span>
+                                            @elseif($item->status == 'dispatched')
+                                                <span class="badge bg-label-warning me-1">Dispatched</span>
                                             @elseif($item->status == 'deliverd')
                                                 <span class="badge bg-label-success me-1">Delivered</span>
                                             @else
@@ -187,7 +187,7 @@
                                                             </td>
                                                             <td>
                                                                 @if ($data->tracking_link == null)
-                                                                    <strong>Not Shipped Yet</strong>
+                                                                    <strong>Not Dispatched Yet</strong>
                                                                 @else
                                                                     <a href="{{ $data->tracking_link }}"><button
                                                                             type="button" class="btn btn-success"><i
@@ -273,9 +273,9 @@
                                     <button type="button" class="btn btn-success"
                                     onclick="shipped($(this).attr('orderid'))" id="shipped"
                                     orderid={{ $data->order_id }}>Click To Update
-                                    Shipping Status</button>
+                                    Dispatched Status</button>
 
-                                    @elseif($data->status == 'shipped')
+                                    @elseif($data->status == 'dispatched')
                                     <button type="button" class="btn btn-success"
                                     onclick="deliverd($(this).attr('orderid'))" id="delivered"
                                     orderid={{ $data->order_id }}>Click To Update Staus To Delivered</button>

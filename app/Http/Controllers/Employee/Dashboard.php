@@ -12,24 +12,25 @@ class Dashboard extends Controller
 {
     public function DashboardIndex()
     {
-        // $orders = OrderData::where('')
+
         $emp_id = Auth::guard('employee')->user()->id;
         $main = Employee::find($emp_id);
-        // $orders_data = OrderData::where('assigned_emp', $emp_id);
 
         $dash['available_papers'] = $main->available_papers;
         $dash['used_papers'] = $main->used_papers;
-        $dash['total_orders'] = OrderData::where('assigned_emp', $emp_id)->count();
-        $dash['total_amount'] = OrderData::where([
-            'assigned_emp' => $emp_id,
-            'status' => 'delivered'
-        ])->sum('amount');
-        $dash['ongoing_orders_data'] = OrderData::where(['status' => 'processing', 'assigned_emp' => $emp_id])->count();
+
+
+        $ordscollection = collect(OrderData::where('assigned_emp', $emp_id)->get(['amount', 'status', 'waste_paper']));
+
+        $dash['total_orders'] = $ordscollection->count();
+        $dash['total_amount'] = $ordscollection->where('status', 'delivered')->sum('amount');
+
+        $dash['ongoing_orders_data'] = $ordscollection->where('status', 'processing')->count();
         $dash['new_orders_data'] = OrderData::where(['status' => 'placed'])->count();
-        $dash['delivered_orders_data'] = OrderData::where(['status' => 'delivered', 'assigned_emp' => $emp_id])->count();
-        $dash['shipped_orders_data'] = OrderData::where(['status' => 'shipped', 'assigned_emp' => $emp_id])->count();
-        $dash['printed'] = OrderData::where(['status' => 'printed', 'assigned_emp' => $emp_id])->count();
-        $dash['waste_paper'] = OrderData::where(['assigned_emp' => $emp_id])->sum('waste_paper');
+        $dash['delivered_orders_data'] = $ordscollection->where('status', 'delivered')->count();
+        $dash['shipped_orders_data'] = $ordscollection->where('status', 'dispatched')->count();
+        $dash['printed'] = $ordscollection->where('status', 'printed')->count();
+        $dash['waste_paper'] = $ordscollection->sum('waste_paper');
         return view('Empdash.dashboard', compact('dash'));
     }
 }

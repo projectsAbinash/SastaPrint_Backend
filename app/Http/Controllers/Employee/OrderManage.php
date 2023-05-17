@@ -26,7 +26,7 @@ class OrderManage extends Controller
     {
         $emp_id = Auth::guard('employee')->user()->id;
         $view = 'list';
-        $data = OrderData::where('assigned_emp', $emp_id)->whereIn('status', ['shipped'])->get();
+        $data = OrderData::where('assigned_emp', $emp_id)->whereIn('status', ['dispatched'])->get();
         return view('Empdash.orders', compact('data', 'view'));
     }
 
@@ -81,7 +81,7 @@ class OrderManage extends Controller
         ) {
             return response()->json([
                 'status' => 'false',
-                'message' => 'Shipped Previous Orders First'
+                'message' => 'Dispatched Previous Orders First'
             ]);
         }
 
@@ -145,13 +145,13 @@ class OrderManage extends Controller
             'status' => 'printed',
             'assigned_emp' => $emp_id,
         ])->update([
-                'status' => 'shipped',
+                'status' => 'dispatched',
                 'tracking_link' => $request->link,
             ]);
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Shipped By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
+                'log_message' => 'Order Dispatched By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
                 ]);
         return response()->json([
             'status' => 'true',

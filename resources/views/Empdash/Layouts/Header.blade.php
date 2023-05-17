@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
     data-assets-path="{{ url('AdminAssets/Source/assets/') }}" data-template="vertical-menu-template-free">
 
@@ -137,22 +136,26 @@
                     </li>
 
                     @php
-                    $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
-                @endphp
-                <li class="menu-item {{ request()->is('Employee/Orders/Available*') ? 'active' : '' }}">
-                    <a href="{{ route('emp.order.available') }}" class="menu-link">
-                        <i class="menu-icon uil uil-archive"></i>
-                        <div data-i18n="Analytics">Available Orders  @if($data['available_orders'] != '0') <span class="badge bg-warning">{{ $data['available_orders'] }} </span>@endif</div>
-                    </a>
-                </li>
+                        $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
+                        
+                    @endphp
+                    <li class="menu-item {{ request()->is('Employee/Orders/Available*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.available') }}" class="menu-link">
+                            <i class="menu-icon uil uil-archive"></i>
+                            <div data-i18n="Analytics">Available Orders @if ($data['available_orders'] != '0')
+                                    <span class="badge bg-warning">{{ $data['available_orders'] }} </span>
+                                @endif
+                            </div>
+                        </a>
+                    </li>
 
-                <li class="menu-item {{ request()->is('Employee/Orders/Processing*') ? 'active' : '' }}">
-                    <a href="{{ route('emp.order.processing') }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('Employee/Orders/Processing*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.processing') }}" class="menu-link">
 
-                        <i class="menu-icon uil uil-backward"></i>
-                        <div data-i18n="Analytics">Processing Orders</div>
-                    </a>
-                </li>
+                            <i class="menu-icon uil uil-backward"></i>
+                            <div data-i18n="Analytics">Processing Orders</div>
+                        </a>
+                    </li>
 
 
                     <li class="menu-item {{ request()->is('Employee/Orders/Printed*') ? 'active' : '' }}">
@@ -162,16 +165,16 @@
                             <div data-i18n="Analytics">Printed Orders</div>
                         </a>
                     </li>
-                   
 
-                    <li class="menu-item {{ request()->is('Employee/Orders/Shipped*') ? 'active' : '' }}">
-                        <a href="{{ route('emp.order.shipped') }}" class="menu-link">
+
+                    <li class="menu-item {{ request()->is('Employee/Orders/Dispatched*') ? 'active' : '' }}">
+                        <a href="{{ route('emp.order.dispatched') }}" class="menu-link">
 
                             <i class="menu-icon uil uil-truck"></i>
-                            <div data-i18n="Analytics">Shipped Orders</div>
+                            <div data-i18n="Analytics">Dispatched Orders</div>
                         </a>
                     </li>
-                   
+
 
                     <li class="menu-item {{ request()->is('Employee/Orders/Completed*') ? 'active' : '' }}">
                         <a href="{{ route('emp.order.completed') }}" class="menu-link">
@@ -260,10 +263,11 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block">{{ Auth::guard('employee')->user()->name }}</span>
-                                                    <small class="text-muted">Employee : {{ Auth::guard('employee')->user()->branch }}</small>
-                                                   
+                                                    <small class="text-muted">Employee :
+                                                        {{ Auth::guard('employee')->user()->branch }}</small>
+
                                                 </div>
-                                                
+
                                             </div>
                                         </a>
                                     </li>

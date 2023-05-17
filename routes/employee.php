@@ -32,7 +32,7 @@ Route::middleware('emp.auth')->group(function () {
   Route::get('/Orders/Available', 'OrderManage@availablelist')->name('emp.order.available');
   Route::get('/Orders/Completed', 'OrderManage@completedlist')->name('emp.order.completed');
 
-  Route::get('/Orders/Shipped', 'OrderManage@shippedlist')->name('emp.order.shipped');
+  Route::get('/Orders/Dispatched', 'OrderManage@shippedlist')->name('emp.order.dispatched');
   Route::get('/Orders/Printed', 'OrderManage@printedlist')->name('emp.order.printed');
 
   Route::get('/Orders/View', 'OrderManage@viewmanage')->name('emp.order.manage');
