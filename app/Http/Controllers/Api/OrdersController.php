@@ -23,7 +23,7 @@ class OrdersController extends Controller
     {
         $request->validate([
             'doc' => 'required|mimes:pdf',
-            'order_id' => 'required|max:14|min:14'
+            'order_id' => 'required|max:7|min:7'
         ]);
         $path = Storage::put('public/Users/Docs', $request->file('doc'));
 
