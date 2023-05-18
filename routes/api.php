@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', 'ApiAuth@RegisterUser');
 Route::post('/login', 'ApiAuth@LoginUser');
+Route::post('/login/check_phone', 'ApiAuth@check_phone');
 Route::post('/login/forget/', 'ApiAuth@forgetpass');
 Route::post('/login/forget/reset', 'ApiAuth@resetpass');
 

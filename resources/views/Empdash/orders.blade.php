@@ -85,7 +85,18 @@
                     <div class="col-md-12">
 
                         <div class="card mb-4">
-                            <h5 class="card-header">Manage Order</h5>
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-header">Manage Order</h5>
+                                </div>
+                                <div class="col">
+                                    <div class="container p-3">
+                                        <i class="uil uil-newspaper d-flex justify-content-end fs-3 text-warning"></i>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                           
                             <!-- Account -->
 
                             <hr class="my-0" />

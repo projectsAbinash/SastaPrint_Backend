@@ -15,6 +15,26 @@ use Illuminate\Support\Facades\Auth;
 class ApiAuth extends Controller
 {
 
+    #check if the user registred or not
+    public function check_phone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|numeric|digits:10',
+        ]);
+        $check = User::where('phone',$request->phone)->exists();
+        if($check)
+        {
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Phone was registered',
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Phone was Not registered',
+            ]);
+        }
+    }
     #validate otp
 
     public function verifyotp(Request $request)
@@ -71,10 +91,10 @@ class ApiAuth extends Controller
                 'cache-control' => 'no-cache',
                 'content-type' => 'application/json'
             ])->post('https://www.fast2sms.com/dev/bulkV2', [
-                    "variables_values" => $otp,
-                    "route" => "otp",
-                    "numbers" => $number,
-                ]);
+                "variables_values" => $otp,
+                "route" => "otp",
+                "numbers" => $number,
+            ]);
             $decode = json_decode($response);
             return response()->json($decode->return);
         } catch (\Exception $e) {
@@ -139,7 +159,7 @@ class ApiAuth extends Controller
         } else {
             return response()->json([
                 'status' => 'false',
-                'message' => 'Invalid Credentials',
+                'message' => 'Invalid Password Entered',
             ]);
         }
     }
@@ -165,8 +185,6 @@ class ApiAuth extends Controller
                 'message' => 'Sms Could Not Be Sent',
             ]);
         }
-
-
     }
     #auth reset password
     public function forgetpass(Request $request)
@@ -177,9 +195,9 @@ class ApiAuth extends Controller
         $user = User::where('phone', $request->phone)->first();
         $this->genarateotp($user->phone, $user->id);
         return response()->json([
-          'status' => 'true',
-          'message' => 'OTP Has Been Sent SuccessFully'
-        ]); 
+            'status' => 'true',
+            'message' => 'OTP Has Been Sent SuccessFully'
+        ]);
     }
     #check otp for reset password
     public function resetpass(Request $request)
@@ -214,5 +232,4 @@ class ApiAuth extends Controller
             ]);
         }
     }
-
 }
