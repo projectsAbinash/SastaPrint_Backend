@@ -26,7 +26,7 @@ Route::middleware('emp.auth')->group(function () {
   //for papers management
   Route::get('/Manage/Paper/', 'ManagePapers@index')->name('mngpaper');
   Route::post('/Manage/Paper/Request', 'ManagePapers@request')->name('mngpaper.request');
-
+  Route::get('/test', 'ManagePapers@testpdf');
   //for orders managements
   Route::get('/Orders/Processing', 'OrderManage@pendinglist')->name('emp.order.processing');
   Route::get('/Orders/Available', 'OrderManage@availablelist')->name('emp.order.available');
@@ -45,4 +45,7 @@ Route::middleware('emp.auth')->group(function () {
   Route::get('/Orders/Download/{id}', 'OrderManage@download')->name('emp.order.download');
 
   Route::get('/logout', 'Authpage@logout')->name('emp.logout');
+
+
+
 });

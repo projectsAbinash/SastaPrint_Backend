@@ -131,13 +131,14 @@ class AddressController extends Controller
                     $city[] = $item->Name;
                 }
                 $state = $decode[0]->PostOffice[0]->State;
-               
+                $district = $decode[0]->PostOffice[0]->District;
                
                
                 return response()->json([
                     'city' => $city,
                     //'data' => $decode[0],
                     'state' => $state,
+                    'district' => $district,
                     'status' => 'true',
                 ]);
 

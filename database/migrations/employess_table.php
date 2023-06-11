@@ -21,7 +21,9 @@ return new class extends Migration
             $table->integer('used_papers')->nullable();
             $table->timestamp('phone_verified_at')->nullable();    
             $table->string('password');
-            $table->string('branch');
+            
+            $table->unsignedBigInteger('branch');
+            $table->foreign('branch')->references('id')->on('branches');
             $table->rememberToken();       
             $table->timestamps();
         });

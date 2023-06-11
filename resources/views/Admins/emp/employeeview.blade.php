@@ -27,7 +27,7 @@
                                             class="rounded-circle" />
                                     </td>
                                     <td class="text-center fw-bold">{{ $data->name }}</td>
-                                    <td class="text-center fw-bold">{{ ucfirst($data->branch) }} Branch</td>
+                                    <td class="text-center fw-bold">{{ ucfirst($data->GetBranchName->name) }}</td>
                                     <td class="text-center">
                                         {{ $data->phone }}
                                     </td>

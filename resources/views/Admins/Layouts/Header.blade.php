@@ -123,7 +123,7 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item {{ (request()->is('Admin/Dashboard*')) ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('Admin/Dashboard*') ? 'active' : '' }}">
                         <a href="{{ route('DashboardIndex') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
@@ -131,7 +131,7 @@
                     </li>
 
 
-                    <li class="menu-item {{ (request()->is('Admin/Customers*')) ? 'active' : '' }}">
+                    <li class="menu-item {{ request()->is('Admin/Customers*') ? 'active' : '' }}">
                         <a href="{{ route('CustomerList') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-user-circle"></i>
                             <div data-i18n="Analytics">Customers</div>
@@ -140,108 +140,138 @@
                     <li class="menu-header small text-uppercase">
                         <span class="menu-header-text">Order Manage</span>
                     </li>
-                    <li class="menu-item {{ (request()->is('Admin/Orders/Action/All')) ? 'active' : '' }}">
-                        <a href="{{ route('Admin.orders',(['status' => 'All'])) }}" class="menu-link">
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/All') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'All']) }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-sitemap"></i>
                             <div data-i18n="Analytics">Orders</div>
                         </a>
                     </li>
                     @php
-                    $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
-                    
-                @endphp
-                <li class="menu-item {{ request()->is('Admin/Orders/Action/placed*') ? 'active' : '' }}">
-                    <a href="{{ route('Admin.orders',(['status' => 'placed'])) }}" class="menu-link">
-                        <i class="menu-icon uil uil-archive"></i>
-                        <div data-i18n="Analytics">Available Orders @if ($data['available_orders'] != '0')
-                                <span class="badge bg-warning">{{ $data['available_orders'] }} </span>
-                            @endif
-                        </div>
-                    </a>
-                </li>
-
-                <li class="menu-item {{ request()->is('Admin/Orders/Action/Processing*') ? 'active' : '' }}">
-                    <a href="{{ route('Admin.orders',(['status' => 'Processing'])) }}" class="menu-link">
-
-                        <i class="menu-icon uil uil-backward"></i>
-                        <div data-i18n="Analytics">Processing Orders</div>
-                    </a>
-                </li>
-
-
-                <li class="menu-item {{ request()->is('Admin/Orders/Action/printed*') ? 'active' : '' }}">
-                    <a href="{{ route('Admin.orders',(['status' => 'printed'])) }}" class="menu-link">
-
-                        <i class="menu-icon uil uil-print"></i>
-                        <div data-i18n="Analytics">Printed Orders</div>
-                    </a>
-                </li>
-
-
-                <li class="menu-item {{ request()->is('Admin/Orders/Action/Dispatched*') ? 'active' : '' }}">
-                    <a href="{{ route('Admin.orders',(['status' => 'Dispatched'])) }}" class="menu-link">
-
-                        <i class="menu-icon uil uil-truck"></i>
-                        <div data-i18n="Analytics">Dispatched Orders</div>
-                    </a>
-                </li>
-
-
-                <li class="menu-item {{ request()->is('Admin/Orders/Action/Delivered*') ? 'active' : '' }}">
-                    <a href="{{ route('Admin.orders',(['status' => 'Delivered'])) }}" class="menu-link">
-                        <i class="menu-icon uil uil-check-circle"></i>
-                        <div data-i18n="Analytics">Delivered Orders</div>
-                    </a>
-                </li>
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Employee Corner</span>
-                    </li>
-                    <li class="menu-item {{ (request()->is('Admin/Employee/list*')) ? 'active' : '' }}">
-                        <a href="{{ route('admin.emp.list') }}" class="menu-link">
-                            <i class="menu-icon uil uil-clipboard-notes"></i>
-                            <div data-i18n="Analytics">Employee list</div>
+                        $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
+                        
+                    @endphp
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/placed*') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'placed']) }}" class="menu-link">
+                            <i class="menu-icon uil uil-archive"></i>
+                            <div data-i18n="Analytics">Available Orders @if ($data['available_orders'] != '0')
+                                    <span class="badge bg-warning">{{ $data['available_orders'] }} </span>
+                                @endif
+                            </div>
                         </a>
                     </li>
-                    <li class="menu-item {{ (request()->is('Admin/Employee/New')) ? 'active' : '' }}">
-                        <a href="{{ route('Admin.employee.create') }}" class="menu-link">
-                            <i class="menu-icon uil uil-desktop"></i>
-                            <div data-i18n="Analytics">Add Employee</div>
-                        </a>
-                    </li>
-@php
-   $data['paper_requests'] = App\Models\EmpPapersRequest::where('status', 'pending')->count(); 
-@endphp
-                    <li class="menu-item {{ (request()->is('Admin/Employee/Papersreq')) ? 'active' : '' }}">
-                        <a href="{{ route('Admin.employee.paperreq') }}" class="menu-link">
-                            <i class="menu-icon uil uil-notebooks"></i>
-                            <div data-i18n="Analytics">Papers Requests @if($data['paper_requests'] != '0')<span class="badge bg-warning">{{ $data['paper_requests'] }} </span>@endif </div>
+
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/Processing*') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'Processing']) }}" class="menu-link">
+
+                            <i class="menu-icon uil uil-backward"></i>
+                            <div data-i18n="Analytics">Processing Orders</div>
                         </a>
                     </li>
 
 
-                    <li class="menu-header small text-uppercase">
-                        <span class="menu-header-text">Settings</span>
-                    </li>
-                    
-                    {{-- <li class="menu-item {{ request()->is('Admin/Setting/Area*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.setaddress') }}" class="menu-link">
-                            <i class="menu-icon fa-solid fa-location-pin-lock"></i>
-                            <div data-i18n="Analytics">Set Area</div>
-                        </a>
-                    </li> --}}
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/printed*') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'printed']) }}" class="menu-link">
 
-                    <li class="menu-item {{ (request()->is('Admin/Banners*')) ? 'active' : '' }}">
-                        <a href="{{ route('Bannerslist') }}" class="menu-link">
-                            <i class="menu-icon uil uil-scenery"></i>
-                            <div data-i18n="Analytics">Banners</div>
+                            <i class="menu-icon uil uil-print"></i>
+                            <div data-i18n="Analytics">Printed Orders</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ (request()->is('Admin/Notificaions*')) ? 'active' : '' }}">
-                        <a href="{{ route('Admin.notification') }}" class="menu-link">
-                            <i class="menu-icon uil uil-bell"></i>
-                            <div data-i18n="Analytics">Notificaions</div>
+
+
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/Dispatched*') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'Dispatched']) }}" class="menu-link">
+
+                            <i class="menu-icon uil uil-truck"></i>
+                            <div data-i18n="Analytics">Dispatched Orders</div>
                         </a>
                     </li>
+
+
+                    <li class="menu-item {{ request()->is('Admin/Orders/Action/Delivered*') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.orders', ['status' => 'Delivered']) }}" class="menu-link">
+                            <i class="menu-icon uil uil-check-circle"></i>
+                            <div data-i18n="Analytics">Delivered Orders</div>
+                        </a>
+                    </li>
+                  
+
+
+
+                    <li class="menu-item {{ request()->is(['Admin/Employee*']) ? 'active' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon uil uil-rope-way"></i>
+                            <div data-i18n="Analytics">Employee Manage</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Employee/New') ? 'active' : '' }}">
+                                <a href="{{ route('Admin.employee.create') }}" class="menu-link">
+                                    <div data-i18n="Analytics">Add Employee</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Employee/list*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.emp.list') }}" class="menu-link">
+                                    <div data-i18n="Analytics">Employee list</div>
+                                </a>
+                            </li>
+                        </ul>
+                      
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Employee/Papersreq') ? 'active' : '' }}">
+                                <a href="{{ route('Admin.employee.paperreq') }}" class="menu-link">
+                                    <div data-i18n="Analytics">Papers Requests 
+                                   </div>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                    </li>
+
+                    <li class="menu-item {{ request()->is(['Admin/Branch*']) ? 'active' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon uil uil-code-branch"></i>
+                            <div data-i18n="Analytics">Branch</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Branch/List*') ? 'active' : '' }}">
+                                <a href="{{ route('BranchList') }}" class="menu-link">
+                                    <div data-i18n="Analytics">List</div>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                    </li>
+
+
+
+
+                  
+
+
+                    <li class="menu-item {{ request()->is(['Admin/Banners*','Admin/Notificaions*']) ? 'active' : '' }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon uil uil-cog"></i>
+                            <div data-i18n="Analytics">Settings</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Banners*') ? 'active' : '' }}">
+                                <a href="{{ route('Bannerslist') }}" class="menu-link">
+                                    <div data-i18n="Analytics">Banners</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="menu-sub">
+                            <li class="menu-item {{ request()->is('Admin/Notificaions*') ? 'active' : '' }}">
+                                <a href="{{ route('Admin.notification') }}" class="menu-link">
+                                    <div data-i18n="Analytics">Notificaions</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                
 
                 </ul>
             </aside>

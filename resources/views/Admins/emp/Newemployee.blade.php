@@ -86,9 +86,9 @@
                                 <select class="form-select" name="branch" id="exampleFormControlSelect1"
                                     aria-label="Default select example">
                                     <option selected>Choose Branch</option>
-                                    <option value="nasik">Nasik Branch</option>
-                                    <option value="dhule">Dhule Branch</option>
-                                    <option value="mumbai">Mumbai Branch</option>
+                                    @foreach($branches as $branch)
+                                    <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

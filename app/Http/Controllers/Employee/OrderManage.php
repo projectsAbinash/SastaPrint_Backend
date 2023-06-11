@@ -104,7 +104,7 @@ class OrderManage extends Controller
                 OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $orders->first()->order_id,
-                'log_message' => 'Order Accepted By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
+                'log_message' => 'Order Accepted By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
                 ]);
                 $emp_data->decrement('available_papers', $tp);
                 $emp_data->increment('used_papers', $tp);
@@ -151,7 +151,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Dispatched By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
+                'log_message' => 'Order Dispatched By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
                 ]);
         return response()->json([
             'status' => 'true',
@@ -176,7 +176,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Delivered By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
+                'log_message' => 'Order Delivered By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
                 ]);
         return response()->json([
             'status' => 'true',
@@ -202,7 +202,7 @@ class OrderManage extends Controller
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Printed By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->branch)
+                'log_message' => 'Order Printed By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
                 ]);
         return response()->json([
             'status' => 'true',

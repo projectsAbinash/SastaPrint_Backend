@@ -31,5 +31,9 @@ class Employee extends Authenticatable
         return $this->hasMany(EmpPapersRequest::class, 'user_id', 'id')->orderBy('id', 'desc')
         ;
     }
+    public function GetBranchName()
+    {
+        return $this->hasOne(Branch::class, 'id', 'branch');
+    }
     
 }

@@ -11,13 +11,14 @@ use App\Models\EmpPapersRequest;
 use App\Models\EmpVerficationCodes;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Branch;
 class EmployeeController extends Controller
 {
     public function create()
     {
+        $branches = Branch::all();
 
-        return view('Admins.emp.Newemployee');
+        return view('Admins.emp.Newemployee',compact('branches'));
     }
     public function verify(Request $request)
     {
@@ -35,7 +36,7 @@ class EmployeeController extends Controller
                 'password' => 'required|min:6',
                 'faadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
                 'baadhar' => 'required|image|mimes:jpg,png,jpeg,gif,svg',
-                'branch' => 'required|in:nasik,dhule,mumbai'
+                'branch' => 'required|exists:branches,id'
             ],
             ([
                 'profile.required' => 'Profile Picture Required',
@@ -150,17 +151,17 @@ class EmployeeController extends Controller
 
         $dash['available_papers'] = $main->available_papers;
         $dash['used_papers'] = $main->used_papers;
-        $dash['total_orders'] = OrderData::where('assigned_emp', $emp_id)->count();
-        $dash['total_amount'] = OrderData::where([
-            'assigned_emp' => $emp_id,
-            'status' => 'delivered'
-        ])->sum('amount');
-        $dash['ongoing_orders_data'] = OrderData::where(['status' => 'processing', 'assigned_emp' => $emp_id])->count();
+        $ordscollection = collect(OrderData::where('assigned_emp', $emp_id)->get(['amount', 'status', 'waste_paper']));
+
+        $dash['total_orders'] = $ordscollection->count();
+        $dash['total_amount'] = $ordscollection->where('status', 'delivered')->sum('amount');
+
+        $dash['ongoing_orders_data'] = $ordscollection->where('status', 'processing')->count();
         $dash['new_orders_data'] = OrderData::where(['status' => 'placed'])->count();
-        $dash['delivered_orders_data'] = OrderData::where(['status' => 'delivered', 'assigned_emp' => $emp_id])->count();
-        $dash['shipped_orders_data'] = OrderData::where(['status' => 'dispatched', 'assigned_emp' => $emp_id])->count();
-        $dash['printed'] = OrderData::where(['status' => 'printed', 'assigned_emp' => $emp_id])->count();
-        $dash['waste_paper'] = OrderData::where(['assigned_emp' => $emp_id])->sum('waste_paper');
+        $dash['delivered_orders_data'] = $ordscollection->where('status', 'delivered')->count();
+        $dash['shipped_orders_data'] = $ordscollection->where('status', 'dispatched')->count();
+        $dash['printed'] = $ordscollection->where('status', 'printed')->count();
+        $dash['waste_paper'] = $ordscollection->sum('waste_paper');
         return view('Admins.emp.employeeview', compact('view','dash'));
     }
 

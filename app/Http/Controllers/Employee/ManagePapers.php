@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Auth;
+use PDF;
 use Illuminate\Http\Request;
 use App\Models\EmpPapersRequest;
 use App\Models\Employee;
@@ -33,5 +34,11 @@ class ManagePapers extends Controller
             'status' => 'pending',
         ]);
         return back()->with(['success' => 'Papers Request SuccessFully And Waiting For Approval. And Your MPIN is '.$mpin]);
+    }
+    public function testpdf()
+    {
+        $pdf = PDF::loadView('ship_label');
+        return $pdf->stream('pdfview.pdf');;
+        //return view('ship_label');
     }
 }
