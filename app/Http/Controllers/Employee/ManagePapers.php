@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Auth;
-use PDF;
+
 use Illuminate\Http\Request;
 use App\Models\EmpPapersRequest;
 use App\Models\Employee;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 class ManagePapers extends Controller
 {
     public function index()

@@ -159,7 +159,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        Barryvdh\DomPDF\ServiceProvider::class,
+      
         Collective\Html\HtmlServiceProvider::class,
         App\Providers\CollectiveHtmlComponent::class,
 
@@ -215,7 +215,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+       
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
