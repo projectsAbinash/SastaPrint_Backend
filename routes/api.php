@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', 'ApiAuth@RegisterUser');
-Route::post('/login', 'ApiAuth@LoginUser');
-Route::post('/login/check_phone', 'ApiAuth@check_phone');
-Route::post('/login/forget/', 'ApiAuth@forgetpass');
-Route::post('/login/forget/reset', 'ApiAuth@resetpass');
+Route::post('/v2/sendotp', 'ApiAuth@SendOTP');
+Route::post('/v2/login_or_signup', 'ApiAuth@login_or_signup');
 
 Route::middleware('auth:sanctum', 'cotp')->group(function () {
     #for auths

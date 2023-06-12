@@ -136,24 +136,36 @@
                     </li>
 
                     @php
-                        $data['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();
-                        
+                        $count['available_orders'] = App\Models\OrderData::where('status', 'placed')->count();                        
                     @endphp
                     <li class="menu-item {{ request()->is('Employee/Orders/Available*') ? 'active' : '' }}">
                         <a href="{{ route('emp.order.available') }}" class="menu-link">
                             <i class="menu-icon uil uil-archive"></i>
-                            <div data-i18n="Analytics">Available Orders @if ($data['available_orders'] != '0')
-                                    <span class="badge bg-warning">{{ $data['available_orders'] }} </span>
+                            <div data-i18n="Analytics">Available Orders @if ($count['available_orders'] != '0')
+                                    <span class="badge bg-warning">{{ $count['available_orders'] }} </span>
                                 @endif
                             </div>
                         </a>
                     </li>
 
+                    @php
+                    $collect = collect(App\Models\OrderData::where('assigned_emp' , Auth::guard('employee')->user()->id)->get(['status']));                        
+                    $count['processing'] = $collect->where('status','processing')->count();
+                    $count['printed'] = $collect->where('status','printed')->count();
+                    $count['dispatched'] = $collect->where('status','dispatched')->count();
+                   
+                  @endphp
+                    
+                    
+                    
+                    
                     <li class="menu-item {{ request()->is('Employee/Orders/Processing*') ? 'active' : '' }}">
                         <a href="{{ route('emp.order.processing') }}" class="menu-link">
 
                             <i class="menu-icon uil uil-backward"></i>
-                            <div data-i18n="Analytics">Processing Orders</div>
+                            <div data-i18n="Analytics">Processing Orders @if ($count['processing'] != '0')
+                                <span class="badge bg-warning">{{ $count['processing'] }} </span>
+                            @endif</div>
                         </a>
                     </li>
 
@@ -162,7 +174,9 @@
                         <a href="{{ route('emp.order.printed') }}" class="menu-link">
 
                             <i class="menu-icon uil uil-print"></i>
-                            <div data-i18n="Analytics">Printed Orders</div>
+                            <div data-i18n="Analytics">Printed Orders @if ($count['printed'] != '0')
+                                <span class="badge bg-warning">{{ $count['printed'] }} </span>
+                            @endif</div>
                         </a>
                     </li>
 
@@ -171,7 +185,9 @@
                         <a href="{{ route('emp.order.dispatched') }}" class="menu-link">
 
                             <i class="menu-icon uil uil-truck"></i>
-                            <div data-i18n="Analytics">Dispatched Orders</div>
+                            <div data-i18n="Analytics">Dispatched Orders @if ($count['dispatched'] != '0')
+                                <span class="badge bg-warning">{{ $count['dispatched'] }} </span>
+                            @endif</div>
                         </a>
                     </li>
 

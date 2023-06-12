@@ -93,10 +93,10 @@
                                     <div class="container p-3">
                                         <i class="uil uil-newspaper d-flex justify-content-end fs-3 text-warning"></i>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-                           
+
                             <!-- Account -->
 
                             <hr class="my-0" />
@@ -191,20 +191,22 @@
                                                             <td> <strong>₹{{ $data->delivery_charge }}</strong></td>
                                                         </tr>
 
+                                                        @if ($data->is_assigned_admin != 1)
+                                                            <tr>
+                                                                <td>
+                                                                    Tracking Link
+                                                                </td>
+                                                                <td>
 
-                                                        <tr>
-                                                            <td>
-                                                                Tracking Link
-                                                            </td>
-                                                            <td>
-                                                                @if ($data->tracking_link == null)
-                                                                    <strong>Not Dispatched Yet</strong>
-                                                                @else
-                                                                    <a href="{{ $data->tracking_link }}"><button
-                                                                            type="button" class="btn btn-success"><i
-                                                                                class="fas fa-shipping-fast"></i>&nbsp;Track</button></a>
-                                                                @endif
-                                                            </td>
+                                                                    @if ($data->tracking_link == null)
+                                                                        <strong>Not Dispatched Yet</strong>
+                                                                    @else
+                                                                        <a href="{{ $data->tracking_link }}"><button
+                                                                                type="button" class="btn btn-success"><i
+                                                                                    class="fas fa-shipping-fast"></i>&nbsp;Track</button></a>
+                                                                    @endif
+                                                                </td>
+                                                        @endif
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -272,24 +274,20 @@
                                         <button type="button" class="btn btn-success" id="accept"
                                             onclick="accept($(this).attr('orderid'))"
                                             orderid={{ $data->order_id }}>Accept</button>
-
-
                                     @elseif($data->status == 'processing')
                                         <button type="button" class="btn btn-success"
                                             onclick="printed($(this).attr('orderid'))" id="printed"
                                             orderid={{ $data->order_id }}>Click To Update
                                             Printed Status</button>
-
                                     @elseif($data->status == 'printed')
-                                    <button type="button" class="btn btn-success"
-                                    onclick="shipped($(this).attr('orderid'))" id="shipped"
-                                    orderid={{ $data->order_id }}>Click To Update
-                                    Dispatched Status</button>
-
+                                        <button type="button" class="btn btn-success"
+                                            onclick="shipped($(this).attr('orderid'))" id="shipped"
+                                            orderid={{ $data->order_id }}>Click To Update
+                                            Dispatched Status</button>
                                     @elseif($data->status == 'dispatched')
-                                    <button type="button" class="btn btn-success"
-                                    onclick="deliverd($(this).attr('orderid'))" id="delivered"
-                                    orderid={{ $data->order_id }}>Click To Update Staus To Delivered</button>
+                                        <button type="button" class="btn btn-success"
+                                            onclick="deliverd($(this).attr('orderid'))" id="delivered"
+                                            orderid={{ $data->order_id }}>Click To Update Staus To Delivered</button>
                                     @endif
                                 </div>
                             </div>
@@ -388,6 +386,7 @@
 
                         });
                 }
+
                 function printed(orderid) {
                     swal("Kindly Provide The Number Of Waste Papers", {
                             content: "input",
@@ -410,7 +409,6 @@
                                 "json")
                         });
                 }
-
             </script>
         </div>
     </div>

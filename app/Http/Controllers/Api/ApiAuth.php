@@ -16,67 +16,36 @@ class ApiAuth extends Controller
 {
 
     #check if the user registred or not
-    public function check_phone(Request $request)
-    {
-        $request->validate([
-            'phone' => 'required|numeric|digits:10',
-        ]);
-        $check = User::where('phone',$request->phone)->exists();
-        if($check)
-        {
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Phone was registered',
-            ]);
-        }else{
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Phone was Not registered',
-            ]);
-        }
-    }
+
     #validate otp
 
-    public function verifyotp(Request $request)
+    private function VerifyOTP($phone, $otp)
     {
-        $userid = $request->user()->id;
-        $request->validate([
-            'otp' => 'required|numeric|digits:6',
-        ]);
-        $checkotp = VerficationCodes::where('user_id', $userid)
-            ->where('otp', $request->otp)->latest()->first();
+        $checkotp = VerficationCodes::where('phone', $phone)
+            ->where('otp', $otp)->latest()->first();
         $now = Carbon::now();
         if (!$checkotp) {
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Your OTP Is Invalid'
-            ]);
+            return 0;
         } elseif ($checkotp && $now->isAfter($checkotp->expire_at)) {
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Your OTP Has Expired'
-            ]);
+            return 0;
         } else {
-            User::find($userid)->update(['phone_verified_at' => $now]);
-            VerficationCodes::where('user_id', $userid)->delete();
-            return response()->json([
-                'status' => 'true',
-                'message' => 'Your OTP Has Verified SuccessFully'
-            ]);
+            $device = 'Auth_Token';
+            //   VerficationCodes::where('phone', $phone)->delete();
+            return 1;
         }
     }
     #genarate new otp function
-    private function genarateotp($number, $id)
+    private function genarateotp($number)
     {
 
-        $checkotp = VerficationCodes::where('user_id', $id)->latest()->first();
+        $checkotp = VerficationCodes::where('phone', $number)->latest()->first();
         $now = Carbon::now();
         if ($checkotp && $now->isBefore($checkotp->expire_at)) {
             $otp = $checkotp->otp;
         } else {
             $otp = rand('100000', '999999');
             VerficationCodes::create([
-                'user_id' => $id,
+                'phone' => $number,
                 'otp' => $otp,
                 'expire_at' => Carbon::now()->addMinute(10)
             ]);
@@ -103,66 +72,9 @@ class ApiAuth extends Controller
     }
 
 
-    public function RegisterUser(Request $request)
-    {
-
-        $request->validate([
-            'name' => 'required|max:100',
-            'email' => 'max:100|email|unique:users,email',
-            'phone' => 'required|digits:10|unique:users,phone',
-            'password' => 'required|min:6',
-
-        ]);
 
 
-
-        $newuser = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => $request->password,
-        ]);
-        $newuser->UserExtra()->create([
-            'user_id' => $newuser->id,
-
-        ]);
-        $token = $newuser->createToken('auth_token')->plainTextToken;
-        #sending An OTP To Verify User
-
-
-
-
-        $userid = $newuser->id;
-        $this->genarateotp($request->phone, $userid);
-
-
-        #return token to user
-        return response()->json([
-            'status' => 'true',
-            'access_token' => $token,
-            'verification' => $newuser->phone_verified_at == null ? 'false' : 'true',
-            'message' => 'Registration Successfully',
-        ]);
-    }
-
-    public function LoginUser(Request $request)
-    {
-        if (Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
-            $user = Auth()->user();
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json([
-                'status' => 'true',
-                'access_token' => $token,
-                'verification' => $request->user()->phone_verified_at == null ? 'false' : 'true',
-                'message' => 'Logged In Successfully',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Invalid Password Entered',
-            ]);
-        }
-    }
+ 
     public function test(Request $request)
     {
         return "Hello This is Home";
@@ -171,64 +83,71 @@ class ApiAuth extends Controller
     #resend otp
     public function resend(Request $request)
     {
-        $userid = $request->user()->id;
+
         $phone = $request->user()->phone;
 
-        if ($this->genarateotp($phone, $userid)) {
+        if ($this->genarateotp($phone)) {
             return response()->json([
-                'status' => 'true',
+                'status' => true,
                 'message' => 'Sms Sent Successfully',
             ]);
         } else {
             return response()->json([
-                'status' => 'false',
+                'status' => false,
                 'message' => 'Sms Could Not Be Sent',
             ]);
         }
     }
     #auth reset password
-    public function forgetpass(Request $request)
+
+    #check otp for reset password
+
+    public function SendOTP(Request $request)
     {
         $request->validate([
-            'phone' => 'required|numeric|digits:10|exists:users,phone',
+            'phone' => 'required|numeric|digits:10',
         ]);
-        $user = User::where('phone', $request->phone)->first();
-        $this->genarateotp($user->phone, $user->id);
+        $this->genarateotp($request->phone);
         return response()->json([
-            'status' => 'true',
-            'message' => 'OTP Has Been Sent SuccessFully'
+            'status' => true,
+            'message' => 'otp send successfully',
         ]);
     }
-    #check otp for reset password
-    public function resetpass(Request $request)
+    public function login_or_signup(Request $request)
     {
         $request->validate([
-            'otp' => 'required|numeric|digits:6|exists:verfication_codes,otp',
-            'password' => 'required|min:6|confirmed',
-            'password_confirmation' => 'required',
+            'otp' => 'required|numeric|digits:6',
+            'phone' => 'required|numeric'
         ]);
+        if ($this->VerifyOTP($request->phone, $request->otp)) {
+            $checkphone = User::where('phone', $request->phone)->first();
+            if ($checkphone) {
+                
+               $token = $checkphone->createToken('auth_token')->plainTextToken;
+                return response()->json([
+                    'status' => true,
+                    'message' => 'OTP Verified  Successfully (Login)',
+                    'token' => $token,
+                ]);
+            } else {
+                $newuser = User::create([
+                    'phone' => $request->phone,
+                ]);
+                $newuser->UserExtra()->create([
+                    'user_id' => $newuser->id,
+                ]);
 
-        $getid = VerficationCodes::where('otp', $request->otp)->latest()->first();
-        $userid = $getid->user_id;
-        $checkotp = VerficationCodes::where('user_id', $userid)
-            ->where('otp', $request->otp)->latest()->first();
-        $now = Carbon::now();
-        if (!$checkotp) {
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Your OTP Is Invalid'
-            ]);
-        } elseif ($checkotp && $now->isAfter($checkotp->expire_at)) {
-            return response()->json([
-                'status' => 'false',
-                'message' => 'Your OTP Has Expired'
-            ]);
+                $token = $newuser->createToken('auth_token')->plainTextToken;
+                return response()->json([
+                    'status' => true,
+                    'message' => 'OTP Verified  Successfully (new user)',
+                    'token' => $token,
+                ]);
+            }
         } else {
-            User::find($userid)->update(['password' => $request->password]);
-            VerficationCodes::where('user_id', $userid)->delete();
             return response()->json([
-                'status' => 'true',
-                'message' => 'Password Has Been Changed SuccessFully'
+                'status' => false,
+                'message' => 'Your OTP Is Invalid'
             ]);
         }
     }
