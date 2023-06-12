@@ -16,14 +16,7 @@ class CheckOtp
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->phone_verified_at == null) {
-           return response()->json([
-          'status' => 'false',
-          'Message' => 'OTP Not Verfied',
-          'verification'=> 'false',
-           ]);
-        }
-
+        
         #check if user is blocked
         $users = User::find($request->user()->id)->UserBlocked();
         if ($users->exists()) {

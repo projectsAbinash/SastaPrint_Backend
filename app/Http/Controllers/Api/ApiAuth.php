@@ -30,7 +30,7 @@ class ApiAuth extends Controller
             return 0;
         } else {
             $device = 'Auth_Token';
-            //   VerficationCodes::where('phone', $phone)->delete();
+               VerficationCodes::where('phone', $phone)->delete();
             return 1;
         }
     }
