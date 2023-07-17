@@ -68,7 +68,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('emp.order.manage', ['id' => $item->order_id]) }}"> <i
+                                            <a href="{{ route('emp.order.manage', ['id' => encrypt($item->order_id)]) }}"> <i
                                                     class="fa-regular fa-eye text-primary" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="View And Manage Order"
                                                     style="font-size:20px;"></i></a>
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="container p-3">
-                                        <i class="uil uil-newspaper d-flex justify-content-end fs-3 text-warning"></i>
+                                       <a href="{{ route('shippinglabel',encrypt($data->id)) }}"> <i class="uil uil-newspaper d-flex justify-content-end fs-3 text-warning"></i></a>
                                     </div>
 
                                 </div>

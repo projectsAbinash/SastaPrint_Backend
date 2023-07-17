@@ -98,7 +98,7 @@ class OrdersController extends Controller
     {
         $request->validate([
             'order_id' => 'required|exists:order_data,order_id',
-            'waste_paper' => 'required|numeric|gt:0'
+            'waste_paper' => 'required|numeric'
         ]);
         
         $orders = OrderData::where([

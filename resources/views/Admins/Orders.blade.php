@@ -221,14 +221,9 @@
                                                                 Assigned Employee
                                                             </td>
                                                             <td>
-                                                                <select class="form-select" id="exampleFormControlSelect1"
-                                                                    aria-label="Default select example">
-                                                                    <option>>
-                                                                        @if ($data->assigned_emp != null)
+                                                                @if ($data->assigned_emp != null)
                                                                             {{ $data->Getemp->name }}
                                                                         @endif
-                                                                    </option>
-                                                                </select>
                                                             </td>
                                                         </tr>
                                                         <tr>

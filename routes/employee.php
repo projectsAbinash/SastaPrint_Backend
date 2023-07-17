@@ -26,8 +26,10 @@ Route::middleware('emp.auth')->group(function () {
   //for papers management
   Route::get('/Manage/Paper/', 'ManagePapers@index')->name('mngpaper');
   Route::post('/Manage/Paper/Request', 'ManagePapers@request')->name('mngpaper.request');
-  Route::get('/test', 'ManagePapers@testpdf');
+ 
   //for orders managements
+  Route::get('/GetLabel/View/{id}', 'OrderManage@GetShippingLabel')->name('shippinglabel');
+
   Route::get('/Orders/Processing', 'OrderManage@pendinglist')->name('emp.order.processing');
   Route::get('/Orders/Available', 'OrderManage@availablelist')->name('emp.order.available');
   Route::get('/Orders/Completed', 'OrderManage@completedlist')->name('emp.order.completed');

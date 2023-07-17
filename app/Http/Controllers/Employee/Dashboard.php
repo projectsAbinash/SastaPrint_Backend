@@ -20,7 +20,7 @@ class Dashboard extends Controller
         $dash['used_papers'] = $main->used_papers;
 
 
-        $ordscollection = collect(OrderData::where('assigned_emp', $emp_id)->get(['amount', 'status', 'waste_paper']));
+        $ordscollection = collect(OrderData::where('assigned_emp', $emp_id)->get(['amount', 'status', 'waste_paper','delivery_charge']));
 
         $dash['total_orders'] = $ordscollection->count();
         $dash['total_amount'] = $ordscollection->where('status', 'delivered')->sum('amount');
@@ -31,6 +31,7 @@ class Dashboard extends Controller
         $dash['shipped_orders_data'] = $ordscollection->where('status', 'dispatched')->count();
         $dash['printed'] = $ordscollection->where('status', 'printed')->count();
         $dash['waste_paper'] = $ordscollection->sum('waste_paper');
+        $dash['shipping_cost'] = $ordscollection->where('status', 'delivered')->sum('delivery_charge');
         return view('Empdash.dashboard', compact('dash'));
     }
 }

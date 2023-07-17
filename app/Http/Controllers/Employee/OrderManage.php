@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\DocumentsData;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\OrderData;
 use App\Models\Employee;
@@ -56,7 +57,7 @@ class OrderManage extends Controller
     public function viewmanage(Request $request)
     {
         $view = 'details';
-        $data = OrderData::where(['order_id' => $request->id])->first();
+        $data = OrderData::where(['order_id' => decrypt($request->id)])->first();
         return view('Empdash.orders', compact('view', 'data'));
     }
     public function download(Request $request)
@@ -85,49 +86,31 @@ class OrderManage extends Controller
             ]);
         }
 
-        //check for papers
-        $tp = 0;
-        $paper = $orders->first()->Userdocs;
-        foreach ($paper as $t_pages) {
-            if ($t_pages->page_config == 'two_side') {
-                $tp += ceil($t_pages->total_pages / 2) * $t_pages->copies_count;
 
-            } else {
-                $tp += ($t_pages->total_pages * $t_pages->copies_count);
-            }
-        }
 
 
         $emp_data = Employee::find($emp_id);
-        if ($emp_data->available_papers >= $tp) {
-            if ($orders->first()->status == 'placed') {
-                OrderActivity::create([
+
+        if ($orders->first()->status == 'placed') {
+            OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $orders->first()->order_id,
-                'log_message' => 'Order Accepted By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
-                ]);
-                $emp_data->decrement('available_papers', $tp);
-                $emp_data->increment('used_papers', $tp);
-                $orders->update([
-                    'status' => 'processing',
-                    'assigned_emp' => $emp_id,
-                ]);
+                'log_message' => 'Order Accepted By :- ' . $emp_data->name . ' , Phone Number :- ' . $emp_data->phone . ' , Branch : - ' . ucfirst($emp_data->GetBranchName->name)
+            ]);
+         
+            $orders->update([
+                'status' => 'processing',
+                'assigned_emp' => $emp_id,
+            ]);
 
-                return response()->json([
-                    'status' => 'true',
-                    'message' => 'Order Accepted SuccessFully',
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'false',
-                    'message' => 'Order Accepted By Someone',
-                ]);
-            }
-
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Order Accepted SuccessFully',
+            ]);
         } else {
             return response()->json([
                 'status' => 'false',
-                'message' => 'You Dont Have Enough Papers To Accept This Order',
+                'message' => 'Order Accepted By Someone',
             ]);
         }
     }
@@ -145,14 +128,14 @@ class OrderManage extends Controller
             'status' => 'printed',
             'assigned_emp' => $emp_id,
         ])->update([
-                'status' => 'dispatched',
-                'tracking_link' => $request->link,
-            ]);
-            OrderActivity::create([
-                'emp_id' => $emp_id,
-                'order_id' => $request->order_id,
-                'log_message' => 'Order Dispatched By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
-                ]);
+            'status' => 'dispatched',
+            'tracking_link' => $request->link,
+        ]);
+        OrderActivity::create([
+            'emp_id' => $emp_id,
+            'order_id' => $request->order_id,
+            'log_message' => 'Order Dispatched By :- ' . $emp_data->name . ' , Phone Number :- ' . $emp_data->phone . ' , Branch : - ' . ucfirst($emp_data->GetBranchName->name)
+        ]);
         return response()->json([
             'status' => 'true',
             'message' => 'Order Status Update Successfully'
@@ -171,13 +154,13 @@ class OrderManage extends Controller
             'order_id' => $request->order_id,
             'assigned_emp' => $emp_id,
         ])->update([
-                'status' => 'delivered',
-            ]);
-            OrderActivity::create([
-                'emp_id' => $emp_id,
-                'order_id' => $request->order_id,
-                'log_message' => 'Order Delivered By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
-                ]);
+            'status' => 'delivered',
+        ]);
+        OrderActivity::create([
+            'emp_id' => $emp_id,
+            'order_id' => $request->order_id,
+            'log_message' => 'Order Delivered By :- ' . $emp_data->name . ' , Phone Number :- ' . $emp_data->phone . ' , Branch : - ' . ucfirst($emp_data->GetBranchName->name)
+        ]);
         return response()->json([
             'status' => 'true',
             'message' => 'Order Updated To Deliverd'
@@ -188,25 +171,58 @@ class OrderManage extends Controller
     {
         $request->validate([
             'order_id' => 'required|exists:order_data,order_id',
-            'waste_paper' => 'required|numeric|gt:0'
+            'waste_paper' => 'required|numeric'
         ]);
         $emp_id = Auth::guard('employee')->user()->id;
         $emp_data = Employee::find($emp_id);
         $orders = OrderData::where([
             'order_id' => $request->order_id,
             'assigned_emp' => $emp_id,
-        ])->update([
+        ]);
+
+        //check for papers
+        $tp = 0;
+        $paper = $orders->first()->Userdocs;
+        foreach ($paper as $t_pages) {
+            if ($t_pages->page_config == 'two_side') {
+                $tp += ceil($t_pages->total_pages / 2) * $t_pages->copies_count;
+            } else {
+                $tp += ($t_pages->total_pages * $t_pages->copies_count);
+            }
+        }
+        if ($emp_data->available_papers >= $tp) {
+         
+            $emp_data->decrement('available_papers', $tp+$request->waste_paper);
+            $emp_data->increment('used_papers', $tp);
+
+            $orders->update([
                 'status' => 'printed',
                 'waste_paper' => $request->waste_paper,
             ]);
             OrderActivity::create([
                 'emp_id' => $emp_id,
                 'order_id' => $request->order_id,
-                'log_message' => 'Order Printed By :- '.$emp_data->name.' , Phone Number :- '.$emp_data->phone.' , Branch : - '.ucfirst($emp_data->GetBranchName->name)
-                ]);
-        return response()->json([
-            'status' => 'true',
-            'message' => 'Order Status Changed To Printed'
-        ]);
+                'log_message' => 'Order Printed By :- ' . $emp_data->name . ' , Phone Number :- ' . $emp_data->phone . ' , Branch : - ' . ucfirst($emp_data->GetBranchName->name)
+            ]);
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Order Status Changed To Printed'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'You Dont Have Enough Papers To Accept This Order',
+            ]);
+        }
+    }
+
+    public function GetShippingLabel(Request $request)
+    {
+        $getdata = OrderData::findOrFail(decrypt($request->id));
+        $pdf =  Pdf::setOptions(['dpi' => 200, 'isRemoteEnabled' => true,'isHtml5ParserEnabled' => true]); 
+        $customPaper = array(0,0,320.00,457.00);
+        $pdf->loadView('ship_label',compact('getdata'))->setPaper($customPaper);
+        return $pdf->stream('label_'.$getdata->order_id.'.pdf');
+        //return view('ship_label');
     }
 }

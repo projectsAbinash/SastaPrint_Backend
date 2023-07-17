@@ -44,6 +44,26 @@
                     </div>
                 </div>
 
+                <div class="col-sm">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title d-flex align-items-start justify-content-between">
+
+                                <div class="avatar card d-flex aligns-items-center justify-content-center p-2"
+                                    style="background-color:#FFA56933;">
+                                    <img src="{{ url('AdminAssets/Source/assets/img/icons/unicons/receipt.svg') }}"
+                                        alt="chart success" class="rounded" />
+                                </div>
+
+                            </div>
+                            <span>Shipping Costs</span>
+                            <h3 class="card-title text-nowrap mb-1">₹{{ $dash['shipping_cost'] }}</h3>
+                            <small class="text-success fw-semibold"> </small>
+                        </div>
+                    </div>
+                </div>
+
+
 
                 <div class="col-sm">
                     <div class="card">

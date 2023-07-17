@@ -36,10 +36,5 @@ class ManagePapers extends Controller
         ]);
         return back()->with(['success' => 'Papers Request SuccessFully And Waiting For Approval. And Your MPIN is '.$mpin]);
     }
-    public function testpdf()
-    {
-        $pdf = PDF::loadView('ship_label');
-        return $pdf->stream('pdfview.pdf');;
-        //return view('ship_label');
-    }
+   
 }

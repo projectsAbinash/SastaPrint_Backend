@@ -263,7 +263,7 @@
                                     data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
                                         <img src="{{ $profile->Eprofile->profile_pic }}" alt
-                                            class="w-px-40 h-auto rounded-circle" />
+                                            class="w-px-45 h-px-45" style="border-radius: 50%;">
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -273,14 +273,14 @@
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <img src="{{ $profile->Eprofile->profile_pic }}" alt
-                                                            class="w-px-40 h-auto rounded-circle" />
+                                                            class="w-px-45 h-px-45 rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block">{{ Auth::guard('employee')->user()->name }}</span>
                                                     <small class="text-muted">Employee :
-                                                        {{ Auth::guard('employee')->user()->branch }}</small>
+                                                        {{ Auth::guard('employee')->user()->GetBranchName->name }}</small>
 
                                                 </div>
 
