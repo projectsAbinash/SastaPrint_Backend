@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->default('Sastaprint Admin');
             $table->string('username')->unique()->default('sastaprint');  
-            $table->string('password')->default('12345654'); 
+            $table->string('password')->default(bcrypt('12345654')); 
             $table->string('remember_token')->nullable(); 
             $table->timestamps();
         });
