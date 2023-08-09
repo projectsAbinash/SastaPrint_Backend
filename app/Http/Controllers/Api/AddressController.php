@@ -122,7 +122,7 @@ class AddressController extends Controller
 
         //fetch pin code
         try {
-            $response = Http::timeout(50)->get('https://api.postalpincode.in/pincode/' . $request->pincode);
+            $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
            
           
             $decode = json_decode($response);
