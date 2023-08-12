@@ -73,7 +73,7 @@ class AddressController extends Controller
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
             $shiprocket = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjM0MDIwMjMsImlzcyI6Imh0dHBzOi8vYXBpdjIuc2hpcHJvY2tldC5pbi92MS9leHRlcm5hbC9hdXRoL2xvZ2luIiwiaWF0IjoxNjc5MzgwOTMxLCJleHAiOjE2ODAyNDQ5MzEsIm5iZiI6MTY3OTM4MDkzMSwianRpIjoiMDF0b0JocHZKckJWd1FZMiJ9.QfWcCMPN05cwDSTqxaQKtfXFCYEUPeNaqqB3mJfVYHA'
+                'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5MTg0Mjg4OSwiZXhwIjoxNjkyNzA2ODg5LCJuYmYiOjE2OTE4NDI4ODksImp0aSI6IkluMlNVSU9hTGxwN0xLaEYiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.HoyED4kTGoesd4vOjiGOjN23IiZ9SHjlGCPI9fakfC0'
             ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode='.$request->pincode.'&cod=0&weight=2');
             $shiprocket = json_decode($shiprocket);
         
