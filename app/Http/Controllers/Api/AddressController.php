@@ -71,22 +71,20 @@ class AddressController extends Controller
         //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
-            $shiprocket = Http::withHeaders([
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5MTg0Mjg4OSwiZXhwIjoxNjkyNzA2ODg5LCJuYmYiOjE2OTE4NDI4ODksImp0aSI6IkluMlNVSU9hTGxwN0xLaEYiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.HoyED4kTGoesd4vOjiGOjN23IiZ9SHjlGCPI9fakfC0'
-            ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode='.$request->pincode.'&cod=0&weight=2');
-            $shiprocket = json_decode($shiprocket);
-        
-          
-          
+
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
+                $shiprocket = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5MTg0Mjg4OSwiZXhwIjoxNjkyNzA2ODg5LCJuYmYiOjE2OTE4NDI4ODksImp0aSI6IkluMlNVSU9hTGxwN0xLaEYiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.HoyED4kTGoesd4vOjiGOjN23IiZ9SHjlGCPI9fakfC0'
+                ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode=' . $request->pincode . '&cod=0&weight=2');
+                $shiprocket = json_decode($shiprocket);
                 foreach ($decode[0]->PostOffice as $item) {
                     $city[] = $item->Name;
                 }
                 $state = $decode[0]->PostOffice[0]->State;
                 if (!isset($shiprocket->status) && $shiprocket->status == 200) {
-                   
+
                     return response()->json(
                         [
                             'status' => 'false',
@@ -123,8 +121,8 @@ class AddressController extends Controller
         //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
-           
-          
+
+
             $decode = json_decode($response);
             if (isset($decode[0]->PostOffice[0])) {
                 foreach ($decode[0]->PostOffice as $item) {
@@ -132,8 +130,8 @@ class AddressController extends Controller
                 }
                 $state = $decode[0]->PostOffice[0]->State;
                 $district = $decode[0]->PostOffice[0]->District;
-               
-               
+
+
                 return response()->json([
                     'city' => $city,
                     //'data' => $decode[0],
@@ -141,9 +139,6 @@ class AddressController extends Controller
                     'district' => $district,
                     'status' => 'true',
                 ]);
-
-
-
             } else {
                 return response()->json(
                     [
