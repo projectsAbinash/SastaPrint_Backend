@@ -76,7 +76,7 @@ class AddressController extends Controller
             if (isset($decode[0]->PostOffice[0])) {
                 $shiprocket = Http::withHeaders([
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5MTg0Mjg4OSwiZXhwIjoxNjkyNzA2ODg5LCJuYmYiOjE2OTE4NDI4ODksImp0aSI6IkluMlNVSU9hTGxwN0xLaEYiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.HoyED4kTGoesd4vOjiGOjN23IiZ9SHjlGCPI9fakfC0'
+                    'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5NDI0MzQ2NCwiZXhwIjoxNjk1MTA3NDY0LCJuYmYiOjE2OTQyNDM0NjQsImp0aSI6ImhlREpEUW9xeEt4azJQcHEiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.isGmR8HKEWy_yjQZRPWrAtFmpF9hBqG9Mj_RDg6J-RY'
                 ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode=' . $request->pincode . '&cod=0&weight=2');
                 $shiprocket = json_decode($shiprocket);
                 foreach ($decode[0]->PostOffice as $item) {
