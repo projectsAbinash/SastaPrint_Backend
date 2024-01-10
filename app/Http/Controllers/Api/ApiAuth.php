@@ -65,7 +65,7 @@ class ApiAuth extends Controller
                 "numbers" => $number,
             ]);
             $decode = json_decode($response);
-            return response()->json($decode->return);
+            return response()->json($decode->message);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -107,7 +107,7 @@ class ApiAuth extends Controller
         $request->validate([
             'phone' => 'required|numeric|digits:10',
         ]);
-        $this->genarateotp($request->phone);
+         $this->genarateotp($request->phone);
         return response()->json([
             'status' => true,
             'message' => 'otp send successfully',
