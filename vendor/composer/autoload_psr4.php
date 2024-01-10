@@ -47,7 +47,6 @@ return array(
     'Spatie\\Ignition\\' => array($vendorDir . '/spatie/ignition/src'),
     'Spatie\\FlareClient\\' => array($vendorDir . '/spatie/flare-client-php/src'),
     'Spatie\\Backtrace\\' => array($vendorDir . '/spatie/backtrace/src'),
-    'Seshac\\Shiprocket\\' => array($vendorDir . '/seshac/laravel-shiprocket-api/src'),
     'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'Razorpay\\Tests\\' => array($vendorDir . '/razorpay/razorpay/tests'),
     'Razorpay\\Api\\' => array($vendorDir . '/razorpay/razorpay/src'),

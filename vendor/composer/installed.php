@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '05b077d5e40e221adc81590090976825a4238f6b',
+        'reference' => '0ded2a330327b5c339a85cb91061f7353f9d94d1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -403,7 +403,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '05b077d5e40e221adc81590090976825a4238f6b',
+            'reference' => '0ded2a330327b5c339a85cb91061f7353f9d94d1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1030,15 +1030,6 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
-        ),
-        'seshac/laravel-shiprocket-api' => array(
-            'pretty_version' => '2.0.0',
-            'version' => '2.0.0.0',
-            'reference' => 'db0317479dae00d6561143cb4184832e8bc1ce5e',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../seshac/laravel-shiprocket-api',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'spatie/backtrace' => array(
             'pretty_version' => '1.5.3',
