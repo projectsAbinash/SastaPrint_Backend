@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Shiprocket;
+use Seshac\Shiprocket\Shiprocket;
 
 
 
