@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Seshac\Shiprocket\Shiprocket;
+use Seshac\Shiprocket\Shiprocket as Curior;
 
 
 
@@ -75,7 +75,7 @@ class AddressController extends Controller
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
 
             $decode = json_decode($response);
-            $token =  Shiprocket::getToken();
+            $token =  Curior::getToken();
            
            
            
@@ -87,7 +87,7 @@ class AddressController extends Controller
                     'cod' => 0
                  ];
                  
-                 $shiprocket =  Shiprocket::courier($token)->checkServiceability($pincodeDetails);
+                 $shiprocket =  Curior::courier($token)->checkServiceability($pincodeDetails);
                 
                 $shiprocket = json_decode($shiprocket);
                 foreach ($decode[0]->PostOffice as $item) {
