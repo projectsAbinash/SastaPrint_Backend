@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Seshac\Shiprocket\Shiprocket as Curior;
-
-
+use App\Models\Setarea;
 
 class AddressController extends Controller
 {
@@ -68,27 +66,19 @@ class AddressController extends Controller
             'pincode' => 'required|numeric|digits:6'
         ]);
 
-
+        $token =  \Seshac\Shiprocket\Shiprocket::getToken();
+        return $token;
 
         //fetch pin code
         try {
             $response = Http::get('https://api.postalpincode.in/pincode/' . $request->pincode);
 
             $decode = json_decode($response);
-            $token =  Curior::getToken();
-           
-           
-           
             if (isset($decode[0]->PostOffice[0])) {
-                $pincodeDetails = [
-                    'pickup_postcode' => 422007,
-                    'delivery_postcode' => $request->pincode,
-                    'weight' => 2,
-                    'cod' => 0
-                 ];
-                 
-                 $shiprocket =  Curior::courier($token)->checkServiceability($pincodeDetails);
-                
+                $shiprocket = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5NDI0MzQ2NCwiZXhwIjoxNjk1MTA3NDY0LCJuYmYiOjE2OTQyNDM0NjQsImp0aSI6ImhlREpEUW9xeEt4azJQcHEiLCJzdWIiOjM0MDIwMjMsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.isGmR8HKEWy_yjQZRPWrAtFmpF9hBqG9Mj_RDg6J-RY'
+                ])->get('https://apiv2.shiprocket.in/v1/external/courier/serviceability/?pickup_postcode=422007&delivery_postcode=' . $request->pincode . '&cod=0&weight=2');
                 $shiprocket = json_decode($shiprocket);
                 foreach ($decode[0]->PostOffice as $item) {
                     $city[] = $item->Name;
