@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
 use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use App\Models\Setarea;
-use Seshac\Shiprocket\Shiprocket;
+use Illuminate\Support\Facades\Http;
+use Shiprocket;
 
 
 
