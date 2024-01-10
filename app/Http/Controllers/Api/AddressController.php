@@ -79,8 +79,8 @@ class AddressController extends Controller
                 $shiprocket = Http::withHeaders([
                     'Content-Type' => 'application/json',
                 ])->post('https://apiv2.shiprocket.in/v1/external/auth/login',[
-                    'email' => 'sudiptothedev@gmail.com',
-                    'password' => 'qwaszxP@1'
+                    'email' => env('SHIPROCKET_EMAIL'),
+                    'password' => env('SHIPROCKET_PASSWORD')
                 ]);
                 $shiprocket = json_decode($shiprocket);
               
