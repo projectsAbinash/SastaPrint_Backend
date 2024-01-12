@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="container p-3">
-                                        @if ($data->status == 'placed')
+                                        @if ($data->status != 'placed')
                                             <a href="{{ route('shippinglabel', encrypt($data->id)) }}"> <i
                                                     class="uil uil-newspaper d-flex justify-content-end fs-3 text-warning"></i></a>
                                         @endif
