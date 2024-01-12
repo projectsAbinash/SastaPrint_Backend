@@ -215,7 +215,7 @@
                         </table>
                     </td>
                     <td>
-                        <div style="margin-top:5rem; margin-left: 0.4rem;text-align: center;">{!! DNS2D::getBarcodeHTML($getdata->order_id, 'QRCODE', 6, 6) !!}
+                        <div style="margin-top:5rem; margin-left: 0.4rem;text-align: center;">{!! Milon\Barcode\Facades\DNS2DFacade::getBarcodeHTML($getdata->order_id, 'QRCODE', 6, 6) !!}
                             <label style="font-size: 20px; text-align: center;">{{ $getdata->order_id }}</label>
                         </div>
 
