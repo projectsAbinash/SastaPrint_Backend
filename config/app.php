@@ -213,7 +213,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Curior' => Seshac\Shiprocket\Shiprocket::class,
+        
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
