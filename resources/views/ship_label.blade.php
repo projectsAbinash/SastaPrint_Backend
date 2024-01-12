@@ -158,7 +158,7 @@
                                 </td>
                             </tr>
                             @php
-                                $branch_loc = json_decode($getdata->Getemp);
+                                $branch_loc = json_decode($getdata->Getemp->GetBranchName->address);
                             @endphp
                             <tr>
                                 <td>
@@ -218,7 +218,7 @@
                         <div style="margin-top:5rem; margin-left: 0.4rem;text-align: center;">
                             {{-- {!! DNS2D::getBarcodeHTML($getdata->order_id, 'QRCODE', 6, 6) !!} --}}
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $getdata->order_id }}" alt="" srcset="">
-                            <label style="font-size: 20px;margin-left: 0.4rem">{{ $getdata->order_id }}</label>
+                            <label style="font-size: 20px;margin-left: 0.4rem;">{{ $getdata->order_id }}</label>
                         </div>
 
                     </td>
