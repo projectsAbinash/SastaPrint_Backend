@@ -66,7 +66,7 @@ class AddressController extends Controller
             'pincode' => 'required|numeric|digits:6'
         ]);
 
-       return env('SHIPROCKET_EMAIL');
+      
 
         //fetch pin code
         try {
@@ -79,8 +79,8 @@ class AddressController extends Controller
                 $shiprocket = Http::withHeaders([
                     'Content-Type' => 'application/json',
                 ])->post('https://apiv2.shiprocket.in/v1/external/auth/login',[
-                    'email' => env('SHIPROCKET_EMAIL'),
-                    'password' => env('SHIPROCKET_PASSWORD')
+                    'email' => 'sudiptothedev@gmail.com',
+                    'password' => 'qwaszxP@1'
                 ]);
                 $shiprocket = json_decode($shiprocket);
               
