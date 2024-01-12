@@ -66,7 +66,7 @@ class AddressController extends Controller
             'pincode' => 'required|numeric|digits:6'
         ]);
 
-       
+       return env('SHIPROCKET_EMAIL');
 
         //fetch pin code
         try {
