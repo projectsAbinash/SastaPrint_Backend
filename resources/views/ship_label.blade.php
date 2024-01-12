@@ -158,7 +158,7 @@
                                 </td>
                             </tr>
                             @php
-                                $branch_loc = json_decode($getdata->Getemp->Get);
+                                $branch_loc = json_decode($getdata->Getemp->GetBranchName);
                             @endphp
                             <tr>
                                 <td>
