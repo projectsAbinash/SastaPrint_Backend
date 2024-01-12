@@ -213,12 +213,12 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        
+
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
-        'Dns2D' => Milon\Barcode\Facades\DNS2DFacade::class
-       
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
