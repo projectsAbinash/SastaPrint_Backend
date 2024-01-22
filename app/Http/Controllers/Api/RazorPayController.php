@@ -11,8 +11,8 @@ use App\Models\OrderData;
 
 class RazorPayController extends Controller
 {
-    private $razorpayId = 'rzp_test_m1OAr8kH5ccuZ2'; //test
-    private $razorpayKey = '5xo9kj0NuEDxjDmY55a7O4mW';
+    private $razorpayId = 'rzp_live_uATwHHBGdfEagu'; //test
+    private $razorpayKey = 'uQrOFDchHaB2mzlzDss7uBMt';
 
 
     public function BuyNow(Request $request)
